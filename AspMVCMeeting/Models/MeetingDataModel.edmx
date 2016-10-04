@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MEETINGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CURRENCY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="prb_kod" Type="char" MaxLength="10" />
+          <Property Name="prb_tanim" Type="char" MaxLength="50" />
+          <Property Name="prb_ana_para" Type="bit" />
+          <Property Name="prb_sira" Type="int" />
+          <Property Name="prb_aktif" Type="bit" />
+          <Property Name="prb_SAP_para_birimi" Type="nvarchar" MaxLength="5" />
+          <Property Name="prb_unity_para_birimi" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="MEETING_FILE_CATEGORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MFC_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="MFC_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEETING_FILES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MTF_MT_REF" Type="int" />
+          <Property Name="MTF_TYPE" Type="int" />
+          <Property Name="MTF_CATEGORY" Type="int" />
+          <Property Name="MTF_FILENAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTF_CREATEDATE" Type="datetime" />
+          <Property Name="MTF_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTF_DESCRIPTION" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="MEETING_LINES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MTL_MT_REF" Type="int" />
+          <Property Name="MT_LINENR" Type="int" />
+          <Property Name="MTL_TYPE" Type="int" />
+          <Property Name="MTL_START_DATE" Type="date" />
+          <Property Name="MTL_FINISH_DATE" Type="date" />
+          <Property Name="MTL_RESPONSIBLE" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_TAGS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MTL_DESCRIPTION" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MTL_PROJECT_CODE" Type="int" />
+          <Property Name="MTL_DEPARTMENT" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTL_STS" Type="int" />
+          <Property Name="MTL_CONFIRMER" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_DECISION_TYPE" Type="int" />
+          <Property Name="MTL_OFFER_USER" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_OFFER_OK" Type="bit" />
+          <Property Name="MTL_RELATED_FORM_REF" Type="nvarchar" MaxLength="500" />
+          <Property Name="MTL_RELATED_FORM_DESCRIPTION" Type="nvarchar" MaxLength="500" />
+          <Property Name="MTL_SCODE1" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_SCODE2" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_SCODE3" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_SCODE4" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_SCODE5" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTL_CREATEDATE" Type="datetime" />
+          <Property Name="MTL_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTL_UPDATEDATE" Type="datetime" />
+          <Property Name="MTL_UPDATE_USERID" Type="int" />
+        </EntityType>
+        <EntityType Name="MEETING_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MLS_MLG_REF" Type="int" />
+          <Property Name="MLS_CREATE_DATE" Type="datetime" />
+          <Property Name="MLS_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MLS_IP" Type="nvarchar" MaxLength="50" />
+          <Property Name="MLS_DESCRIPTION" Type="nvarchar" MaxLength="500" />
+          <Property Name="MLS_BROWSER" Type="nvarchar" MaxLength="1500" />
+        </EntityType>
+        <EntityType Name="MEETING_LOG_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MLG_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="MLG_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEETING_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MT_TYPE" Type="int" />
+          <Property Name="MT_TITLE" Type="nvarchar" MaxLength="400" />
+          <Property Name="MT_DATE" Type="date" />
+          <Property Name="MT_MANAGER" Type="nvarchar" MaxLength="100" />
+          <Property Name="MT_DESCIPTION" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MT_NO" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_TAGS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MT_PLACE" Type="nvarchar" MaxLength="200" />
+          <Property Name="MT_START_TIME" Type="time" Precision="7" />
+          <Property Name="MT_FINISH_TIME" Type="time" Precision="7" />
+          <Property Name="MT_SCODE1" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_SCODE2" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_SCODE3" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_SCODE4" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_SCODE5" Type="nvarchar" MaxLength="50" />
+          <Property Name="MT_CREATEDATE" Type="datetime" />
+          <Property Name="MT_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MT_FOLLOWER_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MT_UPDATEDATE" Type="datetime" />
+          <Property Name="MT_UPDATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="MT_STS" Type="int" />
+        </EntityType>
+        <EntityType Name="MEETING_PARTICIPANTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MTP_REF" Type="int" />
+          <Property Name="MTP_USER" Type="nvarchar" MaxLength="100" />
+          <Property Name="MTP_TYPE" Type="int" />
+          <Property Name="MTP_CREATEDATE" Type="datetime" />
+          <Property Name="MTP_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="MEETING_PROJECTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRJ_CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="PRJ_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="PRJ_START_DATE" Type="date" />
+          <Property Name="PRJ_FINISH_DATE" Type="date" />
+          <Property Name="PRJ_RESPONSIBLE" Type="nvarchar" MaxLength="100" />
+          <Property Name="PRJ_MEMBERS" Type="nvarchar" MaxLength="4000" />
+          <Property Name="PRJ_BUDGET" Type="float" />
+          <Property Name="PRJ_BUDGET_CURRENCY" Type="int" />
+          <Property Name="PRJ_MAN_DAY" Type="int" />
+          <Property Name="PRJ_DEPARTMENT" Type="nvarchar" MaxLength="300" />
+          <Property Name="PRJ_CREATEDATE" Type="datetime" />
+          <Property Name="PRJ_CREATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="PRJ_UPDATEDATE" Type="datetime" />
+          <Property Name="PRJ_UPDATE_USERID" Type="nvarchar" MaxLength="100" />
+          <Property Name="PRJ_STS" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEETING_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MST_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="MST_TYPE" Type="int" />
+          <Property Name="MST_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEETING_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MTP_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="MTP_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="MEETING_TYPE_PERMISSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MPR_USER" Type="nvarchar" MaxLength="100" />
+          <Property Name="MPR_MT_TYPE" Type="int" />
+          <Property Name="MPR_ACTIVE" Type="bit" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityContainer Name="MEETINGModelStoreContainer">
+          <EntitySet Name="CURRENCY" EntityType="Self.CURRENCY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_FILE_CATEGORY" EntityType="Self.MEETING_FILE_CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_FILES" EntityType="Self.MEETING_FILES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_LINES" EntityType="Self.MEETING_LINES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_LOG" EntityType="Self.MEETING_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_LOG_TYPE" EntityType="Self.MEETING_LOG_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_MASTER" EntityType="Self.MEETING_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_PARTICIPANTS" EntityType="Self.MEETING_PARTICIPANTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_PROJECTS" EntityType="Self.MEETING_PROJECTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_STATUS" EntityType="Self.MEETING_STATUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_TYPE" EntityType="Self.MEETING_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEETING_TYPE_PERMISSION" EntityType="Self.MEETING_TYPE_PERMISSION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MEETINGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CURRENCY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="prb_kod" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="prb_tanim" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="prb_ana_para" Type="Boolean" />
+          <Property Name="prb_sira" Type="Int32" />
+          <Property Name="prb_aktif" Type="Boolean" />
+          <Property Name="prb_SAP_para_birimi" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="prb_unity_para_birimi" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEETING_FILE_CATEGORY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MFC_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MFC_ACTIVE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MEETING_FILES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MTF_MT_REF" Type="Int32" />
+          <Property Name="MTF_TYPE" Type="Int32" />
+          <Property Name="MTF_CATEGORY" Type="Int32" />
+          <Property Name="MTF_FILENAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTF_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MTF_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTF_DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEETING_LINES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MTL_MT_REF" Type="Int32" />
+          <Property Name="MT_LINENR" Type="Int32" />
+          <Property Name="MTL_TYPE" Type="Int32" />
+          <Property Name="MTL_START_DATE" Type="DateTime" Precision="0" />
+          <Property Name="MTL_FINISH_DATE" Type="DateTime" Precision="0" />
+          <Property Name="MTL_RESPONSIBLE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_TAGS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_PROJECT_CODE" Type="Int32" />
+          <Property Name="MTL_DEPARTMENT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_STS" Type="Int32" />
+          <Property Name="MTL_CONFIRMER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_DECISION_TYPE" Type="Int32" />
+          <Property Name="MTL_OFFER_USER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_OFFER_OK" Type="Boolean" />
+          <Property Name="MTL_RELATED_FORM_REF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_RELATED_FORM_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_SCODE1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_SCODE2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_SCODE3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_SCODE4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_SCODE5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MTL_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTL_UPDATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MTL_UPDATE_USERID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MEETING_LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MLS_MLG_REF" Type="Int32" />
+          <Property Name="MLS_CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MLS_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MLS_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MLS_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MLS_BROWSER" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEETING_LOG_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MLG_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MLG_ACTIVE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MEETING_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MT_TYPE" Type="Int32" />
+          <Property Name="MT_TITLE" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="MT_DATE" Type="DateTime" Precision="0" />
+          <Property Name="MT_MANAGER" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MT_DESCIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MT_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_TAGS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MT_PLACE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MT_START_TIME" Type="Time" Precision="7" />
+          <Property Name="MT_FINISH_TIME" Type="Time" Precision="7" />
+          <Property Name="MT_SCODE1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_SCODE2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_SCODE3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_SCODE4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_SCODE5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MT_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MT_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MT_FOLLOWER_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MT_UPDATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MT_UPDATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MT_STS" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MEETING_PARTICIPANTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MTP_REF" Type="Int32" />
+          <Property Name="MTP_USER" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MTP_TYPE" Type="Int32" />
+          <Property Name="MTP_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="MTP_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MEETING_PROJECTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRJ_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_START_DATE" Type="DateTime" Precision="0" />
+          <Property Name="PRJ_FINISH_DATE" Type="DateTime" Precision="0" />
+          <Property Name="PRJ_RESPONSIBLE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_MEMBERS" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_BUDGET" Type="Double" />
+          <Property Name="PRJ_BUDGET_CURRENCY" Type="Int32" />
+          <Property Name="PRJ_MAN_DAY" Type="Int32" />
+          <Property Name="PRJ_DEPARTMENT" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_CREATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="PRJ_CREATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_UPDATEDATE" Type="DateTime" Precision="3" />
+          <Property Name="PRJ_UPDATE_USERID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRJ_STS" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MEETING_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MST_TYPE" Type="Int32" />
+          <Property Name="MST_ACTIVE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MEETING_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MTP_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MTP_ACTIVE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MEETING_TYPE_PERMISSION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MPR_USER" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MPR_MT_TYPE" Type="Int32" />
+          <Property Name="MPR_ACTIVE" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="MEETINGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CURRENCies" EntityType="Self.CURRENCY" />
+          <EntitySet Name="MEETING_FILE_CATEGORY" EntityType="Self.MEETING_FILE_CATEGORY" />
+          <EntitySet Name="MEETING_FILES" EntityType="Self.MEETING_FILES" />
+          <EntitySet Name="MEETING_LINES" EntityType="Self.MEETING_LINES" />
+          <EntitySet Name="MEETING_LOG" EntityType="Self.MEETING_LOG" />
+          <EntitySet Name="MEETING_LOG_TYPE" EntityType="Self.MEETING_LOG_TYPE" />
+          <EntitySet Name="MEETING_MASTER" EntityType="Self.MEETING_MASTER" />
+          <EntitySet Name="MEETING_PARTICIPANTS" EntityType="Self.MEETING_PARTICIPANTS" />
+          <EntitySet Name="MEETING_PROJECTS" EntityType="Self.MEETING_PROJECTS" />
+          <EntitySet Name="MEETING_STATUS" EntityType="Self.MEETING_STATUS" />
+          <EntitySet Name="MEETING_TYPE" EntityType="Self.MEETING_TYPE" />
+          <EntitySet Name="MEETING_TYPE_PERMISSION" EntityType="Self.MEETING_TYPE_PERMISSION" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MEETINGModelStoreContainer" CdmEntityContainer="MEETINGEntities">
+          <EntitySetMapping Name="CURRENCies">
+            <EntityTypeMapping TypeName="MEETINGModel.CURRENCY">
+              <MappingFragment StoreEntitySet="CURRENCY">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="prb_kod" ColumnName="prb_kod" />
+                <ScalarProperty Name="prb_tanim" ColumnName="prb_tanim" />
+                <ScalarProperty Name="prb_ana_para" ColumnName="prb_ana_para" />
+                <ScalarProperty Name="prb_sira" ColumnName="prb_sira" />
+                <ScalarProperty Name="prb_aktif" ColumnName="prb_aktif" />
+                <ScalarProperty Name="prb_SAP_para_birimi" ColumnName="prb_SAP_para_birimi" />
+                <ScalarProperty Name="prb_unity_para_birimi" ColumnName="prb_unity_para_birimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_FILE_CATEGORY">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_FILE_CATEGORY">
+              <MappingFragment StoreEntitySet="MEETING_FILE_CATEGORY">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MFC_NAME" ColumnName="MFC_NAME" />
+                <ScalarProperty Name="MFC_ACTIVE" ColumnName="MFC_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_FILES">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_FILES">
+              <MappingFragment StoreEntitySet="MEETING_FILES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MTF_MT_REF" ColumnName="MTF_MT_REF" />
+                <ScalarProperty Name="MTF_TYPE" ColumnName="MTF_TYPE" />
+                <ScalarProperty Name="MTF_CATEGORY" ColumnName="MTF_CATEGORY" />
+                <ScalarProperty Name="MTF_FILENAME" ColumnName="MTF_FILENAME" />
+                <ScalarProperty Name="MTF_CREATEDATE" ColumnName="MTF_CREATEDATE" />
+                <ScalarProperty Name="MTF_CREATE_USERID" ColumnName="MTF_CREATE_USERID" />
+                <ScalarProperty Name="MTF_DESCRIPTION" ColumnName="MTF_DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_LINES">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_LINES">
+              <MappingFragment StoreEntitySet="MEETING_LINES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MTL_MT_REF" ColumnName="MTL_MT_REF" />
+                <ScalarProperty Name="MT_LINENR" ColumnName="MT_LINENR" />
+                <ScalarProperty Name="MTL_TYPE" ColumnName="MTL_TYPE" />
+                <ScalarProperty Name="MTL_START_DATE" ColumnName="MTL_START_DATE" />
+                <ScalarProperty Name="MTL_FINISH_DATE" ColumnName="MTL_FINISH_DATE" />
+                <ScalarProperty Name="MTL_RESPONSIBLE" ColumnName="MTL_RESPONSIBLE" />
+                <ScalarProperty Name="MTL_TAGS" ColumnName="MTL_TAGS" />
+                <ScalarProperty Name="MTL_DESCRIPTION" ColumnName="MTL_DESCRIPTION" />
+                <ScalarProperty Name="MTL_PROJECT_CODE" ColumnName="MTL_PROJECT_CODE" />
+                <ScalarProperty Name="MTL_DEPARTMENT" ColumnName="MTL_DEPARTMENT" />
+                <ScalarProperty Name="MTL_STS" ColumnName="MTL_STS" />
+                <ScalarProperty Name="MTL_CONFIRMER" ColumnName="MTL_CONFIRMER" />
+                <ScalarProperty Name="MTL_DECISION_TYPE" ColumnName="MTL_DECISION_TYPE" />
+                <ScalarProperty Name="MTL_OFFER_USER" ColumnName="MTL_OFFER_USER" />
+                <ScalarProperty Name="MTL_OFFER_OK" ColumnName="MTL_OFFER_OK" />
+                <ScalarProperty Name="MTL_RELATED_FORM_REF" ColumnName="MTL_RELATED_FORM_REF" />
+                <ScalarProperty Name="MTL_RELATED_FORM_DESCRIPTION" ColumnName="MTL_RELATED_FORM_DESCRIPTION" />
+                <ScalarProperty Name="MTL_SCODE1" ColumnName="MTL_SCODE1" />
+                <ScalarProperty Name="MTL_SCODE2" ColumnName="MTL_SCODE2" />
+                <ScalarProperty Name="MTL_SCODE3" ColumnName="MTL_SCODE3" />
+                <ScalarProperty Name="MTL_SCODE4" ColumnName="MTL_SCODE4" />
+                <ScalarProperty Name="MTL_SCODE5" ColumnName="MTL_SCODE5" />
+                <ScalarProperty Name="MTL_CREATEDATE" ColumnName="MTL_CREATEDATE" />
+                <ScalarProperty Name="MTL_CREATE_USERID" ColumnName="MTL_CREATE_USERID" />
+                <ScalarProperty Name="MTL_UPDATEDATE" ColumnName="MTL_UPDATEDATE" />
+                <ScalarProperty Name="MTL_UPDATE_USERID" ColumnName="MTL_UPDATE_USERID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_LOG">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_LOG">
+              <MappingFragment StoreEntitySet="MEETING_LOG">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MLS_MLG_REF" ColumnName="MLS_MLG_REF" />
+                <ScalarProperty Name="MLS_CREATE_DATE" ColumnName="MLS_CREATE_DATE" />
+                <ScalarProperty Name="MLS_CREATE_USERID" ColumnName="MLS_CREATE_USERID" />
+                <ScalarProperty Name="MLS_IP" ColumnName="MLS_IP" />
+                <ScalarProperty Name="MLS_DESCRIPTION" ColumnName="MLS_DESCRIPTION" />
+                <ScalarProperty Name="MLS_BROWSER" ColumnName="MLS_BROWSER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_LOG_TYPE">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_LOG_TYPE">
+              <MappingFragment StoreEntitySet="MEETING_LOG_TYPE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MLG_NAME" ColumnName="MLG_NAME" />
+                <ScalarProperty Name="MLG_ACTIVE" ColumnName="MLG_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_MASTER">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_MASTER">
+              <MappingFragment StoreEntitySet="MEETING_MASTER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MT_TYPE" ColumnName="MT_TYPE" />
+                <ScalarProperty Name="MT_TITLE" ColumnName="MT_TITLE" />
+                <ScalarProperty Name="MT_DATE" ColumnName="MT_DATE" />
+                <ScalarProperty Name="MT_MANAGER" ColumnName="MT_MANAGER" />
+                <ScalarProperty Name="MT_DESCIPTION" ColumnName="MT_DESCIPTION" />
+                <ScalarProperty Name="MT_NO" ColumnName="MT_NO" />
+                <ScalarProperty Name="MT_TAGS" ColumnName="MT_TAGS" />
+                <ScalarProperty Name="MT_PLACE" ColumnName="MT_PLACE" />
+                <ScalarProperty Name="MT_START_TIME" ColumnName="MT_START_TIME" />
+                <ScalarProperty Name="MT_FINISH_TIME" ColumnName="MT_FINISH_TIME" />
+                <ScalarProperty Name="MT_SCODE1" ColumnName="MT_SCODE1" />
+                <ScalarProperty Name="MT_SCODE2" ColumnName="MT_SCODE2" />
+                <ScalarProperty Name="MT_SCODE3" ColumnName="MT_SCODE3" />
+                <ScalarProperty Name="MT_SCODE4" ColumnName="MT_SCODE4" />
+                <ScalarProperty Name="MT_SCODE5" ColumnName="MT_SCODE5" />
+                <ScalarProperty Name="MT_CREATEDATE" ColumnName="MT_CREATEDATE" />
+                <ScalarProperty Name="MT_CREATE_USERID" ColumnName="MT_CREATE_USERID" />
+                <ScalarProperty Name="MT_FOLLOWER_USERID" ColumnName="MT_FOLLOWER_USERID" />
+                <ScalarProperty Name="MT_UPDATEDATE" ColumnName="MT_UPDATEDATE" />
+                <ScalarProperty Name="MT_UPDATE_USERID" ColumnName="MT_UPDATE_USERID" />
+                <ScalarProperty Name="MT_STS" ColumnName="MT_STS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_PARTICIPANTS">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_PARTICIPANTS">
+              <MappingFragment StoreEntitySet="MEETING_PARTICIPANTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MTP_REF" ColumnName="MTP_REF" />
+                <ScalarProperty Name="MTP_USER" ColumnName="MTP_USER" />
+                <ScalarProperty Name="MTP_TYPE" ColumnName="MTP_TYPE" />
+                <ScalarProperty Name="MTP_CREATEDATE" ColumnName="MTP_CREATEDATE" />
+                <ScalarProperty Name="MTP_CREATE_USERID" ColumnName="MTP_CREATE_USERID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_PROJECTS">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_PROJECTS">
+              <MappingFragment StoreEntitySet="MEETING_PROJECTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PRJ_CODE" ColumnName="PRJ_CODE" />
+                <ScalarProperty Name="PRJ_NAME" ColumnName="PRJ_NAME" />
+                <ScalarProperty Name="PRJ_START_DATE" ColumnName="PRJ_START_DATE" />
+                <ScalarProperty Name="PRJ_FINISH_DATE" ColumnName="PRJ_FINISH_DATE" />
+                <ScalarProperty Name="PRJ_RESPONSIBLE" ColumnName="PRJ_RESPONSIBLE" />
+                <ScalarProperty Name="PRJ_MEMBERS" ColumnName="PRJ_MEMBERS" />
+                <ScalarProperty Name="PRJ_BUDGET" ColumnName="PRJ_BUDGET" />
+                <ScalarProperty Name="PRJ_BUDGET_CURRENCY" ColumnName="PRJ_BUDGET_CURRENCY" />
+                <ScalarProperty Name="PRJ_MAN_DAY" ColumnName="PRJ_MAN_DAY" />
+                <ScalarProperty Name="PRJ_DEPARTMENT" ColumnName="PRJ_DEPARTMENT" />
+                <ScalarProperty Name="PRJ_CREATEDATE" ColumnName="PRJ_CREATEDATE" />
+                <ScalarProperty Name="PRJ_CREATE_USERID" ColumnName="PRJ_CREATE_USERID" />
+                <ScalarProperty Name="PRJ_UPDATEDATE" ColumnName="PRJ_UPDATEDATE" />
+                <ScalarProperty Name="PRJ_UPDATE_USERID" ColumnName="PRJ_UPDATE_USERID" />
+                <ScalarProperty Name="PRJ_STS" ColumnName="PRJ_STS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_STATUS">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_STATUS">
+              <MappingFragment StoreEntitySet="MEETING_STATUS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MST_NAME" ColumnName="MST_NAME" />
+                <ScalarProperty Name="MST_TYPE" ColumnName="MST_TYPE" />
+                <ScalarProperty Name="MST_ACTIVE" ColumnName="MST_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_TYPE">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_TYPE">
+              <MappingFragment StoreEntitySet="MEETING_TYPE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MTP_NAME" ColumnName="MTP_NAME" />
+                <ScalarProperty Name="MTP_ACTIVE" ColumnName="MTP_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEETING_TYPE_PERMISSION">
+            <EntityTypeMapping TypeName="MEETINGModel.MEETING_TYPE_PERMISSION">
+              <MappingFragment StoreEntitySet="MEETING_TYPE_PERMISSION">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MPR_USER" ColumnName="MPR_USER" />
+                <ScalarProperty Name="MPR_MT_TYPE" ColumnName="MPR_MT_TYPE" />
+                <ScalarProperty Name="MPR_ACTIVE" ColumnName="MPR_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MEETINGModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

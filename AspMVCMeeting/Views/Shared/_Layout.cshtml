@@ -1,0 +1,284 @@
+﻿@{
+
+//if (Request.IsAuthenticated)
+//{
+//    ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
+//}
+//else {
+//    ViewBag.UserName = "";
+//}
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #1 for blank page layout"
+          name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/bundles/masterGlobalcss")
+    @Styles.Render("~/bundles/masterPageLayoutcss")
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!-- END HEAD -->
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <div class="page-wrapper">
+        <!-- BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="~/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" />
+                    </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <span></span>
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span></span>
+                </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <!-- BEGIN USER LOGIN DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                        <li class="dropdown dropdown-user">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img alt="" class="img-circle" src="~/assets/layouts/layout/img/avatar3_small.jpg" />
+                                <span class="username username-hide-on-mobile"> @*@ViewBag.UserName*@ </span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                @*<li>
+                                    <a href="@Url.Action("Index", "Home")">
+                                        <i class="icon-user"></i> My Profile
+                                    </a>
+                                </li>
+                                <li class="divider"> </li>*@
+                                <li>
+                                    <a href="@Url.Action("Login", "Authentication")">
+                                        <i class="icon-key"></i> Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END USER LOGIN DROPDOWN -->
+                    </ul>
+                </div>
+                <!-- END TOP NAVIGATION MENU -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        <div class="clearfix"> </div>
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- BEGIN SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                        <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+                        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                        <li class="sidebar-toggler-wrapper hide">
+                            <div class="sidebar-toggler">
+                                <span></span>
+                            </div>
+                        </li>
+                        <!-- END SIDEBAR TOGGLER BUTTON -->
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Toplanti Yönetimi</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Ekle
+                                    </a>
+                                </li>
+                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "AgencyTracking" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "AgencyTracking")" class="nav-link">
+                                        <i class="icon-settings"></i> Listele
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Toplanti Bagimsiz Gorev</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Karar Ekle
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Gorev  ve Kararlar</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Listele
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Onaylama</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Onaylama
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Baglantisi Yapilacak Kayitlar</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Baglantisi Yapilacak Kayitlar
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Raporlar</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Toplanti Listesi
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Gorevlerin listesi
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Zamani Kecen Gorevler
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Sistem Yonetmi</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Proje Listesi
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Toplanti Turleri
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                        <i class="icon-settings"></i> Departman Listesi
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <div class="page-content">
+
+                    @RenderBody()
+
+                </div>
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+        </div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner">
+                2016 &copy; Copyright
+                <a target="_blank" href="http://azersun.com">Azersun Holding</a> &nbsp;
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+    </div>
+    <!--[if lt IE 9]>
+    <script src="~/assets/global/plugins/respond.min.js"></script>
+    <script src="~/assets/global/plugins/excanvas.min.js"></script>
+    <script src="~/assets/global/plugins/ie8.fix.min.js"></script>
+    <![endif]-->
+    @Scripts.Render("~/bundles/masterPageGlobaljs")
+    @Scripts.Render("~/bundles/masterPageLayoutjs")
+    @RenderSection("CustomScripts", required: false)
+
+    @*@Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)*@
+
+</body>
+</html>
