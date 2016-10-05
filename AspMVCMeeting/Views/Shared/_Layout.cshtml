@@ -120,13 +120,13 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" ? "active open" : "")">
+                                    <a href="@Url.Action("Create", "MeetingMaster")" class="nav-link">
                                         <i class="icon-settings"></i> Ekle
                                     </a>
                                 </li>
-                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "AgencyTracking" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "AgencyTracking")" class="nav-link">
+                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "MeetingMaster")" class="nav-link">
                                         <i class="icon-settings"></i> Listele
                                     </a>
                                 </li>

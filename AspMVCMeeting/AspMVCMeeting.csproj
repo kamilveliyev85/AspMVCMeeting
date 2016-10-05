@@ -131,6 +131,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeetingMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -152,6 +153,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MeetingDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MeetingDataModelCodeFirst.cs" />
     <Compile Include="Models\MEETING_FILES.cs">
       <DependentUpon>MeetingDataModel.tt</DependentUpon>
     </Compile>
@@ -185,9 +187,13 @@
     <Compile Include="Models\MEETING_TYPE_PERMISSION.cs">
       <DependentUpon>MeetingDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SAP.cs">
+      <DependentUpon>MeetingDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>MeetingDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TBL_MEETING_MASTER.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,10 @@
     <Content Include="assets\global\img\portlet-collapse-icon-white.png" />
     <Content Include="assets\global\img\portlet-expand-icon-white.png" />
     <Content Include="assets\global\img\remove-icon-small.png" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.css" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.min.css" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\js\bootstrap-timepicker.js" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\js\bootstrap-timepicker.min.js" />
     <Content Include="assets\global\plugins\datatables\datatables.all.min.js" />
     <Content Include="assets\global\plugins\datatables\datatables.min.css" />
     <Content Include="assets\global\plugins\datatables\datatables.min.js" />
@@ -221,6 +231,60 @@
     <Content Include="assets\global\plugins\jquery.blockui.min.js" />
     <Content Include="assets\global\plugins\jquery.min.js" />
     <Content Include="assets\global\plugins\js.cookie.min.js" />
+    <Content Include="assets\global\plugins\select2\css\select2-bootstrap.min.css" />
+    <Content Include="assets\global\plugins\select2\css\select2.css" />
+    <Content Include="assets\global\plugins\select2\css\select2.min.css" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ar.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\az.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\bg.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ca.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\cs.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\da.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\de.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\el.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\en.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\es.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\et.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\eu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fa.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\gl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\he.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\id.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\is.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\it.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ja.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\km.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ko.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\mk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ms.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nb.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt-BR.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ro.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ru.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\th.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\tr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\uk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\vi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-CN.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-TW.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.min.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.min.js" />
     <Content Include="assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
     <Content Include="assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.svg" />
     <Content Include="assets\global\plugins\simple-line-icons\icons-lte-ie7.js" />
@@ -240,6 +304,7 @@
     <Content Include="assets\layouts\layout\scripts\layout.min.js" />
     <Content Include="assets\pages\css\login.min.css" />
     <Content Include="assets\pages\img\logo-big.png" />
+    <Content Include="assets\pages\scripts\components-select2.min.js" />
     <Content Include="assets\pages\scripts\login.min.js" />
     <Content Include="assets\plugins\bootstrap-datepicker\css\bootstrap-datepicker3.css" />
     <Content Include="assets\plugins\bootstrap-datepicker\css\bootstrap-datepicker3.min.css" />
@@ -410,6 +475,10 @@
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\LICENSE" />
+    <Content Include="assets\global\plugins\select2\LICENSE.md" />
+    <Content Include="assets\global\plugins\select2\README.md" />
+    <Content Include="assets\global\plugins\select2\sass\select2-bootstrap.min.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -437,9 +506,12 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\MeetingMaster\Create.cshtml" />
+    <Content Include="Views\MeetingMaster\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MEETINGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MEETINGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CURRENCY">
           <Key>
             <PropertyRef Name="ID" />
@@ -165,7 +165,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MTP_NAME" Type="nvarchar" MaxLength="50" />
-          <Property Name="MTP_ACTIVE" Type="bit" />
+          <Property Name="MTP_ACTIVE" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="MEETING_TYPE_PERMISSION">
           <Key>
@@ -186,6 +186,81 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MEETING.dbo.SAP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SAP">
+          <Key>
+            <PropertyRef Name="PERCODE" />
+          </Key>
+          <Property Name="LREF" Type="varchar" MaxLength="50" />
+          <Property Name="PERCODE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PNAME" Type="nvarchar" MaxLength="80" />
+          <Property Name="PSURNAME" Type="nvarchar" MaxLength="80" />
+          <Property Name="PFATHERNAME" Type="nvarchar" MaxLength="80" />
+          <Property Name="STATUS" Type="varchar" MaxLength="50" />
+          <Property Name="POSITIIONCODE" Type="varchar" MaxLength="50" />
+          <Property Name="POSITIONNAME" Type="nvarchar" MaxLength="80" />
+          <Property Name="JOBCODE" Type="varchar" MaxLength="50" />
+          <Property Name="JOBCODE_T" Type="nvarchar" MaxLength="80" />
+          <Property Name="JOB_FAMILY" Type="varchar" MaxLength="50" />
+          <Property Name="JOB_FAMILY_T" Type="nvarchar" MaxLength="80" />
+          <Property Name="TASK_GROUP" Type="varchar" MaxLength="50" />
+          <Property Name="TASK_GROUP_T" Type="nvarchar" MaxLength="80" />
+          <Property Name="STATU" Type="varchar" MaxLength="50" />
+          <Property Name="STATU_T" Type="nvarchar" MaxLength="80" />
+          <Property Name="BIRTHDATE" Type="date" />
+          <Property Name="BEGINWORK" Type="date" />
+          <Property Name="FINISHWORK" Type="date" />
+          <Property Name="GROUPINDATE" Type="date" />
+          <Property Name="YEAR_SENIORITY_YEAR" Type="int" />
+          <Property Name="YEAR_SENIORITY_MONTH" Type="int" />
+          <Property Name="YEAR_SENIORITY_DAY" Type="int" />
+          <Property Name="SEX" Type="int" />
+          <Property Name="PHONE" Type="varchar" MaxLength="50" />
+          <Property Name="PERTYP" Type="int" />
+          <Property Name="ORG_UNIT" Type="varchar" MaxLength="50" />
+          <Property Name="ORG_UNIT_T" Type="nvarchar" MaxLength="80" />
+          <Property Name="RANKCODE" Type="varchar" MaxLength="20" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" />
+          <Property Name="ACCOUNTNAME" Type="varchar" MaxLength="100" />
+          <Property Name="SHEFCODE" Type="varchar" MaxLength="50" />
+          <Property Name="HRCODE1" Type="varchar" MaxLength="50" />
+          <Property Name="HRCODE2" Type="varchar" MaxLength="50" />
+          <Property Name="HRCODE3" Type="varchar" MaxLength="50" />
+          <Property Name="ACCOUNTPERCODE" Type="varchar" MaxLength="50" />
+          <Property Name="ACCOUNTATTENDANT" Type="varchar" MaxLength="50" />
+          <Property Name="HRSHEFCODE" Type="varchar" MaxLength="50" />
+          <Property Name="GROUPHEADCODE" Type="varchar" MaxLength="50" />
+          <Property Name="MCODE" Type="varchar" MaxLength="50" />
+          <Property Name="TCODE" Type="varchar" MaxLength="50" />
+          <Property Name="ICODE" Type="varchar" MaxLength="50" />
+          <Property Name="KSCODE1" Type="varchar" MaxLength="50" />
+          <Property Name="KSCODE2" Type="varchar" MaxLength="50" />
+          <Property Name="SCODE" Type="varchar" MaxLength="50" />
+          <Property Name="RCODE" Type="varchar" MaxLength="50" />
+          <Property Name="DCODE" Type="varchar" MaxLength="50" />
+          <Property Name="AIHS" Type="varchar" MaxLength="50" />
+          <Property Name="WAREHOUSER" Type="varchar" MaxLength="50" />
+          <Property Name="INPURCHASER" Type="varchar" MaxLength="50" />
+          <Property Name="KSACCOUNTER" Type="varchar" MaxLength="50" />
+          <Property Name="IKRESPONSIBLE" Type="varchar" MaxLength="50" />
+          <Property Name="AUDITBEARER" Type="varchar" MaxLength="50" />
+          <Property Name="FOREIGNSERVICER" Type="varchar" MaxLength="50" />
+          <Property Name="ABSENCE_QUATO" Type="float" />
+          <Property Name="SHEFABSENCE" Type="varchar" MaxLength="1" />
+          <Property Name="OLDCODE" Type="varchar" MaxLength="50" />
+          <Property Name="TRANSFERDATE" Type="datetime" />
+          <Property Name="PCOMPANYCODE" Type="varchar" MaxLength="10" />
+          <Property Name="PCOMPANYNAME" Type="nvarchar" MaxLength="200" />
+          <Property Name="WORKGRCODE" Type="varchar" MaxLength="10" />
+          <Property Name="WORKGRNAME" Type="varchar" MaxLength="150" />
+          <Property Name="WORKSUBGRCODE" Type="varchar" MaxLength="10" />
+          <Property Name="WORKSUBGRNAME" Type="varchar" MaxLength="150" />
+          <Property Name="SALARYTYP" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Function Name="SAPHR_PERCODE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="where" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MEETINGModelStoreContainer">
           <EntitySet Name="CURRENCY" EntityType="Self.CURRENCY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEETING_FILE_CATEGORY" EntityType="Self.MEETING_FILE_CATEGORY" Schema="dbo" store:Type="Tables" />
@@ -200,9 +275,77 @@
           <EntitySet Name="MEETING_TYPE" EntityType="Self.MEETING_TYPE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEETING_TYPE_PERMISSION" EntityType="Self.MEETING_TYPE_PERMISSION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAP" EntityType="Self.SAP" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SAP].[LREF] AS [LREF], 
+    [SAP].[PERCODE] AS [PERCODE], 
+    [SAP].[PNAME] AS [PNAME], 
+    [SAP].[PSURNAME] AS [PSURNAME], 
+    [SAP].[PFATHERNAME] AS [PFATHERNAME], 
+    [SAP].[STATUS] AS [STATUS], 
+    [SAP].[POSITIIONCODE] AS [POSITIIONCODE], 
+    [SAP].[POSITIONNAME] AS [POSITIONNAME], 
+    [SAP].[JOBCODE] AS [JOBCODE], 
+    [SAP].[JOBCODE_T] AS [JOBCODE_T], 
+    [SAP].[JOB_FAMILY] AS [JOB_FAMILY], 
+    [SAP].[JOB_FAMILY_T] AS [JOB_FAMILY_T], 
+    [SAP].[TASK_GROUP] AS [TASK_GROUP], 
+    [SAP].[TASK_GROUP_T] AS [TASK_GROUP_T], 
+    [SAP].[STATU] AS [STATU], 
+    [SAP].[STATU_T] AS [STATU_T], 
+    [SAP].[BIRTHDATE] AS [BIRTHDATE], 
+    [SAP].[BEGINWORK] AS [BEGINWORK], 
+    [SAP].[FINISHWORK] AS [FINISHWORK], 
+    [SAP].[GROUPINDATE] AS [GROUPINDATE], 
+    [SAP].[YEAR_SENIORITY_YEAR] AS [YEAR_SENIORITY_YEAR], 
+    [SAP].[YEAR_SENIORITY_MONTH] AS [YEAR_SENIORITY_MONTH], 
+    [SAP].[YEAR_SENIORITY_DAY] AS [YEAR_SENIORITY_DAY], 
+    [SAP].[SEX] AS [SEX], 
+    [SAP].[PHONE] AS [PHONE], 
+    [SAP].[PERTYP] AS [PERTYP], 
+    [SAP].[ORG_UNIT] AS [ORG_UNIT], 
+    [SAP].[ORG_UNIT_T] AS [ORG_UNIT_T], 
+    [SAP].[RANKCODE] AS [RANKCODE], 
+    [SAP].[EMAIL] AS [EMAIL], 
+    [SAP].[ACCOUNTNAME] AS [ACCOUNTNAME], 
+    [SAP].[SHEFCODE] AS [SHEFCODE], 
+    [SAP].[HRCODE1] AS [HRCODE1], 
+    [SAP].[HRCODE2] AS [HRCODE2], 
+    [SAP].[HRCODE3] AS [HRCODE3], 
+    [SAP].[ACCOUNTPERCODE] AS [ACCOUNTPERCODE], 
+    [SAP].[ACCOUNTATTENDANT] AS [ACCOUNTATTENDANT], 
+    [SAP].[HRSHEFCODE] AS [HRSHEFCODE], 
+    [SAP].[GROUPHEADCODE] AS [GROUPHEADCODE], 
+    [SAP].[MCODE] AS [MCODE], 
+    [SAP].[TCODE] AS [TCODE], 
+    [SAP].[ICODE] AS [ICODE], 
+    [SAP].[KSCODE1] AS [KSCODE1], 
+    [SAP].[KSCODE2] AS [KSCODE2], 
+    [SAP].[SCODE] AS [SCODE], 
+    [SAP].[RCODE] AS [RCODE], 
+    [SAP].[DCODE] AS [DCODE], 
+    [SAP].[AIHS] AS [AIHS], 
+    [SAP].[WAREHOUSER] AS [WAREHOUSER], 
+    [SAP].[INPURCHASER] AS [INPURCHASER], 
+    [SAP].[KSACCOUNTER] AS [KSACCOUNTER], 
+    [SAP].[IKRESPONSIBLE] AS [IKRESPONSIBLE], 
+    [SAP].[AUDITBEARER] AS [AUDITBEARER], 
+    [SAP].[FOREIGNSERVICER] AS [FOREIGNSERVICER], 
+    [SAP].[ABSENCE_QUATO] AS [ABSENCE_QUATO], 
+    [SAP].[SHEFABSENCE] AS [SHEFABSENCE], 
+    [SAP].[OLDCODE] AS [OLDCODE], 
+    [SAP].[TRANSFERDATE] AS [TRANSFERDATE], 
+    [SAP].[PCOMPANYCODE] AS [PCOMPANYCODE], 
+    [SAP].[PCOMPANYNAME] AS [PCOMPANYNAME], 
+    [SAP].[WORKGRCODE] AS [WORKGRCODE], 
+    [SAP].[WORKGRNAME] AS [WORKGRNAME], 
+    [SAP].[WORKSUBGRCODE] AS [WORKSUBGRCODE], 
+    [SAP].[WORKSUBGRNAME] AS [WORKSUBGRNAME], 
+    [SAP].[SALARYTYP] AS [SALARYTYP]
+    FROM [dbo].[SAP] AS [SAP]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MEETINGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -366,7 +509,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MTP_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MTP_ACTIVE" Type="Boolean" />
+          <Property Name="MTP_ACTIVE" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MEETING_TYPE_PERMISSION">
           <Key>
@@ -401,7 +544,81 @@
           <EntitySet Name="MEETING_TYPE" EntityType="Self.MEETING_TYPE" />
           <EntitySet Name="MEETING_TYPE_PERMISSION" EntityType="Self.MEETING_TYPE_PERMISSION" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="SAPs" EntityType="MEETINGModel.SAP" />
+          <FunctionImport Name="GetUsersByFilter" EntitySet="SAPs" ReturnType="Collection(MEETINGModel.SAP)">
+            <Parameter Name="where" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="SAP">
+          <Key>
+            <PropertyRef Name="PERCODE" />
+          </Key>
+          <Property Name="LREF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERCODE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PNAME" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="PSURNAME" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="PFATHERNAME" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="STATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="POSITIIONCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="POSITIONNAME" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="JOBCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JOBCODE_T" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="JOB_FAMILY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="JOB_FAMILY_T" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="TASK_GROUP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TASK_GROUP_T" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="STATU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATU_T" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="BIRTHDATE" Type="DateTime" Precision="0" />
+          <Property Name="BEGINWORK" Type="DateTime" Precision="0" />
+          <Property Name="FINISHWORK" Type="DateTime" Precision="0" />
+          <Property Name="GROUPINDATE" Type="DateTime" Precision="0" />
+          <Property Name="YEAR_SENIORITY_YEAR" Type="Int32" />
+          <Property Name="YEAR_SENIORITY_MONTH" Type="Int32" />
+          <Property Name="YEAR_SENIORITY_DAY" Type="Int32" />
+          <Property Name="SEX" Type="Int32" />
+          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERTYP" Type="Int32" />
+          <Property Name="ORG_UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ORG_UNIT_T" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="RANKCODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACCOUNTNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SHEFCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HRCODE1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HRCODE2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HRCODE3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACCOUNTPERCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACCOUNTATTENDANT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HRSHEFCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GROUPHEADCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ICODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KSCODE1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KSCODE2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AIHS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WAREHOUSER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="INPURCHASER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KSACCOUNTER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IKRESPONSIBLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AUDITBEARER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FOREIGNSERVICER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ABSENCE_QUATO" Type="Double" />
+          <Property Name="SHEFABSENCE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OLDCODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TRANSFERDATE" Type="DateTime" Precision="3" />
+          <Property Name="PCOMPANYCODE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PCOMPANYNAME" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WORKGRCODE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="WORKGRNAME" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WORKSUBGRCODE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="WORKSUBGRNAME" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SALARYTYP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -602,6 +819,78 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SAPs">
+            <EntityTypeMapping TypeName="MEETINGModel.SAP">
+              <MappingFragment StoreEntitySet="SAP">
+                <ScalarProperty Name="SALARYTYP" ColumnName="SALARYTYP" />
+                <ScalarProperty Name="WORKSUBGRNAME" ColumnName="WORKSUBGRNAME" />
+                <ScalarProperty Name="WORKSUBGRCODE" ColumnName="WORKSUBGRCODE" />
+                <ScalarProperty Name="WORKGRNAME" ColumnName="WORKGRNAME" />
+                <ScalarProperty Name="WORKGRCODE" ColumnName="WORKGRCODE" />
+                <ScalarProperty Name="PCOMPANYNAME" ColumnName="PCOMPANYNAME" />
+                <ScalarProperty Name="PCOMPANYCODE" ColumnName="PCOMPANYCODE" />
+                <ScalarProperty Name="TRANSFERDATE" ColumnName="TRANSFERDATE" />
+                <ScalarProperty Name="OLDCODE" ColumnName="OLDCODE" />
+                <ScalarProperty Name="SHEFABSENCE" ColumnName="SHEFABSENCE" />
+                <ScalarProperty Name="ABSENCE_QUATO" ColumnName="ABSENCE_QUATO" />
+                <ScalarProperty Name="FOREIGNSERVICER" ColumnName="FOREIGNSERVICER" />
+                <ScalarProperty Name="AUDITBEARER" ColumnName="AUDITBEARER" />
+                <ScalarProperty Name="IKRESPONSIBLE" ColumnName="IKRESPONSIBLE" />
+                <ScalarProperty Name="KSACCOUNTER" ColumnName="KSACCOUNTER" />
+                <ScalarProperty Name="INPURCHASER" ColumnName="INPURCHASER" />
+                <ScalarProperty Name="WAREHOUSER" ColumnName="WAREHOUSER" />
+                <ScalarProperty Name="AIHS" ColumnName="AIHS" />
+                <ScalarProperty Name="DCODE" ColumnName="DCODE" />
+                <ScalarProperty Name="RCODE" ColumnName="RCODE" />
+                <ScalarProperty Name="SCODE" ColumnName="SCODE" />
+                <ScalarProperty Name="KSCODE2" ColumnName="KSCODE2" />
+                <ScalarProperty Name="KSCODE1" ColumnName="KSCODE1" />
+                <ScalarProperty Name="ICODE" ColumnName="ICODE" />
+                <ScalarProperty Name="TCODE" ColumnName="TCODE" />
+                <ScalarProperty Name="MCODE" ColumnName="MCODE" />
+                <ScalarProperty Name="GROUPHEADCODE" ColumnName="GROUPHEADCODE" />
+                <ScalarProperty Name="HRSHEFCODE" ColumnName="HRSHEFCODE" />
+                <ScalarProperty Name="ACCOUNTATTENDANT" ColumnName="ACCOUNTATTENDANT" />
+                <ScalarProperty Name="ACCOUNTPERCODE" ColumnName="ACCOUNTPERCODE" />
+                <ScalarProperty Name="HRCODE3" ColumnName="HRCODE3" />
+                <ScalarProperty Name="HRCODE2" ColumnName="HRCODE2" />
+                <ScalarProperty Name="HRCODE1" ColumnName="HRCODE1" />
+                <ScalarProperty Name="SHEFCODE" ColumnName="SHEFCODE" />
+                <ScalarProperty Name="ACCOUNTNAME" ColumnName="ACCOUNTNAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="RANKCODE" ColumnName="RANKCODE" />
+                <ScalarProperty Name="ORG_UNIT_T" ColumnName="ORG_UNIT_T" />
+                <ScalarProperty Name="ORG_UNIT" ColumnName="ORG_UNIT" />
+                <ScalarProperty Name="PERTYP" ColumnName="PERTYP" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="SEX" ColumnName="SEX" />
+                <ScalarProperty Name="YEAR_SENIORITY_DAY" ColumnName="YEAR_SENIORITY_DAY" />
+                <ScalarProperty Name="YEAR_SENIORITY_MONTH" ColumnName="YEAR_SENIORITY_MONTH" />
+                <ScalarProperty Name="YEAR_SENIORITY_YEAR" ColumnName="YEAR_SENIORITY_YEAR" />
+                <ScalarProperty Name="GROUPINDATE" ColumnName="GROUPINDATE" />
+                <ScalarProperty Name="FINISHWORK" ColumnName="FINISHWORK" />
+                <ScalarProperty Name="BEGINWORK" ColumnName="BEGINWORK" />
+                <ScalarProperty Name="BIRTHDATE" ColumnName="BIRTHDATE" />
+                <ScalarProperty Name="STATU_T" ColumnName="STATU_T" />
+                <ScalarProperty Name="STATU" ColumnName="STATU" />
+                <ScalarProperty Name="TASK_GROUP_T" ColumnName="TASK_GROUP_T" />
+                <ScalarProperty Name="TASK_GROUP" ColumnName="TASK_GROUP" />
+                <ScalarProperty Name="JOB_FAMILY_T" ColumnName="JOB_FAMILY_T" />
+                <ScalarProperty Name="JOB_FAMILY" ColumnName="JOB_FAMILY" />
+                <ScalarProperty Name="JOBCODE_T" ColumnName="JOBCODE_T" />
+                <ScalarProperty Name="JOBCODE" ColumnName="JOBCODE" />
+                <ScalarProperty Name="POSITIONNAME" ColumnName="POSITIONNAME" />
+                <ScalarProperty Name="POSITIIONCODE" ColumnName="POSITIIONCODE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="PFATHERNAME" ColumnName="PFATHERNAME" />
+                <ScalarProperty Name="PSURNAME" ColumnName="PSURNAME" />
+                <ScalarProperty Name="PNAME" ColumnName="PNAME" />
+                <ScalarProperty Name="PERCODE" ColumnName="PERCODE" />
+                <ScalarProperty Name="LREF" ColumnName="LREF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUsersByFilter" FunctionName="MEETINGModel.Store.SAPHR_PERCODE" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

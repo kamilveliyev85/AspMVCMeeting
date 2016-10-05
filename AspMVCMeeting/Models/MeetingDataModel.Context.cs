@@ -12,6 +12,8 @@ namespace AspMVCMeeting.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MEETINGEntities : DbContext
     {
@@ -38,5 +40,24 @@ namespace AspMVCMeeting.Models
         public virtual DbSet<MEETING_TYPE> MEETING_TYPE { get; set; }
         public virtual DbSet<MEETING_TYPE_PERMISSION> MEETING_TYPE_PERMISSION { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<SAP> SAPs { get; set; }
+    
+        public virtual ObjectResult<SAP> GetUsersByFilter(string where)
+        {
+            var whereParameter = where != null ?
+                new ObjectParameter("where", where) :
+                new ObjectParameter("where", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SAP>("GetUsersByFilter", whereParameter);
+        }
+    
+        public virtual ObjectResult<SAP> GetUsersByFilter(string where, MergeOption mergeOption)
+        {
+            var whereParameter = where != null ?
+                new ObjectParameter("where", where) :
+                new ObjectParameter("where", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SAP>("GetUsersByFilter", mergeOption, whereParameter);
+        }
     }
 }
