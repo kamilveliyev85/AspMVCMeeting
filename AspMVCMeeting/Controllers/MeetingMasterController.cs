@@ -1,4 +1,5 @@
 ﻿using AspMVCMeeting.Models;
+using AspMVCMeeting.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,11 +21,9 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(MEETING_MASTER meeting_master) {
+        public ActionResult Create(VM_MEETING vm_meetings) {
 
-            
-
-            db.MEETING_MASTER.Add(meeting_master);
+            db.MEETING_MASTER.Add(vm_meetings.MEETING_MASTER);
             db.SaveChanges();
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
@@ -34,7 +33,13 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
 
-            return View(meeting_master);
+            return View(vm_meetings);
+        }
+
+        [HttpPost]
+        public ActionResult CreateMeetingLines(VM_MEETING vm_meetings) {
+
+            return View();
         }
 
         [HttpGet]
