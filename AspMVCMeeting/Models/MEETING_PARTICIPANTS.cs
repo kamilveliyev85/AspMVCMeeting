@@ -12,6 +12,8 @@ namespace AspMVCMeeting.Models
 
         public int? MTP_REF { get; set; }
 
+        public int? MTP_ML_REF { get; set; }
+
         [StringLength(100)]
         public string MTP_USER { get; set; }
 

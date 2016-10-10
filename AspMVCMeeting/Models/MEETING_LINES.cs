@@ -15,11 +15,13 @@ namespace AspMVCMeeting.Models
         public int? MT_LINENR { get; set; }
 
         public int? MTL_TYPE { get; set; }
-
+        
         [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime? MTL_START_DATE { get; set; }
-
+        
         [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime? MTL_FINISH_DATE { get; set; }
 
         [StringLength(50)]
@@ -69,11 +71,13 @@ namespace AspMVCMeeting.Models
         [StringLength(50)]
         public string MTL_SCODE5 { get; set; }
 
+        [NotMapped]
         public DateTime? MTL_CREATEDATE { get; set; }
 
         [StringLength(100)]
         public string MTL_CREATE_USERID { get; set; }
 
+        [NotMapped]
         public DateTime? MTL_UPDATEDATE { get; set; }
 
         public int? MTL_UPDATE_USERID { get; set; }

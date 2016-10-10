@@ -16,9 +16,11 @@ namespace AspMVCMeeting.Models
         [StringLength(100)]
         public string PRJ_NAME { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         [Column(TypeName = "date")]
         public DateTime? PRJ_START_DATE { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         [Column(TypeName = "date")]
         public DateTime? PRJ_FINISH_DATE { get; set; }
 
@@ -37,6 +39,7 @@ namespace AspMVCMeeting.Models
         [StringLength(300)]
         public string PRJ_DEPARTMENT { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime? PRJ_CREATEDATE { get; set; }
 
         [StringLength(100)]

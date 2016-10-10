@@ -33,14 +33,23 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
 
+            ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).ToList(), "ID", "MLN_NAME");
+            ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
+            ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE +"/"+ model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
             return View(vm_meetings);
         }
 
         [HttpPost]
-        public ActionResult CreateMeetingLines(VM_MEETING vm_meetings) {
+        public ActionResult CreateMeetingLines(VM_MEETING vm_meetings)
+        {
+            db.MEETING_LINES.Add(vm_meetings.MEETING_LINES);
+            db.SaveChanges();
 
-            return View();
+            return View(vm_meetings);
         }
+
 
         [HttpGet]
         public ActionResult Create() {
@@ -51,11 +60,17 @@ namespace AspMVCMeeting.Controllers
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
+            ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).ToList(), "ID", "MLN_NAME");
+            ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
+            ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
 
-            return View();
+            VM_MEETING vm_meetings = new VM_MEETING();
+            vm_meetings.lst_MEETING_LINES = db.MEETING_LINES.ToList();
+
+            return View(vm_meetings);
         }
-
-
 
     }
 }

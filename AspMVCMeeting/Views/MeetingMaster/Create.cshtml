@@ -4,7 +4,8 @@
 @{
     ViewBag.Title = "Create";
 }
-
+<html lang="en">
+<head>
 @section CustomScripts
    {
     <link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
@@ -18,17 +19,39 @@
     <script src="~/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
     <script src="~/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
 
+    <script src="~/assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>
+
+    <link href="~/assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/blueimp-gallery/jquery.blueimp-gallery.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-image.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-audio.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-video.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-file-upload/js/jquery.fileupload-ui.js" type="text/javascript"></script>
+
+    <script src="~/assets/pages/scripts/jquery.fileupload-angular.js" type="text/javascript"></script>
+    <script src="~/assets/pages/scripts/app.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#MT_DATE").datepicker({
+            $("#MEETING_MASTER_MT_DATE").datepicker({
                 format: 'dd.mm.yyyy',
                 autoclose: true
             });
 
-            if ($("#MT_DATE").val() == '') {
-                $("#MT_DATE").datepicker("setDate", new Date);
+            if ($("#MEETING_MASTER_MT_DATE").val() == '') {
+                $("#MEETING_MASTER_MT_DATE").datepicker("setDate", new Date);
             }
 
             $('#div_MT_DATE').datepicker({
@@ -40,7 +63,7 @@
             })
 
 
-            $("#MT_START_TIME").timepicker({
+            $("#MEETING_MASTER_MT_START_TIME").timepicker({
                 maxHours: 24,
                 showMeridian: false,
                 defaultTime: 'current',
@@ -48,12 +71,30 @@
             });
 
 
-            $("#MT_FINISH_TIME").timepicker({
+            $("#MEETING_MASTER_MT_FINISH_TIME").timepicker({
                 maxHours: 24,
                 showMeridian: false,
                 defaultTime: 'current',
                 minuteStep: 5
             });
+
+
+            $('#div_MTL_START_DATE').datepicker({
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: '01/01/1990',
+                endDate: '+0d',
+                autoclose: true,
+            })
+
+            $('#div_MTL_FINISH_DATE').datepicker({
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: '01/01/1990',
+                endDate: '+0d',
+                autoclose: true,
+            })
+
 
             $("#MT_MANAGER").select2({
                 placeholder: "Seçim edin",
@@ -69,11 +110,26 @@
             function h(e) {
                 $(e).css({ 'height': 'auto', 'overflow-y': 'hidden' }).height(e.scrollHeight);
             }
+
             $('textarea').each(function () {
                 h(this);
             }).on('input', function () {
                 h(this);
             });
+
+
+
+            $("#MEETING_LINES_MTL_RELATED_FORM_REF").select2({
+                placeholder: "Bağlı form",
+                allowClear: true,
+                templateSelection: template
+            });
+
+            function template(data, container) {
+                return $("<span class='span_cursor' onclick=javascript:alert('" + data.id + "')>" + data.id + "</span>");
+            }
+
+
 
         });
     </script>
@@ -82,450 +138,243 @@
         .control-label {
             text-align: left !important;
         }
+
+        .span_cursor {
+            color: #999;
+            cursor: pointer;
+        }
     </style>
 }
+</head>
+<body>
 
-@using (Html.BeginForm("Create", "MeetingMaster"))
-{
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("Create", "MeetingMaster"))
+    {
+        @Html.AntiForgeryToken()
 
     <!-- BEGIN MEETING MASTER INFO -->
-    <div class="portlet box blue ">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
-            </div>
-            <div class="tools">
-                <a href="" class="collapse"> </a>
-            </div>
-        </div>
-        <div class="portlet-body form">
-            <div class="form-horizontal">
-                <div class="form-body">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @*@Html.EditorFor(model => model.MEETING_MASTER.MT_TYPE, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    @Html.DropDownListFor(model => model.MEETING_MASTER.MT_TYPE, ViewBag.MEETING_TYPE as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TYPE, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_TITLE, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_TITLE, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TITLE, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_DATE, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DATE, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @*<label class="control-label">Domain bitiş tarixi</label>*@
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label" })
-                                <div id="div_MT_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
-                                    @*<input type="text" id="Brd_EndDate" name="Brd_EndDate" value="@if (@Model != null && @model.MEETING_MASTER.brand_Managment.Brd_EndDate != null) { @model.MEETING_MASTER.brand_Managment.Brd_EndDate.Value.ToString("dd.MM.yyyy")}" placeholder="Daxil edin..." class="form-control" readonly="">*@
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_MANAGER, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <div class="input-group select2-bootstrap-append">
-                                        @Html.DropDownListFor(model => model.MEETING_MASTER.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_MANAGER, "", new { @class = "text-danger" })
-
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                                <div class="col-md-10">
-                                    <div class="input-group select2-bootstrap-append">
-                                        @Html.DropDownListFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_NO, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_NO, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_NO, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_TAGS, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TAGS, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_PLACE, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_PLACE, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_START_TIME, htmlAttributes: new { @class = "control-label col-md-2" })
-                                @*<div class="col-md-10">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_START_TIME, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_START_TIME, "", new { @class = "text-danger" })
-                                    </div>*@
-                                <div id="div_MT_START_TIME" class="input-group col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_START_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24" } })
-                                    @*<input type="text" class="form-control timepicker timepicker-24">*@
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-clock-o"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_FINISH_TIME, htmlAttributes: new { @class = "control-label col-md-2" })
-                                @*<div class="col-md-10">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FINISH_TIME, "", new { @class = "text-danger" })
-                                    </div>*@
-
-                                <div id="div_MT_FINISH_TIME" class="input-group col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24" } })
-                                    @*<input type="text" class="form-control timepicker timepicker-24">*@
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-clock-o"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE1, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE1, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE2, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE2, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE2, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE3, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE3, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE3, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE4, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE4, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE4, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE5, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE5, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE5, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MEETING_MASTER.MT_DESCIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.MEETING_MASTER.MT_DESCIPTION, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DESCIPTION, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> @*ROW*@
-
-                    <div class="form-actions right">
-                        <button type="button" class="btn red" onclick="window.location.href = '/MeetingMaster';"><i class="fa fa-close"></i> İptal</button>
-                        <button type="submit" class="btn green"><i class="fa fa-check"></i> Kaydet </button>
-                    </div>
-
+        <div class="portlet box blue ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
+                </div>
+                <div class="tools">
+                    <a href="" class="collapse"> </a>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- END MEETING MASTER INFO -->
-}
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-@using (Html.BeginForm("CreateMeetingLines", "MeetingMaster"))
-{
-    @Html.AntiForgeryToken()
-    <!-- BEGIN MEETING LINES -->
-    <div class="portlet box blue ">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
-            </div>
-            <div class="tools">
-                <a href="" class="collapse"> </a>
-            </div>
-        </div>
-        <div class="portlet-body form">
-            <div class="form-horizontal">
-                <div class="form-body">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
 
-                    <div class="row">
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_MT_REF, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_MT_REF, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_MT_REF, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MT_LINENR, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MT_LINENR, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MT_LINENR, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_TYPE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TYPE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_START_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_START_DATE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_START_DATE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_FINISH_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_FINISH_DATE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_FINISH_DATE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_DEPARTMENT, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_STS, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_STS, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_STS, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_CONFIRMER, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_USER, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_OFFER_USER, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_USER, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_OK, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.MEETING_LINES.MTL_OFFER_OK)
-                                    @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_OK, "", new { @class = "text-danger" })
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @*@Html.EditorFor(model => model.MEETING_MASTER.MT_TYPE, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownListFor(model => model.MEETING_MASTER.MT_TYPE, ViewBag.MEETING_TYPE as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TYPE, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_TITLE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_TITLE, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TITLE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.MEETING_MASTER.MT_DATE, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DATE, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label" })
+                                    <div id="div_MT_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_MANAGER, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_MANAGER, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_NO, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_NO, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_NO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_TAGS, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TAGS, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_PLACE, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_PLACE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_PARTICIPANTS.MTP_USER, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_PARTICIPANTS.MTP_USER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_PARTICIPANTS.MTP_USER, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MTP_USER_1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MTP_USER_1, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MTP_USER_1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MTP_USER_2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MTP_USER_2, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MTP_USER_2, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
+                            <div class="col-md-6">
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_START_TIME, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*<div class="col-md-10">
+                                            @Html.EditorFor(model => model.MEETING_MASTER.MT_START_TIME, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_START_TIME, "", new { @class = "text-danger" })
+                                        </div>*@
+                                    <div id="div_MT_START_TIME" class="input-group col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_START_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24" } })
+                                        @*<input type="text" class="form-control timepicker timepicker-24">*@
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-clock-o"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_FINISH_TIME, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @*<div class="col-md-10">
+                                            @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FINISH_TIME, "", new { @class = "text-danger" })
+                                        </div>*@
+
+                                    <div id="div_MT_FINISH_TIME" class="input-group col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24" } })
+                                        @*<input type="text" class="form-control timepicker timepicker-24">*@
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-clock-o"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE1, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE2, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE3, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE3, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE3, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE4, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE4, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE4, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE5, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE5, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE5, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_DESCIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.MEETING_MASTER.MT_DESCIPTION, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DESCIPTION, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE1, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE1, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE2, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE2, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE2, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE3, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE3, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE3, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE4, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE4, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE4, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE5, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE5, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE5, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_CREATEDATE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_CREATEDATE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CREATEDATE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_CREATE_USERID, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_CREATE_USERID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CREATE_USERID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_UPDATEDATE, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_UPDATEDATE, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_UPDATEDATE, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.MEETING_LINES.MTL_UPDATE_USERID, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.MEETING_LINES.MTL_UPDATE_USERID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_UPDATE_USERID, "", new { @class = "text-danger" })
-                            </div>
-
-
-                        </div>@*Row*@
+                        </div> @*ROW*@
 
                         <div class="form-actions right">
                             <button type="button" class="btn red" onclick="window.location.href = '/MeetingMaster';"><i class="fa fa-close"></i> İptal</button>
@@ -536,10 +385,363 @@
                 </div>
             </div>
         </div>
+    <!-- END MEETING MASTER INFO -->
+    }
+
+    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data" data-ng-app="demo" data-ng-controller="DemoFileUploadController" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+        <!-- Redirect browsers with JavaScript disabled to the origin page -->
+        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple ng-disabled="disabled">
+                </span>
+                <button type="button" class="btn btn-primary start" data-ng-click="submit()">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="button" class="btn btn-warning cancel" data-ng-click="cancel()">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fade" data-ng-class="{in: active()}">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" data-file-upload-progress="progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table class="table table-striped files ng-cloak">
+            <tr data-ng-repeat="file in queue" data-ng-class="{'processing': file.$processing()}">
+                <td data-ng-switch data-on="!!file.thumbnailUrl">
+                    <div class="preview" data-ng-switch-when="true">
+                        <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
+                    </div>
+                    <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                </td>
+                <td>
+                    <p class="name" data-ng-switch data-on="!!file.url">
+                        <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+                            <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>{{file.name}}</a>
+                            <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+                        </span>
+                        <span data-ng-switch-default>{{file.name}}</span>
+                    </p>
+                    <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                </td>
+                <td>
+                    <p class="size">{{file.size | formatFileSize}}</p>
+                    <div class="progress progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit || options.autoUpload" data-ng-disabled="file.$state() == 'pending' || file.$state() == 'rejected'">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>Start</span>
+                    </button>
+                    <button type="button" class="btn btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                    <button data-ng-controller="FileDestroyController" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    @using (Html.BeginForm("CreateMeetingLines", "MeetingMaster"))
+    {
+        @Html.AntiForgeryToken()
+    <!-- BEGIN MEETING LINES -->
+        <div class="portlet box blue ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
+                </div>
+                <div class="tools">
+                    <a href="" class="collapse"> </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.MEETING_LINES.MTL_TYPE, ViewBag.MEETING_LINE_TYPES as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TYPE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_START_DATE, htmlAttributes: new { @class = "control-label" })
+                                    <div id="div_MTL_START_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_START_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_FINISH_DATE, htmlAttributes: new { @class = "control-label" })
+                                    <div id="div_MTL_FINISH_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_FINISH_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, ViewBag.MTL_PROJECT_CODE as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DEPARTMENT, ViewBag.DEPT as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_STS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_STS, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_STS, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_CONFIRMER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, ViewBag.DECISION_TYPES as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_USER, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_USER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_USER, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_OK, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_OFFER_OK)
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_OK, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, ViewBag.MTL_RELATED_FORM_REF as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE1, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE2, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE3, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE3, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE3, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE4, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE4, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE4, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_LINES.MTL_SCODE5, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE5, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE5, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions right">
+                            <button type="button" class="btn red" onclick="window.location.href = '/MeetingMaster';"><i class="fa fa-close"></i> İptal</button>
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Kaydet </button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END MEETING LINES -->
-}
+    }
 
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+
+    <div class="table-responsive">
+        <table id="BrandTrackingTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th scope="col"> İşlemler </th>
+                    <th scope="col"> Nr</th>
+                    <th scope="col"> Kayıt türü </th>
+                    <th scope="col"> Açıklama </th>
+                    <th scope="col"> Baş. tarih </th>
+                    <th scope="col"> Bit. tarih </th>
+                    <th scope="col"> İcraçılar </th>
+                    <th scope="col"> Teyit edən </th>
+                    <th scope="col"> Statü </th>
+                    <th scope="col"> Taglar </th>
+                    <th scope="col"> Bağ. toplantılar </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in model.lst_MEETING_LINES)
+            {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Delete", "BrandManagment", new { id = item.ID})" class='btn red'><i class='fa fa-trash-o'></i></a>
+                            <a href="@Url.Action("View", "BrandManagment", new { id = item.ID})" class='btn btn-default'><i class='fa fa-eye'></i></a>
+                            <a href="@Url.Action("Edit", "BrandManagment", new { id = item.ID})" class='btn blue'><i class='fa fa-pencil'></i></a>
+                        </td>
+                        <td> @Html.DisplayFor(modelItem => item.MT_LINENR) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_TYPE) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_DESCRIPTION) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_START_DATE) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_FINISH_DATE) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_RESPONSIBLE) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_CONFIRMER) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_STS) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_TAGS) </td>
+                        <td> @Html.DisplayFor(modelItem => item.MTL_RELATED_FORM_REF) </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    </body>
+</html>

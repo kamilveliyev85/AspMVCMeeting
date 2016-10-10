@@ -1,0 +1,69 @@
+﻿@using AspMVCMeeting.ViewModels
+@model VM_PROJECTS
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- BEGIN MEETING MASTER INFO -->
+<div class="portlet box blue ">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
+        </div>
+        <div class="tools">
+            <a href="" class="collapse"> </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-horizontal">
+            <div class="form-body">
+                <div class="form-actions left">
+                    <button type="button" class="btn green" onclick="window.location.href = '/Projects/Create';"><i class="fa fa-plus"></i> Yeni</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="BrandTrackingTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th scope="col"> İşlemler </th>
+                                <th scope="col"> Kod </th>
+                                <th scope="col"> Ad </th>
+                                <th scope="col"> Baş. tarih </th>
+                                <th scope="col"> Bit. tarih </th>
+                                <th scope="col"> Sorumlu </th>
+                                <th scope="col"> Bütçe </th>
+                                <th scope="col"> Birim </th>
+                                <th scope="col"> Adam/gün </th>
+                                <th scope="col"> Departman </th>
+                                <th scope="col"> Tarih </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lst_MEETING_PROJECTS)
+            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Delete", "BrandManagment", new { id = item.ID})" class='btn red'><i class='fa fa-trash-o'></i></a>
+                                        <a href="@Url.Action("View", "BrandManagment", new { id = item.ID})" class='btn btn-default'><i class='fa fa-eye'></i></a>
+                                        <a href="@Url.Action("Edit", "BrandManagment", new { id = item.ID})" class='btn blue'><i class='fa fa-pencil'></i></a>
+                                    </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_CODE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_NAME) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_START_DATE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_FINISH_DATE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_RESPONSIBLE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_BUDGET) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_BUDGET_CURRENCY) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_MAN_DAY) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_DEPARTMENT) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_CREATEDATE) </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
