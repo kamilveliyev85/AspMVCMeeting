@@ -81,5 +81,8 @@ namespace AspMVCMeeting.Models
         public DateTime? MTL_UPDATEDATE { get; set; }
 
         public int? MTL_UPDATE_USERID { get; set; }
+
+        [StringLength(4000)]
+        public string MTL_EXECUTANT { get; set; }
     }
 }

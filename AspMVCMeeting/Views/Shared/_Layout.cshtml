@@ -26,6 +26,14 @@
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .portlet-title:hover {
+            cursor: pointer;
+        }
+         .control-label {
+            text-align: left !important;
+        }
+    </style>
     @Styles.Render("~/bundles/masterGlobalcss")
     @Styles.Render("~/bundles/masterPageLayoutcss")
     <!-- END THEME LAYOUT STYLES -->
@@ -66,11 +74,11 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 @*<li>
-                                    <a href="@Url.Action("Index", "Home")">
-                                        <i class="icon-user"></i> My Profile
-                                    </a>
-                                </li>
-                                <li class="divider"> </li>*@
+                                        <a href="@Url.Action("Index", "Home")">
+                                            <i class="icon-user"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>*@
                                 <li>
                                     <a href="@Url.Action("Login", "Authentication")">
                                         <i class="icon-key"></i> Log Out
@@ -275,10 +283,24 @@
     <![endif]-->
     @Scripts.Render("~/bundles/masterPageGlobaljs")
     @Scripts.Render("~/bundles/masterPageLayoutjs")
-    @RenderSection("CustomScripts", required: false)
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("div.portlet-title").click(function (e) {
+                $('textarea').removeAttr('style');
+                if ($(this).closest(".portlet.box").find('.expand').length != 0) {
+                    $(this).closest(".portlet.box").find('.expand').addClass('collapse').removeClass('expand');
+                } else {
+                    $(this).closest(".portlet.box").find('.collapse').addClass('expand').removeClass('collapse');
+                }
+                $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
+            });
+        });
+    </script>
+
+    @RenderSection("CustomScripts", required: false)
     @*@Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)*@
+        @RenderSection("scripts", required: false)*@
 
 </body>
 </html>

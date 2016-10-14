@@ -18,8 +18,8 @@
     <div class="portlet-body form">
         <div class="form-horizontal">
             <div class="form-body">
-                <div class="form-actions left">
-                    <button type="button" class="btn green" onclick="window.location.href = '/Projects/Create';"><i class="fa fa-plus"></i> Yeni</button>
+                <div class="table-toolbar">
+                    <button type="button" class="btn blue" onclick="window.location.href = '@Url.Action("Create", "Projects")'">Yeni ekle <i class="fa fa-plus"></i></button>
                 </div>
 
                 <div class="table-responsive">
@@ -44,10 +44,23 @@
             {
                                 <tr>
                                     <td>
-                                        <a href="@Url.Action("Delete", "BrandManagment", new { id = item.ID})" class='btn red'><i class='fa fa-trash-o'></i></a>
-                                        <a href="@Url.Action("View", "BrandManagment", new { id = item.ID})" class='btn btn-default'><i class='fa fa-eye'></i></a>
-                                        <a href="@Url.Action("Edit", "BrandManagment", new { id = item.ID})" class='btn blue'><i class='fa fa-pencil'></i></a>
-                                    </td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs blue dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                İşlemler
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="@Url.Action("View", "MeetingMaster", new { id = item.ID})"><i class="fa fa-eye"></i> Görüntüle</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Edit", "MeetingMaster", new { id = item.ID})"><i class="fa fa-pencil"></i>Deyiş</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Delete", "MeetingMaster", new { id = item.ID})"><i class="fa fa-trash-o"></i>Sil</a>
+                                                </li>
+                                            </ul>
+                                        </div>                                    </td>
                                     <td> @Html.DisplayFor(modelItem => item.PRJ_CODE) </td>
                                     <td> @Html.DisplayFor(modelItem => item.PRJ_NAME) </td>
                                     <td> @Html.DisplayFor(modelItem => item.PRJ_START_DATE) </td>

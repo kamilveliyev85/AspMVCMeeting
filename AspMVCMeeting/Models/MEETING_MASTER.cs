@@ -67,5 +67,15 @@ namespace AspMVCMeeting.Models
         public string MT_UPDATE_USERID { get; set; }
 
         public int? MT_STS { get; set; }
+
+        [StringLength(4000)]
+        public string MT_USER_PARTICIPANTS { get; set; }
+
+        [StringLength(4000)]
+        public string MT_USER_OUT { get; set; }
+
+        [StringLength(4000)]
+        public string MT_USER_CC { get; set; }
+
     }
 }

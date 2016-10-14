@@ -11,6 +11,7 @@ namespace AspMVCMeeting.Models
         public int ID { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "LBL_PRJ_CODE", ResourceType = typeof(App_GlobalResources.Global))]
         public string PRJ_CODE { get; set; }
 
         [StringLength(100)]

@@ -13,14 +13,25 @@ namespace AspMVCMeeting.ViewModels
         public MEETING_LINES MEETING_LINES { get; set; }
         public MEETING_PARTICIPANTS MEETING_PARTICIPANTS { get; set; }
 
-        public IList<MEETING_LINES> lst_MEETING_LINES { get; set; }
+        public IList<VM_MEETING_LINES> lst_MEETING_LINES { get; set; }
+        
+        public List<string> lst_MT_USER_PARTICIPANTS { get; set; }
 
-        [StringLength(100)]
-        public string MTP_USER_1 { get; set; }
+        public List<string> lst_MT_USER_CC { get; set; }
 
-        [StringLength(100)]
-        public string MTP_USER_2 { get; set; }
+        public List<string> lst_MTL_EXECUTANT { get; set; }
+
+        public List<string> lst_MTL_RELATED_FORM_REF { get; set; }
+    }
 
 
+    public class VM_MEETING_LINES {
+        public MEETING_LINES MEETING_LINES { get; set; }
+
+        public string MLN_NAME { get; set; }
+
+        public List<string> lst_MTL_EXECUTANT { get; set; }
+
+        public List<string> lst_MTL_RELATED_FORM_REF { get; set; }
     }
 }
