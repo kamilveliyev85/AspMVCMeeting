@@ -11,35 +11,57 @@ namespace AspMVCMeeting.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MEETING_MASTER_V
     {
         public int ID { get; set; }
+        [Display(Name = "LBL_MT_TYPE", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<int> MT_TYPE { get; set; }
+        [Display(Name = "LBL_MT_TITLE", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_TITLE { get; set; }
+        [Display(Name = "LBL_MT_DATE", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<System.DateTime> MT_DATE { get; set; }
+        [Display(Name = "LBL_MT_MANAGER", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_MANAGER { get; set; }
+        [Display(Name = "LBL_MT_DESCIPTION", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_DESCIPTION { get; set; }
+        [Display(Name = "LBL_MT_NO", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_NO { get; set; }
+        [Display(Name = "LBL_MT_TAGS", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_TAGS { get; set; }
+        [Display(Name = "LBL_MT_PLACE", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_PLACE { get; set; }
+        [Display(Name = "LBL_MT_START_TIME", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<System.TimeSpan> MT_START_TIME { get; set; }
+        [Display(Name = "LBL_MT_FINISH_TIME", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<System.TimeSpan> MT_FINISH_TIME { get; set; }
+        [Display(Name = "LBL_MT_SCODE1", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_SCODE1 { get; set; }
+        [Display(Name = "LBL_MT_SCODE2", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_SCODE2 { get; set; }
+        [Display(Name = "LBL_MT_SCODE3", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_SCODE3 { get; set; }
+        [Display(Name = "LBL_MT_SCODE4", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_SCODE4 { get; set; }
+        [Display(Name = "LBL_MT_SCODE5", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_SCODE5 { get; set; }
         public Nullable<System.DateTime> MT_CREATEDATE { get; set; }
         public string MT_CREATE_USERID { get; set; }
+        [Display(Name = "LBL_MT_FOLLOWER_USERID", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_FOLLOWER_USERID { get; set; }
         public Nullable<System.DateTime> MT_UPDATEDATE { get; set; }
         public string MT_UPDATE_USERID { get; set; }
+        [Display(Name = "LBL_MT_STS", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<int> MT_STS { get; set; }
+        [Display(Name = "LBL_MT_USER_PARTICIPANTS", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_USER_PARTICIPANTS { get; set; }
+        [Display(Name = "LBL_MT_USER_OUT", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_USER_OUT { get; set; }
+        [Display(Name = "LBL_MT_USER_CC", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_USER_CC { get; set; }
         public Nullable<int> MTV_MT_REF { get; set; }
+        [Display(Name = "VERSION", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<int> MTV_VERSION { get; set; }
         public Nullable<System.DateTime> MTV_CREATEDATE { get; set; }
         public string MTV_CREATE_USERID { get; set; }

@@ -32,6 +32,7 @@ namespace AspMVCMeeting.ViewModels
 
         public List<string> lst_MTL_EXECUTANT { get; set; }
 
+        [Display(Name = "LBL_MTL_RELATED_FORM_REF", ResourceType = typeof(App_GlobalResources.Global))]
         public List<string> lst_MTL_RELATED_FORM_REF { get; set; }
     }
 }

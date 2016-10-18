@@ -117,7 +117,127 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LBL_MTL_CONFIRMER" xml:space="preserve">
+    <value>Teyid Eden</value>
+  </data>
+  <data name="LBL_MTL_DECISION_TYPE" xml:space="preserve">
+    <value>Karar Türü</value>
+  </data>
+  <data name="LBL_MTL_DEPARTMENT" xml:space="preserve">
+    <value>Departman</value>
+  </data>
+  <data name="LBL_MTL_EXECUTANT" xml:space="preserve">
+    <value>Yönetici</value>
+  </data>
+  <data name="LBL_MTL_FINISH_DATE" xml:space="preserve">
+    <value>Bitme Tarihi</value>
+  </data>
+  <data name="LBL_MTL_OFFER_OK" xml:space="preserve">
+    <value>Teklif Uygun mu</value>
+  </data>
+  <data name="LBL_MTL_OFFER_USER" xml:space="preserve">
+    <value>Teklif Eden</value>
+  </data>
+  <data name="LBL_MTL_PROJECT_CODE" xml:space="preserve">
+    <value>Proje Kodu</value>
+  </data>
+  <data name="LBL_MTL_RELATED_FORM_DESCRIPTION" xml:space="preserve">
+    <value>Bağlı Oldugu Form Açıklama</value>
+  </data>
+  <data name="LBL_MTL_RELATED_FORM_REF" xml:space="preserve">
+    <value>Bağlı Olduğu Form</value>
+  </data>
+  <data name="LBL_MTL_RESPONSIBLE" xml:space="preserve">
+    <value>Sorumlu</value>
+  </data>
+  <data name="LBL_MTL_START_DATE" xml:space="preserve">
+    <value>Başlama Tarihi</value>
+  </data>
+  <data name="LBL_MTL_TYPE" xml:space="preserve">
+    <value>Kayıt Türü</value>
+  </data>
+  <data name="LBL_MT_DATE" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="LBL_MT_DESCIPTION" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="LBL_MT_FINISH_TIME" xml:space="preserve">
+    <value>Bitme Saati</value>
+  </data>
+  <data name="LBL_MT_FOLLOWER_USERID" xml:space="preserve">
+    <value>Takip Eden</value>
+  </data>
+  <data name="LBL_MT_MANAGER" xml:space="preserve">
+    <value>Toplantı Yonetici</value>
+  </data>
+  <data name="LBL_MT_NO" xml:space="preserve">
+    <value>No:</value>
+  </data>
+  <data name="LBL_MT_PLACE" xml:space="preserve">
+    <value>Yer</value>
+  </data>
+  <data name="LBL_MT_SCODE1" xml:space="preserve">
+    <value>Özel Kod 1</value>
+  </data>
+  <data name="LBL_MT_SCODE2" xml:space="preserve">
+    <value>Özel Kod 2</value>
+  </data>
+  <data name="LBL_MT_SCODE3" xml:space="preserve">
+    <value>Özel Kod 3</value>
+  </data>
+  <data name="LBL_MT_SCODE4" xml:space="preserve">
+    <value>Özel Kod 4</value>
+  </data>
+  <data name="LBL_MT_SCODE5" xml:space="preserve">
+    <value>Özel Kod 5</value>
+  </data>
+  <data name="LBL_MT_START_TIME" xml:space="preserve">
+    <value>Başlama Saati</value>
+  </data>
+  <data name="LBL_MT_STS" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="LBL_MT_TAGS" xml:space="preserve">
+    <value>Taglar</value>
+  </data>
+  <data name="LBL_MT_TITLE" xml:space="preserve">
+    <value>Konu</value>
+  </data>
+  <data name="LBL_MT_TYPE" xml:space="preserve">
+    <value>Toplanti Turu</value>
+  </data>
+  <data name="LBL_MT_USER_CC" xml:space="preserve">
+    <value>Bilgilendirilecekler</value>
+  </data>
+  <data name="LBL_MT_USER_OUT" xml:space="preserve">
+    <value>Kurum Dışı Katılımcılar</value>
+  </data>
+  <data name="LBL_MT_USER_PARTICIPANTS" xml:space="preserve">
+    <value>Katılımcılar</value>
+  </data>
+  <data name="LBL_PRJ_BUDGET" xml:space="preserve">
+    <value>Bütçe</value>
+  </data>
+  <data name="LBL_PRJ_BUDGET_CURRENCY" xml:space="preserve">
+    <value>Para Birimi</value>
+  </data>
   <data name="LBL_PRJ_CODE" xml:space="preserve">
     <value>Project code</value>
+  </data>
+  <data name="LBL_PRJ_MAN_DAY" xml:space="preserve">
+    <value>Adam/Gün sayı</value>
+  </data>
+  <data name="LBL_PRJ_MEMBERS" xml:space="preserve">
+    <value>Üyeler</value>
+  </data>
+  <data name="LBL_PRJ_NAME" xml:space="preserve">
+    <value>Proje Adı</value>
+  </data>
+  <data name="LBL_PRJ_STS" xml:space="preserve">
+    <value>Proje Durumu</value>
+  </data>
+  <data name="VERSION" xml:space="preserve">
+    <value>Versiyon</value>
   </data>
 </root>
