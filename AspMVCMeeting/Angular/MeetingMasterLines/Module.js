@@ -49,32 +49,27 @@ app.filter('ctime', function () {
 });
 
 app.directive('jqdatepicker', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-
-            element.datepicker({
-                dateFormat: 'dd.MM.yyyy',
-                onSelect: function (date) {
-                    scope.date = date;
-                    scope.$apply();
-                }
-            });
-
-            scope.$watch(attrs.ngModel, function (newValue, oldValue) {
-                //element.datepicker({
-                //    dateFormat: 'dd.MM.yyyy',
-                //    onSelect: function (date) {
-                //        scope.date = date;
-                //        scope.$apply();
-                //    }
-                //}).val('10.11.2011');
-
-            });
-           
-        }
-    };
-});
+        return {
+            restrict: "EAC",
+            require: "ngModel",
+            scope: {
+                "ngModel": "="
+            },
+            link: function(scope, elem, attr){
+                $(elem).datepicker({
+                    format: "dd.mm.yyyy",
+                }).on("changeDate", function(e){
+                    return scope.$apply(function(){
+                        return scope.ngModel = e.format();
+                    });
+                });
+                
+                return scope.$watch("ngModel", function(newValue){
+                    $(elem).datepicker("update", newValue);
+                });
+            }
+        };
+    });
 
 app.directive("select2", function ($timeout, $parse) {
     return {
