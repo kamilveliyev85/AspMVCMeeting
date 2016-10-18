@@ -174,32 +174,18 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(VM_MEETING vm_meetings, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult Edit(VM_MEETING vm_meetings)
         {
-            foreach (var file in files)
-            {
-                if (file != null && file.ContentLength > 0)
-                {
-                    var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + file.FileName;
-                    //Guid.NewGuid()
-                    //Path.GetExtension(file.FileName)
-                    file.SaveAs(Path.Combine(Server.MapPath("/UploadsTemp"), fileName));
-                }
-            }
-
             var user_participant = (vm_meetings.lst_MT_USER_PARTICIPANTS != null) ? String.Join(",", vm_meetings.lst_MT_USER_PARTICIPANTS.ToArray()) : string.Empty;
             var user_cc = (vm_meetings.lst_MT_USER_CC != null) ? String.Join(",", vm_meetings.lst_MT_USER_CC.ToArray()) : string.Empty;
 
             vm_meetings.MEETING_MASTER.MT_USER_PARTICIPANTS = user_participant;
             vm_meetings.MEETING_MASTER.MT_USER_CC = user_cc;
 
-            //db.MEETING_MASTER.Add(vm_meetings.MEETING_MASTER);
-            //db.SaveChanges();
-
-            //var mtpType = db.MEETING_TYPE.Where(model => model.ID == vm_meetings.MEETING_MASTER.MT_TYPE).Select(model => model.MTP_NAME).FirstOrDefault();
-            //vm_meetings.MEETING_MASTER.MT_NO = mtpType + DateTime.Now.ToString("yyyyMMdd") + vm_meetings.MEETING_MASTER.ID;
-            //db.Entry(vm_meetings.MEETING_MASTER).State = EntityState.Modified;
-            //db.SaveChanges();
+            var mtpType = db.MEETING_TYPE.Where(model => model.ID == vm_meetings.MEETING_MASTER.MT_TYPE).Select(model => model.MTP_NAME).FirstOrDefault();
+            vm_meetings.MEETING_MASTER.MT_NO = mtpType + DateTime.Now.ToString("yyyyMMdd") + vm_meetings.MEETING_MASTER.ID;
+            db.Entry(vm_meetings.MEETING_MASTER).State = EntityState.Modified;
+            db.SaveChanges();
 
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
@@ -397,6 +383,83 @@ namespace AspMVCMeeting.Controllers
         }
 
         string userName = "saddam.bilalov";
+
+        #region MASTERHISTORY
+        [HttpPost]
+        public JsonResult getMasterHistoryById(int? id)
+        {
+            VM_MEETING_MASTER_V vm_meeting_master_v = new VM_MEETING_MASTER_V();
+            IList<MEETING_MASTER_V> lst_meeting_master_v = db.MEETING_MASTER_V.Where(model => model.MTV_MT_REF == id).ToList();
+
+            IList<NEW_MEETING_MASTER_V> lst_new_meeting_master_v = new List<NEW_MEETING_MASTER_V>();
+
+            foreach (MEETING_MASTER_V item in lst_meeting_master_v) {
+                NEW_MEETING_MASTER_V new_meeting_master_v = new NEW_MEETING_MASTER_V();
+
+                new_meeting_master_v.lst_MT_USER_PARTICIPANTS = item.MT_USER_PARTICIPANTS != null ? item.MT_USER_PARTICIPANTS.Split(',').ToList() : null;
+                new_meeting_master_v.lst_MT_USER_CC = (item.MT_USER_CC != null) ? item.MT_USER_CC.Split(',').ToList() : null;
+
+                new_meeting_master_v.MEETING_MASTER_V = item;
+
+                lst_new_meeting_master_v.Add(new_meeting_master_v);
+            }
+
+
+            vm_meeting_master_v.lst_NEW_MEETING_MASTER_V = lst_new_meeting_master_v;
+
+            return Json(vm_meeting_master_v, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion MASTERHISTORY
+
+        #region MASTER
+
+        [HttpPost]
+        public JsonResult getMasterById(int? id)
+        {
+            VM_MEETING vm_meetings = new VM_MEETING();
+            if (id != null)
+            {
+                MEETING_MASTER meeting_master = db.MEETING_MASTER.Where(model => model.ID == id).FirstOrDefault();
+
+                vm_meetings.MEETING_MASTER = meeting_master;
+                vm_meetings.lst_MT_USER_PARTICIPANTS = meeting_master.MT_USER_PARTICIPANTS != null ? meeting_master.MT_USER_PARTICIPANTS.Split(',').ToList() : null;
+                vm_meetings.lst_MT_USER_CC = (meeting_master.MT_USER_CC != null) ? meeting_master.MT_USER_CC.Split(',').ToList() : null;
+                
+            }
+            return Json(vm_meetings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string UpdateMaster(VM_MEETING vm_meetings)
+        {
+            MEETING_MASTER master = vm_meetings.MEETING_MASTER;
+
+            var user_participant = (vm_meetings.lst_MT_USER_PARTICIPANTS != null) ? String.Join(",", vm_meetings.lst_MT_USER_PARTICIPANTS.ToArray()) : string.Empty;
+            var user_cc = (vm_meetings.lst_MT_USER_CC != null) ? String.Join(",", vm_meetings.lst_MT_USER_CC.ToArray()) : string.Empty;
+
+            master.MT_USER_PARTICIPANTS = user_participant;
+            master.MT_USER_CC = user_cc;
+            
+            if (master != null)
+            {
+                var local = db.Set<MEETING_MASTER>().Local
+                         .FirstOrDefault(f => f.ID == master.ID);
+                if (local != null)
+                {
+                    db.Entry(local).State = EntityState.Detached;
+                }
+                db.Entry(master).State = EntityState.Modified;
+                db.SaveChanges();
+                return "Master Updated";
+            }
+            else
+            {
+                return "Invalid Master";
+            }
+        }
+
+        #endregion MASTER
 
         #region MASTERFILES
         //BEGIN Upload files for the Create page in Meeting Master

@@ -16,6 +16,7 @@ namespace AspMVCMeeting.Models
         public string MT_TITLE { get; set; }
 
         [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MT_DATE { get; set; }
 
         [StringLength(100)]

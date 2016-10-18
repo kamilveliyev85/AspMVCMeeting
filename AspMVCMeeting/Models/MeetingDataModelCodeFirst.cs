@@ -19,6 +19,7 @@ namespace AspMVCMeeting.Models
         public virtual DbSet<MEETING_LOG> MEETING_LOG { get; set; }
         public virtual DbSet<MEETING_LOG_TYPE> MEETING_LOG_TYPE { get; set; }
         public virtual DbSet<MEETING_MASTER> MEETING_MASTER { get; set; }
+        public virtual DbSet<MEETING_MASTER_V> MEETING_MASTER_V { get; set; }
         public virtual DbSet<MEETING_PARTICIPANTS> MEETING_PARTICIPANTS { get; set; }
         public virtual DbSet<MEETING_PROJECTS> MEETING_PROJECTS { get; set; }
         public virtual DbSet<MEETING_STATUS> MEETING_STATUS { get; set; }

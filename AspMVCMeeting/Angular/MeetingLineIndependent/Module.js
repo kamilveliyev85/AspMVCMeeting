@@ -51,8 +51,8 @@ app.filter('ctime', function () {
 app.directive('jqdatepicker', function () {
     return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
-
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
             element.datepicker({
                 dateFormat: 'dd.MM.yyyy',
                 onSelect: function (date) {
@@ -60,18 +60,6 @@ app.directive('jqdatepicker', function () {
                     scope.$apply();
                 }
             });
-
-            scope.$watch(attrs.ngModel, function (newValue, oldValue) {
-                //element.datepicker({
-                //    dateFormat: 'dd.MM.yyyy',
-                //    onSelect: function (date) {
-                //        scope.date = date;
-                //        scope.$apply();
-                //    }
-                //}).val('10.11.2011');
-
-            });
-           
         }
     };
 });

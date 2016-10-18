@@ -20,27 +20,30 @@
 
     $scope.showHistoryDetail = function (history) {
         $scope.history = history;
-                
-        if ($scope.history.MEETING_MASTER_V.MT_START_TIME != null && typeof ($scope.history.MEETING_MASTER_V.MT_START_TIME) == 'object')
+
+        if ($scope.history.MEETING_MASTER_V.MT_START_TIME != null)
             $scope.history.MEETING_MASTER_V.MT_START_TIME = $scope.history.MEETING_MASTER_V.MT_START_TIME.Hours.toString() + ":" + $scope.history.MEETING_MASTER_V.MT_START_TIME.Minutes.toString();
-        if ($scope.history.MEETING_MASTER_V.MT_FINISH_TIME != null && typeof ($scope.history.MEETING_MASTER_V.MT_FINISH_TIME) == 'object')
+        if ($scope.history.MEETING_MASTER_V.MT_FINISH_TIME != null)
             $scope.history.MEETING_MASTER_V.MT_FINISH_TIME = $scope.history.MEETING_MASTER_V.MT_FINISH_TIME.Hours.toString() + ":" + $scope.history.MEETING_MASTER_V.MT_FINISH_TIME.Minutes.toString();;
 
-        if ($scope.history.MEETING_MASTER_V.MT_TYPE != null && typeof($scope.history.MEETING_MASTER_V.MT_TYPE) == 'number')
+        if ($scope.history.MEETING_MASTER_V.MT_TYPE != null)
             $scope.history.MEETING_MASTER_V.MT_TYPE = $scope.history.MEETING_MASTER_V.MT_TYPE.toString();
+
+        if ($scope.history.MEETING_MASTER_V.MT_MANAGER != null)
+            $scope.history.MEETING_MASTER_V.MT_MANAGER = $scope.history.MEETING_MASTER_V.MT_MANAGER.toString();
+
+        if ($scope.history.MEETING_MASTER_V.MT_FOLLOWER_USERID != null)
+            $scope.history.MEETING_MASTER_V.MT_FOLLOWER_USERID = $scope.history.MEETING_MASTER_V.MT_FOLLOWER_USERID.toString();
 
         if ($scope.history.MEETING_MASTER_V.MT_DATE != null)
             $scope.history.MEETING_MASTER_V.MT_DATE = formatDate(new Date(parseInt($scope.history.MEETING_MASTER_V.MT_DATE.substr(6))));
 
         angular.element('textarea').removeAttr('style');
-
-        angular.element('#divShowHistory').slideDown('fast', 'swing', function () {
-            var sectionOffset = angular.element('#divShowHistory').offset().top - 30;
-            angular.element('#large').animate({ scrollTop: sectionOffset }, 'slow');
-
-
+        angular.element('#divShowHistory').slideDown('slow', 'swing', function () {
+            //angular.element("html,body").animate({ scrollTop: 0 }, "slow");
         });
        
+
     }
 
     //END MASER HISTORY

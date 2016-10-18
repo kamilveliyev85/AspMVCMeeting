@@ -286,6 +286,15 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            //$('.collapse').on('click', function () {
+            //    return false;
+            //});
+
+            //$('.expand').on('click', function () {
+            //    return false;
+            //});
+
             $("div.portlet-title").click(function (e) {
                 $('textarea').removeAttr('style');
                 if ($(this).closest(".portlet.box").find('.expand').length != 0) {
