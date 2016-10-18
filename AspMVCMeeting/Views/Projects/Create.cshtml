@@ -1,0 +1,205 @@
+﻿@using AspMVCMeeting.ViewModels
+@model VM_PROJECTS
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@section CustomScripts
+   {
+    <link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+
+    <link href="~/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="~/assets/pages/scripts/components-select2.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#MEETING_PROJECTS_PRJ_START_DATE").datepicker({
+                format: 'dd.mm.yyyy',
+                autoclose: true
+            });
+
+            $("#MEETING_PROJECTS_PRJ_FINISH_DATE").datepicker({
+                format: 'dd.mm.yyyy',
+                autoclose: true
+            });
+
+
+            $('#div_PRJ_START_DATE').datepicker({
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: '01/01/1990',
+                endDate: '+0d',
+                autoclose: true,
+            });
+
+            $('#div_PRJ_FINISH_DATE').datepicker({
+                format: 'dd.mm.yyyy',
+                weekStart: 1,
+                startDate: '01/01/1990',
+                endDate: '+0d',
+                autoclose: true,
+            });
+
+            $(".select2-hidden-accessible").select2({
+                placeholder: "Seçim edin",
+                allowClear: true
+            }).val('').change();
+
+        });
+
+</script>
+    }
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+ <!-- BEGIN MEETING MASTER INFO -->
+    <div class="portlet box blue ">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-file"></i> Proje Ekleme Formu
+            </div>
+            <div class="tools">
+                <a href="" class="collapse"> </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <div class="form-horizontal">
+                <div class="form-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_CODE, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_CODE, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_CODE, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_NAME, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_NAME, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_START_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <div id="div_PRJ_START_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+                                        @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_START_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_FINISH_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <div id="div_PRJ_FINISH_DATE" class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+                                        @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_FINISH_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly" } })
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_RESPONSIBLE, htmlAttributes: new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-8">
+                                    <div class="input-group select2-bootstrap-append">
+                                        @Html.DropDownListFor(model => model.MEETING_PROJECTS.PRJ_RESPONSIBLE, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_RESPONSIBLE, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_MEMBERS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <div class="input-group select2-bootstrap-append">
+                                        @Html.DropDownListFor(model => model.lst_PRJ_MEMBERS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple="multiple" })
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_MEMBERS, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_BUDGET, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_BUDGET, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_BUDGET, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_BUDGET_CURRENCY, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.MEETING_PROJECTS.PRJ_BUDGET_CURRENCY, ViewBag.CURRENCY as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_BUDGET_CURRENCY, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_MAN_DAY, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_MAN_DAY, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_MAN_DAY, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.MEETING_PROJECTS.PRJ_DEPARTMENT, ViewBag.DEPT as SelectList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_DEPARTMENT, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MEETING_PROJECTS.PRJ_STS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.MEETING_PROJECTS.PRJ_STS, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MEETING_PROJECTS.PRJ_STS, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions right">
+                        <a href="@Url.Action("Index", "Projects")" class="btn red"><i class="fa fa-close"></i> İptal </a>
+                        <button type="submit" class="btn green"><i class="fa fa-check"></i> Kaydet </button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- END MEETING LINES -->
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

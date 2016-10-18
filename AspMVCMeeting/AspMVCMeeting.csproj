@@ -127,75 +127,85 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Global.ru.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.ru.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Global.tr.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.tr.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeetingLineIndependentController.cs" />
+    <Compile Include="Controllers\MeetingLinesController.cs" />
+    <Compile Include="Controllers\MeetingMasterController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CURRENCY.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MeetingDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MeetingDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MeetingDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MeetingDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MeetingDataModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_FILES.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_FILE_CATEGORY.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_LINES.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_LOG.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_LOG_TYPE.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_MASTER.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_PARTICIPANTS.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_PROJECTS.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_STATUS.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_TYPE.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MEETING_TYPE_PERMISSION.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>MeetingDataModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\CURRENCY.cs" />
+    <Compile Include="Models\DECISION_TYPES.cs" />
+    <Compile Include="Models\DEPT.cs" />
+    <Compile Include="Models\FileInfoName.cs" />
+    <Compile Include="Models\MeetingDataModelCodeFirst.cs" />
+    <Compile Include="Models\MEETING_FILES.cs" />
+    <Compile Include="Models\MEETING_FILE_CATEGORY.cs" />
+    <Compile Include="Models\MEETING_LINES.cs" />
+    <Compile Include="Models\MEETING_LINE_TYPE.cs" />
+    <Compile Include="Models\MEETING_LOG.cs" />
+    <Compile Include="Models\MEETING_LOG_TYPE.cs" />
+    <Compile Include="Models\MEETING_MASTER.cs" />
+    <Compile Include="Models\MEETING_MASTER_V.cs" />
+    <Compile Include="Models\MEETING_PARTICIPANTS.cs" />
+    <Compile Include="Models\MEETING_PROJECTS.cs" />
+    <Compile Include="Models\MEETING_STATUS.cs" />
+    <Compile Include="Models\MEETING_TYPE.cs" />
+    <Compile Include="Models\MEETING_TYPE_PERMISSION.cs" />
+    <Compile Include="Models\SAP.cs" />
+    <Compile Include="Models\sysdiagram.cs" />
+    <Compile Include="Models\TBL_MEETING_MASTER.cs" />
+    <Compile Include="Models\VW_MEETING_LINE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\VM_MEETING.cs" />
+    <Compile Include="ViewModels\VM_MEETING_MASTER_V.cs" />
+    <Compile Include="ViewModels\VM_PROJECTS.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\MeetingLineIndependent\Controller.js" />
+    <Content Include="Angular\MeetingLineIndependent\Module.js" />
+    <Content Include="Angular\MeetingLineIndependent\Service.js" />
+    <Content Include="Angular\MeetingMasterLines\Controller.js" />
+    <Content Include="Angular\MeetingMasterLines\Module.js" />
+    <Content Include="Angular\MeetingMasterLines\Service.js" />
     <Content Include="assets\global\css\components.min.css" />
     <Content Include="assets\global\css\plugins.min.css" />
     <Content Include="assets\global\img\portlet-collapse-icon-white.png" />
     <Content Include="assets\global\img\portlet-expand-icon-white.png" />
     <Content Include="assets\global\img\remove-icon-small.png" />
+    <Content Include="assets\global\plugins\angularjs\angular-cookies.min.js" />
+    <Content Include="assets\global\plugins\angularjs\angular-sanitize.min.js" />
+    <Content Include="assets\global\plugins\angularjs\angular-touch.min.js" />
+    <Content Include="assets\global\plugins\angularjs\angular.min.js" />
+    <Content Include="assets\global\plugins\angularjs\plugins\angular-file-upload\angular-file-upload.min.js" />
+    <Content Include="assets\global\plugins\angularjs\plugins\angular-ui-router.min.js" />
+    <Content Include="assets\global\plugins\angularjs\plugins\ocLazyLoad.min.js" />
+    <Content Include="assets\global\plugins\angularjs\plugins\ui-bootstrap-tpls.min.js" />
+    <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.css" />
+    <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.js" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.css" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.min.css" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\js\bootstrap-timepicker.js" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\js\bootstrap-timepicker.min.js" />
     <Content Include="assets\global\plugins\datatables\datatables.all.min.js" />
     <Content Include="assets\global\plugins\datatables\datatables.min.css" />
     <Content Include="assets\global\plugins\datatables\datatables.min.js" />
@@ -215,12 +225,97 @@
     <Content Include="assets\global\plugins\font-awesome\css\font-awesome.css" />
     <Content Include="assets\global\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\global\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\global\plugins\jquery-file-upload\blueimp-gallery\blueimp-gallery.min.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\blueimp-gallery\jquery.blueimp-gallery.min.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\cors\postmessage.html" />
+    <Content Include="assets\global\plugins\jquery-file-upload\cors\result.html" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\demo-ie8.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\demo.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\jquery.fileupload-noscript.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\jquery.fileupload-ui.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\jquery.fileupload.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\css\style.css" />
+    <Content Include="assets\global\plugins\jquery-file-upload\img\loading.gif" />
+    <Content Include="assets\global\plugins\jquery-file-upload\img\progressbar.gif" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\app.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\cors\jquery.xdr-transport.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-angular.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-audio.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-image.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-jquery-ui.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-process.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-ui.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-validate.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload-video.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.fileupload.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\jquery.iframe-transport.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\main.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\vendor\canvas-to-blob.min.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\vendor\jquery.ui.widget.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\vendor\load-image.min.js" />
+    <Content Include="assets\global\plugins\jquery-file-upload\js\vendor\tmpl.min.js" />
     <Content Include="assets\global\plugins\jquery-slimscroll\jquery.slimscroll.js" />
     <Content Include="assets\global\plugins\jquery-slimscroll\jquery.slimscroll.min.js" />
     <Content Include="assets\global\plugins\jquery-validation\js\jquery.validate.min.js" />
     <Content Include="assets\global\plugins\jquery.blockui.min.js" />
     <Content Include="assets\global\plugins\jquery.min.js" />
     <Content Include="assets\global\plugins\js.cookie.min.js" />
+    <Content Include="assets\global\plugins\select2\css\select2-bootstrap.min.css" />
+    <Content Include="assets\global\plugins\select2\css\select2.css" />
+    <Content Include="assets\global\plugins\select2\css\select2.min.css" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ar.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\az.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\bg.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ca.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\cs.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\da.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\de.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\el.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\en.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\es.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\et.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\eu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fa.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\gl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\he.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\id.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\is.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\it.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ja.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\km.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ko.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\mk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ms.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nb.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt-BR.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ro.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ru.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\th.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\tr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\uk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\vi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-CN.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-TW.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.min.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.min.js" />
     <Content Include="assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
     <Content Include="assets\global\plugins\simple-line-icons\fonts\Simple-Line-Icons.svg" />
     <Content Include="assets\global\plugins\simple-line-icons\icons-lte-ie7.js" />
@@ -228,7 +323,9 @@
     <Content Include="assets\global\plugins\simple-line-icons\Readme.txt" />
     <Content Include="assets\global\plugins\simple-line-icons\simple-line-icons.css" />
     <Content Include="assets\global\plugins\simple-line-icons\simple-line-icons.min.css" />
+    <Content Include="assets\global\scripts\angular-upload.js" />
     <Content Include="assets\global\scripts\app.min.js" />
+    <Content Include="assets\global\scripts\jquery.slimscroll.min.js" />
     <Content Include="assets\layouts\global\scripts\quick-nav.min.js" />
     <Content Include="assets\layouts\global\scripts\quick-sidebar.min.js" />
     <Content Include="assets\layouts\layout\css\custom.min.css" />
@@ -240,6 +337,9 @@
     <Content Include="assets\layouts\layout\scripts\layout.min.js" />
     <Content Include="assets\pages\css\login.min.css" />
     <Content Include="assets\pages\img\logo-big.png" />
+    <Content Include="assets\pages\scripts\app.js" />
+    <Content Include="assets\pages\scripts\components-select2.min.js" />
+    <Content Include="assets\pages\scripts\jquery.fileupload-angular.js" />
     <Content Include="assets\pages\scripts\login.min.js" />
     <Content Include="assets\plugins\bootstrap-datepicker\css\bootstrap-datepicker3.css" />
     <Content Include="assets\plugins\bootstrap-datepicker\css\bootstrap-datepicker3.min.css" />
@@ -349,6 +449,8 @@
     <Content Include="assets\plugins\jquery.blockui.min.js" />
     <Content Include="assets\plugins\jquery.min.js" />
     <Content Include="assets\plugins\js.cookie.min.js" />
+    <Content Include="assets\plugins\perfect-scrollbar\css\perfect-scrollbar.min.css" />
+    <Content Include="assets\plugins\perfect-scrollbar\js\perfect-scrollbar.jquery.min.js" />
     <Content Include="assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
     <Content Include="assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.svg" />
     <Content Include="assets\plugins\simple-line-icons\icons-lte-ie7.js" />
@@ -362,25 +464,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\MeetingDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MeetingDataModel.edmx</DependentUpon>
-      <LastGenOutput>MeetingDataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\MeetingDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MeetingDataModel.edmx</DependentUpon>
-      <LastGenOutput>MeetingDataModel.cs</LastGenOutput>
-    </Content>
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\MeetingDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MeetingDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\MeetingDataModel.edmx.diagram">
-      <DependentUpon>MeetingDataModel.edmx</DependentUpon>
-    </Content>
     <Content Include="assets\global\plugins\datatables\images\Sorting icons.psd" />
     <Content Include="assets\global\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\global\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
@@ -410,6 +496,16 @@
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="assets\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="assets\global\plugins\bootstrap-timepicker\LICENSE" />
+    <Content Include="assets\global\plugins\select2\LICENSE.md" />
+    <Content Include="assets\global\plugins\select2\README.md" />
+    <Content Include="assets\global\plugins\select2\sass\select2-bootstrap.min.scss" />
+    <Content Include="assets\global\plugins\jquery-file-upload\README.md" />
+    <Content Include="assets\global\plugins\angularjs\angular-cookies.min.js.map" />
+    <Content Include="assets\global\plugins\angularjs\angular-sanitize.min.js.map" />
+    <Content Include="assets\global\plugins\angularjs\angular-touch.min.js.map" />
+    <Content Include="assets\global\plugins\angularjs\angular.min.js.map" />
+    <Content Include="assets\global\plugins\angularjs\plugins\angular-file-upload\upload.php" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -437,9 +533,22 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\MeetingMaster\Create.cshtml" />
+    <Content Include="Views\MeetingMaster\Index.cshtml" />
+    <Content Include="Views\MeetingMaster\CreateMeetingLines.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\MeetingMaster\Edit.cshtml" />
+    <Content Include="Views\MeetingLineIndependent\Index.cshtml" />
+    <Content Include="Views\Projects\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
+    <Folder Include="UploadsTemp\" />
+    <Folder Include="Uploads\" />
+    <Folder Include="Views\MeetingLines\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -451,6 +560,22 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\Global.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\Global.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.ru.designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\Global.tr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.tr.designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,82 @@
+﻿@using AspMVCMeeting.ViewModels
+@model VM_PROJECTS
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- BEGIN MEETING MASTER INFO -->
+<div class="portlet box blue ">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-file"></i> Toplanti Yonetimi Ekleme Formu
+        </div>
+        <div class="tools">
+            <a href="" class="collapse"> </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-horizontal">
+            <div class="form-body">
+                <div class="table-toolbar">
+                    <button type="button" class="btn blue" onclick="window.location.href = '@Url.Action("Create", "Projects")'">Yeni ekle <i class="fa fa-plus"></i></button>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="BrandTrackingTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th scope="col"> İşlemler </th>
+                                <th scope="col"> Kod </th>
+                                <th scope="col"> Ad </th>
+                                <th scope="col"> Baş. tarih </th>
+                                <th scope="col"> Bit. tarih </th>
+                                <th scope="col"> Sorumlu </th>
+                                <th scope="col"> Bütçe </th>
+                                <th scope="col"> Birim </th>
+                                <th scope="col"> Adam/gün </th>
+                                <th scope="col"> Departman </th>
+                                <th scope="col"> Tarih </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lst_MEETING_PROJECTS)
+            {
+                                <tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs blue dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                İşlemler
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="@Url.Action("View", "Projects", new { id = item.ID})"><i class="fa fa-eye"></i> Görüntüle</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Edit", "Projects", new { id = item.ID})"><i class="fa fa-pencil"></i>Deyiş</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Delete", "Projects", new { id = item.ID})"><i class="fa fa-trash-o"></i>Sil</a>
+                                                </li>
+                                            </ul>
+                                        </div>                                    </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_CODE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_NAME) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_START_DATE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_FINISH_DATE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_RESPONSIBLE) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_BUDGET) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_BUDGET_CURRENCY) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_MAN_DAY) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_DEPARTMENT) </td>
+                                    <td> @Html.DisplayFor(modelItem => item.PRJ_CREATEDATE) </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

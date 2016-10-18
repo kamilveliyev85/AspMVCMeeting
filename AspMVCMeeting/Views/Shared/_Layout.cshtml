@@ -26,6 +26,14 @@
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .portlet-title:hover {
+            cursor: pointer;
+        }
+         .control-label {
+            text-align: left !important;
+        }
+    </style>
     @Styles.Render("~/bundles/masterGlobalcss")
     @Styles.Render("~/bundles/masterPageLayoutcss")
     <!-- END THEME LAYOUT STYLES -->
@@ -66,11 +74,11 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 @*<li>
-                                    <a href="@Url.Action("Index", "Home")">
-                                        <i class="icon-user"></i> My Profile
-                                    </a>
-                                </li>
-                                <li class="divider"> </li>*@
+                                        <a href="@Url.Action("Index", "Home")">
+                                            <i class="icon-user"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>*@
                                 <li>
                                     <a href="@Url.Action("Login", "Authentication")">
                                         <i class="icon-key"></i> Log Out
@@ -113,123 +121,123 @@
                             </div>
                         </li>
                         <!-- END SIDEBAR TOGGLER BUTTON -->
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Toplanti Yönetimi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && ViewContext.RouteData.Values["action"].ToString() == "Create" ? "active open" : "")">
+                                    <a href="@Url.Action("Create", "MeetingMaster")" class="nav-link">
                                         <i class="icon-settings"></i> Ekle
                                     </a>
                                 </li>
-                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "AgencyTracking" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "AgencyTracking")" class="nav-link">
+                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "MeetingMaster")" class="nav-link">
                                         <i class="icon-settings"></i> Listele
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Toplanti Bagimsiz Gorev</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Karar Ekle
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Gorev  ve Kararlar</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Listele
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Onaylama</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Onaylama
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Baglantisi Yapilacak Kayitlar</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Baglantisi Yapilacak Kayitlar
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Raporlar</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Toplanti Listesi
                                     </a>
                                 </li>
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Gorevlerin listesi
                                     </a>
                                 </li>
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Zamani Kecen Gorevler
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() != "Home" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Sistem Yonetmi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "Projects")" class="nav-link">
                                         <i class="icon-settings"></i> Proje Listesi
                                     </a>
                                 </li>
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Toplanti Turleri
                                     </a>
                                 </li>
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "BrandManagment" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
                                         <i class="icon-settings"></i> Departman Listesi
                                     </a>
@@ -275,10 +283,33 @@
     <![endif]-->
     @Scripts.Render("~/bundles/masterPageGlobaljs")
     @Scripts.Render("~/bundles/masterPageLayoutjs")
-    @RenderSection("CustomScripts", required: false)
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //$('.collapse').on('click', function () {
+            //    return false;
+            //});
+
+            //$('.expand').on('click', function () {
+            //    return false;
+            //});
+
+            $("div.portlet-title").click(function (e) {
+                $('textarea').removeAttr('style');
+                if ($(this).closest(".portlet.box").find('.expand').length != 0) {
+                    $(this).closest(".portlet.box").find('.expand').addClass('collapse').removeClass('expand');
+                } else {
+                    $(this).closest(".portlet.box").find('.collapse').addClass('expand').removeClass('collapse');
+                }
+                $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
+            });
+        });
+    </script>
+
+    @RenderSection("CustomScripts", required: false)
     @*@Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)*@
+        @RenderSection("scripts", required: false)*@
 
 </body>
 </html>
