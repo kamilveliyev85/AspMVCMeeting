@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace AspMVCMeeting.Controllers
 {
+    [Authorize]
     public class MeetingMasterController : Controller
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
@@ -20,7 +21,14 @@ namespace AspMVCMeeting.Controllers
         // GET: MeetingMaster
         public ActionResult Index()
         {
-            return View(db.MEETING_MASTER.ToList());
+            VM_MEETING vm_meetings = new VM_MEETING();
+            vm_meetings.lst_MEETING_MASTER =
+            (from mt in db.MEETING_MASTER
+             where mt.MT_DELETED == false
+             select new VM_MEETING_MASTER { MEETING_MASTER = mt}).ToList();
+
+            //vm_meetings.lst_MEETING_MASTER = db.MEETING_MASTER.Where(model=>model.MT_DELETED == false).ToList();
+            return View(vm_meetings);
         }
 
         //[HttpPost]
@@ -72,7 +80,7 @@ namespace AspMVCMeeting.Controllers
                     db.SaveChanges();
                 }
             }
-            
+
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
             var managerList = db.Database
@@ -90,7 +98,8 @@ namespace AspMVCMeeting.Controllers
             vm_meetings.lst_MEETING_LINES =
             (from mtl in db.MEETING_LINES
              join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
-             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME }).ToList();
+             join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
+             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
 
             return RedirectToAction("Edit", "MeetingMaster", new { id = vm_meetings.MEETING_MASTER.ID });
@@ -162,10 +171,12 @@ namespace AspMVCMeeting.Controllers
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2).Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
+
             vm_meetings.lst_MEETING_LINES =
             (from mtl in db.MEETING_LINES
              join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
-             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME }).ToList();
+             join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
+             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
 
             ViewBag.MT_NO = vm_meetings.MEETING_MASTER.MT_NO;
@@ -213,6 +224,27 @@ namespace AspMVCMeeting.Controllers
             return View(vm_meetings);
         }
 
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            MEETING_MASTER item = db.MEETING_MASTER.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+
+            item.MT_DELETED = true;
+
+            db.Entry(item).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
         private bool RemoveAllFilesByUserName(string userName)
         {
@@ -231,60 +263,21 @@ namespace AspMVCMeeting.Controllers
 
         #region Angular
 
+        #region LINE
         [HttpGet]
         public JsonResult GetLinesAll(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
-
+         
             vm_meetings.lst_MEETING_LINES =
            (from mtl in db.MEETING_LINES
             join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
-            where mtl.MTL_MT_REF == id
-            select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME }).ToList();
+            join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
+            where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
+            select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
             return Json(vm_meetings.lst_MEETING_LINES, JsonRequestBehavior.AllowGet);
         }
-
-
-        //public static IList<VM_tbl_Social> getSocial(int? Brd_id)
-        //{
-        //    IList<VM_tbl_Social> lst_social = new List<VM_tbl_Social>();
-        //    var results = (from social in db.tbl_Social
-        //                   join agency in db.tbl_Agancy_Tracking on social.Agc_Id equals agency.Agc_Id
-        //                   where social.Brd_Id == Brd_id
-        //                   select new
-        //                   {
-        //                       social.Agc_Id,
-        //                       social.Brd_Id,
-        //                       social.Snw_Id,
-        //                       social.Soc_Admin,
-        //                       social.Soc_Id,
-        //                       social.Soc_Managers,
-        //                       social.Soc_Password,
-        //                       social.Soc_Url,
-        //                       agency.Agc_Name
-        //                   }).ToList();
-
-        //    foreach (var item in results)
-        //    {
-        //        VM_tbl_Social social = new VM_tbl_Social();
-        //        social.Agc_Name = item.Agc_Name;
-        //        tbl_Social tbl_social = new tbl_Social();
-        //        tbl_social.Agc_Id = item.Agc_Id;
-        //        tbl_social.Brd_Id = item.Brd_Id;
-        //        tbl_social.Snw_Id = item.Snw_Id;
-        //        tbl_social.Soc_Admin = item.Soc_Admin;
-        //        tbl_social.Soc_Id = item.Soc_Id;
-        //        tbl_social.Soc_Managers = item.Soc_Managers;
-        //        tbl_social.Soc_Password = item.Soc_Password;
-        //        tbl_social.Soc_Url = item.Soc_Url;
-        //        social.tbl_Social = tbl_social;
-
-        //        lst_social.Add(social);
-        //    }
-
-        //    return lst_social;
-        //}
 
         [HttpPost]
         public JsonResult getLineById(int? id)
@@ -334,9 +327,26 @@ namespace AspMVCMeeting.Controllers
         {
             if (line != null)
             {
-                db.Entry(line.MEETING_LINES).State = EntityState.Deleted;
+                line.MEETING_LINES.MTL_DELETED = true;
+                db.Entry(line.MEETING_LINES).State = EntityState.Modified;
                 db.SaveChanges();
                 return "Line Deleted";
+            }
+            else
+            {
+                return "Invalid Line";
+            }
+        }
+
+        [HttpPost]
+        public string PublishLine(VM_MEETING_LINES line)
+        {
+            if (line != null)
+            {
+                line.MEETING_LINES.MTL_STS = 5;
+                db.Entry(line.MEETING_LINES).State = EntityState.Modified;
+                db.SaveChanges();
+                return "Line Published";
             }
             else
             {
@@ -350,6 +360,8 @@ namespace AspMVCMeeting.Controllers
         {
             if (line != null)
             {
+                line.MEETING_LINES.MTL_DELETED = false;
+                line.MEETING_LINES.MTL_STS = 4;
                 db.MEETING_LINES.Add(line.MEETING_LINES);
                 db.SaveChanges();
 
@@ -384,6 +396,100 @@ namespace AspMVCMeeting.Controllers
 
         string userName = "saddam.bilalov";
 
+        #endregion LINE
+
+        #region LINEFILES
+        //BEGIN Upload files for the Create page in Meeting Master
+        [HttpPost]
+        public JsonResult UploadLineFileCreate(HttpPostedFileBase aFile)
+        {
+            if (aFile != null)
+            {
+                //TODO user session id should include
+                var fileName = userName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
+                string path = HttpContext.Server.MapPath("~/UploadsTemp/");
+                aFile.SaveAs(path + fileName);
+
+                IList<FileInfoName> lst_fileInfo = listFilesByUserName(userName);
+
+                return Json(lst_fileInfo, JsonRequestBehavior.AllowGet);
+            }
+            return Json("File is not available", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveLineFile(string fileName)
+        {
+            var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
+            if (System.IO.File.Exists(fileLoc))
+            {
+                System.IO.File.Delete(fileLoc);
+            }
+
+            IList<FileInfoName> lst_fileInfo = listFilesByUserName(userName);
+
+            return Json(lst_fileInfo, JsonRequestBehavior.AllowGet);
+        }
+
+        //END Upload files for the Create page in Meeting Master
+
+
+        //BEGIN Upload files for the Edit page in Meeting Master
+
+        [HttpPost]
+        public string UploadLineFileEdit(HttpPostedFileBase aFile, int? lineId)
+        {
+            if (aFile != null)
+            {
+                //TODO user session id should include
+                var fileName = userName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
+                string path = HttpContext.Server.MapPath("~/Uploads/");
+                aFile.SaveAs(path + fileName);
+
+                MEETING_FILES meeting_files = new MEETING_FILES();
+                meeting_files.MTF_MT_REF = lineId;
+                meeting_files.MTF_FILENAME = fileName;
+                meeting_files.MTF_TYPE = 1;
+                meeting_files.MTF_CREATE_USERID = userName;
+
+                db.MEETING_FILES.Add(meeting_files);
+                db.SaveChanges();
+
+                return "successfully uploaded";
+            }
+            return "could not upload";
+        }
+
+        [HttpGet]
+        public JsonResult GetAllLineFiles(int? id)
+        {
+            var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
+            return Json(meeting_files, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string removeLineFileByID(int? fileId)
+        {
+            var file = db.MEETING_FILES.Find(fileId);
+            if (file != null)
+            {
+                db.MEETING_FILES.Remove(file);
+                db.SaveChanges();
+
+                var fileLoc = HttpContext.Server.MapPath("~/Uploads/") + file.MTF_FILENAME;
+                if (System.IO.File.Exists(fileLoc))
+                {
+                    System.IO.File.Delete(fileLoc);
+                }
+            }
+
+            return "successfully deleted";
+        }
+
+        //END Upload files for the Edit page in Meeting Master
+
+        #endregion LINEFILES
+
         #region MASTERHISTORY
         [HttpPost]
         public JsonResult getMasterHistoryById(int? id)
@@ -393,7 +499,8 @@ namespace AspMVCMeeting.Controllers
 
             IList<NEW_MEETING_MASTER_V> lst_new_meeting_master_v = new List<NEW_MEETING_MASTER_V>();
 
-            foreach (MEETING_MASTER_V item in lst_meeting_master_v) {
+            foreach (MEETING_MASTER_V item in lst_meeting_master_v)
+            {
                 NEW_MEETING_MASTER_V new_meeting_master_v = new NEW_MEETING_MASTER_V();
 
                 new_meeting_master_v.lst_MT_USER_PARTICIPANTS = item.MT_USER_PARTICIPANTS != null ? item.MT_USER_PARTICIPANTS.Split(',').ToList() : null;
@@ -425,7 +532,7 @@ namespace AspMVCMeeting.Controllers
                 vm_meetings.MEETING_MASTER = meeting_master;
                 vm_meetings.lst_MT_USER_PARTICIPANTS = meeting_master.MT_USER_PARTICIPANTS != null ? meeting_master.MT_USER_PARTICIPANTS.Split(',').ToList() : null;
                 vm_meetings.lst_MT_USER_CC = (meeting_master.MT_USER_CC != null) ? meeting_master.MT_USER_CC.Split(',').ToList() : null;
-                
+
             }
             return Json(vm_meetings, JsonRequestBehavior.AllowGet);
         }
@@ -440,7 +547,7 @@ namespace AspMVCMeeting.Controllers
 
             master.MT_USER_PARTICIPANTS = user_participant;
             master.MT_USER_CC = user_cc;
-            
+
             if (master != null)
             {
                 var local = db.Set<MEETING_MASTER>().Local
@@ -495,7 +602,8 @@ namespace AspMVCMeeting.Controllers
         }
 
 
-        private IList<FileInfoName> listFilesByUserName(string userName) {
+        private IList<FileInfoName> listFilesByUserName(string userName)
+        {
             IList<FileInfoName> lst_fileInfo = new List<FileInfoName>();
             string[] filePaths = Directory.GetFiles(HttpContext.Server.MapPath("~/UploadsTemp/"));
 
@@ -569,99 +677,7 @@ namespace AspMVCMeeting.Controllers
         #endregion MASTERFILES
 
 
-        #region LINEFILES
-        //BEGIN Upload files for the Create page in Meeting Master
-        [HttpPost]
-        public JsonResult UploadLineFileCreate(HttpPostedFileBase aFile)
-        {
-            if (aFile != null)
-            {
-                //TODO user session id should include
-                var fileName = userName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
-                string path = HttpContext.Server.MapPath("~/UploadsTemp/");
-                aFile.SaveAs(path + fileName);
-
-                IList<FileInfoName> lst_fileInfo = listFilesByUserName(userName);
-
-                return Json(lst_fileInfo, JsonRequestBehavior.AllowGet);
-            }
-            return Json("File is not available", JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult RemoveLineFile(string fileName)
-        {
-            var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
-            if (System.IO.File.Exists(fileLoc))
-            {
-                System.IO.File.Delete(fileLoc);
-            }
-
-            IList<FileInfoName> lst_fileInfo = listFilesByUserName(userName);
-
-            return Json(lst_fileInfo, JsonRequestBehavior.AllowGet);
-        }
-
-        //END Upload files for the Create page in Meeting Master
-
-
-        //BEGIN Upload files for the Edit page in Meeting Master
-        
-        [HttpPost]
-        public string UploadLineFileEdit(HttpPostedFileBase aFile, int? lineId)
-        {
-            if (aFile != null)
-            {
-                //TODO user session id should include
-                var fileName = userName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
-                string path = HttpContext.Server.MapPath("~/Uploads/");
-                aFile.SaveAs(path + fileName);
-
-                MEETING_FILES meeting_files = new MEETING_FILES();
-                meeting_files.MTF_MT_REF = lineId;
-                meeting_files.MTF_FILENAME = fileName;
-                meeting_files.MTF_TYPE = 1;
-                meeting_files.MTF_CREATE_USERID = userName;
-
-                db.MEETING_FILES.Add(meeting_files);
-                db.SaveChanges();
-
-                return "successfully uploaded";
-            }
-            return "could not upload";
-        }
-
-        [HttpGet]
-        public JsonResult GetAllLineFiles(int? id)
-        {
-            var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
-            return Json(meeting_files, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public string removeLineFileByID(int? fileId)
-        {
-            var file = db.MEETING_FILES.Find(fileId);
-            if (file != null)
-            {
-                db.MEETING_FILES.Remove(file);
-                db.SaveChanges();
-
-                var fileLoc = HttpContext.Server.MapPath("~/Uploads/") + file.MTF_FILENAME;
-                if (System.IO.File.Exists(fileLoc))
-                {
-                    System.IO.File.Delete(fileLoc);
-                }
-            }
-
-            return "successfully deleted";
-        }
-
-        //END Upload files for the Edit page in Meeting Master
-
-        #endregion LINEFILES
-
-        #endregion
+        #endregion Angular
 
     }
 }

@@ -36,7 +36,7 @@ namespace AspMVCMeeting.Models
         public string MTL_TAGS { get; set; }
 
         [StringLength(1000)]
-        [Display(Name = "LBL_MTL_START_DATE", ResourceType = typeof(App_GlobalResources.Global))]
+        [Display(Name = "LBL_MTL_DESCRIPTION", ResourceType = typeof(App_GlobalResources.Global))]
         public string MTL_DESCRIPTION { get; set; }
 
         [Display(Name = "LBL_MTL_PROJECT_CODE", ResourceType = typeof(App_GlobalResources.Global))]
@@ -105,5 +105,8 @@ namespace AspMVCMeeting.Models
         [StringLength(4000)]
         [Display(Name = "LBL_MTL_EXECUTANT", ResourceType = typeof(App_GlobalResources.Global))]
         public string MTL_EXECUTANT { get; set; }
+
+        public bool? MTL_DELETED { get; set; }
+
     }
 }

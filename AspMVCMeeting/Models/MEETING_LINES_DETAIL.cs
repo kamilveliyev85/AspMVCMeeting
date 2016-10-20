@@ -12,10 +12,13 @@ namespace AspMVCMeeting.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_MEETING_LINE
+    public partial class MEETING_LINES_DETAIL
     {
         public int ID { get; set; }
-        public string MT_TITLE { get; set; }
-        public string MTL_DESCRIPTION { get; set; }
+        public Nullable<int> MLD_MTL_REF { get; set; }
+        public string MLD_DESCRIPTION { get; set; }
+        public Nullable<System.DateTime> MLD_CREATEDATE { get; set; }
+        public string MLD_CREATE_USER { get; set; }
+        public Nullable<bool> MLD_DELETED { get; set; }
     }
 }

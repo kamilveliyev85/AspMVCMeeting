@@ -119,4 +119,16 @@
         });
         return response;
     }
+
+    //Publish Line
+    this.publishLine = function (line) {
+        var response = $http({
+            method: "post",
+            url: "/tr/MeetingMaster/PublishLine",
+            data: JSON.stringify(line),
+            dataType: "json"
+        });
+        return response;
+    }
+
 });

@@ -26,5 +26,7 @@ namespace AspMVCMeeting.Models
 
         [StringLength(1000)]
         public string MTF_DESCRIPTION { get; set; }
+
+        public bool? MTF_DELETED { get; set; }
     }
 }

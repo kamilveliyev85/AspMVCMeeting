@@ -362,4 +362,13 @@
         });
     }
 
+    $scope.publishLine = function (line) {
+        var getData = linesService.publishLine(line);
+        getData.then(function (msg) {
+            GetLineAll();
+        }, function () {
+            alert('Error in publishing Record');
+        });
+    }
+
 });

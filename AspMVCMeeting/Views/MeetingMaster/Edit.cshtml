@@ -62,16 +62,6 @@
                 //$('#upload-file-info').html($(this)[0].files.length + ' file seçildi');
             });
 
-            $('#MEETING_LINES_MTL_TYPE').on('change', function () {
-                if (this.value == '2') {
-                    $('#divOfferUser').css('display', 'none');
-                    $('#divOfferOk').css('display', 'none');
-                } else {
-                    $('#divOfferUser').css('display', 'block');
-                    $('#divOfferOk').css('display', 'block');
-                }
-            });
-
             //$('.table-responsive').perfectScrollbar();
 
             //$('#MeetingMasterLinesTable').dataTable({
@@ -145,12 +135,12 @@
 
 
 
-            $("#MEETING_LINES_MTL_RELATED_FORM_REF").select2({
-                placeholder: "Bağlı form",
-                allowClear: true,
-                templateSelection: template,
-                width: '100%'
-            });
+            //$("#MEETING_LINES_MTL_RELATED_FORM_REF").select2({
+            //    placeholder: "Bağlı form",
+            //    allowClear: true,
+            //    templateSelection: template,
+            //    width: '100%'
+            //});
 
             function template(data, container) {
                 return $("<span class='span_cursor' onclick=javascript:alert('" + data.id + "')>" + data.id + "</span>");
@@ -294,7 +284,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.lst_MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 <div class="input-group select2-bootstrap-append">
                                                     @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "history.lst_MT_USER_PARTICIPANTS", @disabled = "" })
@@ -314,7 +304,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.lst_MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 <div class="input-group select2-bootstrap-append">
                                                     @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "history.lst_MT_USER_CC", @disabled = "" })
@@ -543,7 +533,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.lst_MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
                                         <div class="input-group select2-bootstrap-append">
                                             @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "master.lst_MT_USER_PARTICIPANTS" })
@@ -563,7 +553,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.lst_MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
                                         <div class="input-group select2-bootstrap-append">
                                             @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "master.lst_MT_USER_CC" })
@@ -725,7 +715,7 @@
                 <div class="form-horizontal">
                     <div class="form-body">
                         <!--BEGIN TABLE -->
-                        <div class="table-responsive">
+                        @*<div class="table-responsive">*@
                             <table id="MeetingMasterLinesTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -752,6 +742,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li>
+                                                        <a ng-click="publishLine(line)"><i class='fa fa-check'></i> Yayınla</a>
+                                                    </li>
+                                                    <li>
                                                         <a ng-click="viewLine(line)"><i class='fa fa-eye'></i> Görüntüle</a>
                                                     </li>
                                                     <li>
@@ -770,7 +763,10 @@
                                         <td> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                         <td> {{line.MEETING_LINES.MTL_RESPONSIBLE}} </td>
                                         <td> {{line.MEETING_LINES.MTL_CONFIRMER}} </td>
-                                        <td> {{line.MEETING_LINES.MTL_STS}} </td>
+                                        <td> 
+                                            <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span> 
+                                            <span ng-show="line.MEETING_LINES.MTL_STS == 5" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
+                                        </td>
                                         <td> {{line.MEETING_LINES.MTL_TAGS}} </td>
                                         <td> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
                                     </tr>
@@ -817,7 +813,7 @@
                                         }*@
                                 </tbody>
                             </table>
-                        </div>
+                        @*</div>*@
                         <!--END TABLE -->
 
                         <div class="form-actions right" style="background-color:#ffffff">
@@ -882,7 +878,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.lst_MTL_EXECUTANT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_EXECUTANT, htmlAttributes: new { @class = "control-label col-md-4" })
                                         {{line.MTL_EXECUTANT}}
                                         <div class="col-md-8">
                                             <div class="input-group select2-bootstrap-append">
@@ -968,7 +964,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="form-group" id="divOfferUser" ng-show="line.MEETING_LINES.MTL_TYPE != 2">
+                                    <div class="form-group" id="divOfferUser" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
                                         @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_USER, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
                                             <div class="input-group select2-bootstrap-append">
@@ -980,7 +976,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="divOfferOk" ng-show="line.MEETING_LINES.MTL_TYPE != 2">
+                                    <div class="form-group" id="divOfferOk" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
                                         @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_OK, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
                                             @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_OK,
@@ -1001,7 +997,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.lst_MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
                                             <div class="input-group select2-bootstrap-append">
                                                 @Html.DropDownListFor(model => model.lst_MTL_RELATED_FORM_REF, ViewBag.MTL_RELATED_FORM_REF as SelectList, new { @ng_model = "line.lst_MTL_RELATED_FORM_REF", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
