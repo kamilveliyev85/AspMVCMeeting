@@ -1,66 +1,15 @@
-﻿app.service("linesService", function ($http) {
-
-    this.getMasterHistoryById = function (masterId) {
-        var response = $http({
-            method: "POST",
-            url: "/tr/MeetingMaster/getMasterHistoryById",
-            params: {
-                id: masterId
-            }
-        });
-        return response;
-    }
-
-    // get Master By Id
-    this.getMasterById = function (masterId) {
-        var response = $http({
-            method: "POST",
-            url: "/tr/MeetingMaster/getMasterById",
-            params: {
-                id: masterId
-            }
-        });
-        return response;
-    }
-
-    // Update Master 
-    this.updateMaster = function (master) {
-        var response = $http({
-            method: "post",
-            url: "/tr/MeetingMaster/UpdateMaster",
-            data: JSON.stringify(master),
-            dataType: "json"
-        });
-        return response;
-    }
-    
-    //get All files
-    this.GetAllFiles = function (MT_Ref) {
-        return $http.get("/tr/MeetingMaster/GetAllFiles/" + MT_Ref);
-    };
-
+﻿appIndep.service("IndepService", function ($http) {
+       
     //get All Line Files
     this.GetAllLineFiles = function (lineId) {
-        return $http.get("/tr/MeetingMaster/GetAllLineFiles/" + lineId);
+        return $http.get("/tr/MeetingLineIndependent/GetAllLineFiles/" + lineId);
     };
-
-    //remove files by id
-    this.removeFileByID = function (fileId) {
-        var response = $http({
-            method: "post",
-            url: "/tr/MeetingMaster/removeFileByID",
-            params: {
-                fileId: JSON.stringify(fileId),
-            }
-        });
-        return response;
-    };
-
+    
     //remove line files by id
     this.removeLineFileByID = function (fileId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/removeLineFileByID",
+            url: "/tr/MeetingLineIndependent/removeLineFileByID",
             params: {
                 fileId: JSON.stringify(fileId),
             }
@@ -68,16 +17,16 @@
         return response;
     };
 
-    //get All Files
+    //get All Lines
     this.GetLinesAll = function (MT_Ref) {
-        return $http.get("/tr/MeetingMaster/GetLinesAll/" + MT_Ref);
+        return $http.get("/tr/MeetingLineIndependent/GetLinesAll/" + MT_Ref);
     };
 
     // get Line By Id
     this.getLine = function (lineId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/getLineById",
+            url: "/tr/MeetingLineIndependent/getLineById",
             params: {
                 id: JSON.stringify(lineId)
             }
@@ -89,7 +38,7 @@
     this.updateLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/UpdateLine",
+            url: "/tr/MeetingLineIndependent/UpdateLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -101,7 +50,7 @@
 
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/AddLine",
+            url: "/tr/MeetingLineIndependent/AddLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -113,7 +62,7 @@
     this.DeleteLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/DeleteLine",
+            url: "/tr/MeetingLineIndependent/DeleteLine",
             data: JSON.stringify(line),
             dataType: "json"
         });

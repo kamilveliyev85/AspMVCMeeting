@@ -1,6 +1,6 @@
-﻿var app = angular.module("app", ['lr.upload']);
+﻿var operationApp = angular.module("operationApp", ['lr.upload']);
 
-app.directive('uploadFile', ['$parse', function ($parse) {
+operationApp.directive('uploadFile', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -13,17 +13,11 @@ app.directive('uploadFile', ['$parse', function ($parse) {
                 });
 
                 switch (element.attr("id")) {
-                    case 'masterFileCreate':
-                        scope.UploadMasterFileCreate();
+                    case 'detailFileCreate':
+                        scope.UploadDetailFileCreate();
                         break;
-                    case 'masterFileEdit':
-                        scope.UploadMasterFileEdit();
-                        break;
-                    case 'lineFileCreate':
-                        scope.UploadLineFileCreate();
-                        break;
-                    case 'lineFileEdit':
-                        scope.UploadLineFileEdit();
+                    case 'detailFileEdit':
+                        scope.UploadDetailFileEdit();
                         break;
                 }
             });
@@ -31,13 +25,13 @@ app.directive('uploadFile', ['$parse', function ($parse) {
     };
 }]);
 
-app.filter("sanitize", ['$sce', function ($sce) {
+operationApp.filter("sanitize", ['$sce', function ($sce) {
     return function (htmlCode) {
         return $sce.trustAsHtml(htmlCode);
     }
 }]);
 
-app.filter('ctime', function () {
+operationApp.filter('ctime', function () {
 
     return function (jsonDate) {
         if (jsonDate == null)
@@ -48,7 +42,7 @@ app.filter('ctime', function () {
 
 });
 
-app.directive('jqdatepicker', function () {
+operationApp.directive('jqdatepicker', function () {
         return {
             restrict: "EAC",
             require: "ngModel",
@@ -71,7 +65,7 @@ app.directive('jqdatepicker', function () {
         };
     });
 
-app.directive("select2", function ($timeout, $parse) {
+operationApp.directive("select2", function ($timeout, $parse) {
     return {
         restrict: 'C',
         link: function (scope, element, attrs) {

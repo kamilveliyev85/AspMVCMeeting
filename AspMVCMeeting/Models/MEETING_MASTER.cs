@@ -97,6 +97,8 @@ namespace AspMVCMeeting.Models
         [StringLength(4000)]
         [Display(Name = "LBL_MT_USER_CC", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_USER_CC { get; set; }
+        
+        public bool? MT_DELETED { get; set; }
 
     }
 }

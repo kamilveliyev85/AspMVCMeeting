@@ -230,7 +230,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.lst_MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
                                 <div class="col-md-8">
                                     <div class="input-group select2-bootstrap-append">
                                         @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
@@ -250,7 +250,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.lst_MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
+                                @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
                                 <div class="col-md-8">
                                     <div class="input-group select2-bootstrap-append">
                                         @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })

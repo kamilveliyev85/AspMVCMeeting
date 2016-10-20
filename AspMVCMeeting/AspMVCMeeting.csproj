@@ -59,6 +59,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -145,10 +146,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeetingLineIndependentController.cs" />
     <Compile Include="Controllers\MeetingLinesController.cs" />
     <Compile Include="Controllers\MeetingMasterController.cs" />
+    <Compile Include="Controllers\OperationController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -161,6 +164,7 @@
     <Compile Include="Models\MEETING_FILES.cs" />
     <Compile Include="Models\MEETING_FILE_CATEGORY.cs" />
     <Compile Include="Models\MEETING_LINES.cs" />
+    <Compile Include="Models\MEETING_LINES_DETAIL.cs" />
     <Compile Include="Models\MEETING_LINE_TYPE.cs" />
     <Compile Include="Models\MEETING_LOG.cs" />
     <Compile Include="Models\MEETING_LOG_TYPE.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Models\SAP.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\TBL_MEETING_MASTER.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VW_MEETING_LINE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\VM_MEETING.cs" />
@@ -187,6 +192,10 @@
     <Content Include="Angular\MeetingMasterLines\Controller.js" />
     <Content Include="Angular\MeetingMasterLines\Module.js" />
     <Content Include="Angular\MeetingMasterLines\Service.js" />
+    <Content Include="Angular\Operation\DetailController.js" />
+    <Content Include="Angular\Operation\Controller.js" />
+    <Content Include="Angular\Operation\Module.js" />
+    <Content Include="Angular\Operation\Service.js" />
     <Content Include="assets\global\css\components.min.css" />
     <Content Include="assets\global\css\plugins.min.css" />
     <Content Include="assets\global\img\portlet-collapse-icon-white.png" />
@@ -539,8 +548,11 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\MeetingMaster\Edit.cshtml" />
-    <Content Include="Views\MeetingLineIndependent\Index.cshtml" />
+    <Content Include="Views\MeetingLineIndependent\Create.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
+    <Content Include="Views\Authentication\Index.cshtml" />
+    <Content Include="Views\Operation\Index.cshtml" />
+    <Content Include="Views\Operation\Operations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

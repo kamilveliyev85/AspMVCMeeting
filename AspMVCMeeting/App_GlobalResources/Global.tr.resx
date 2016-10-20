@@ -126,6 +126,9 @@
   <data name="LBL_MTL_DEPARTMENT" xml:space="preserve">
     <value>Departman</value>
   </data>
+  <data name="LBL_MTL_DESCRIPTION" xml:space="preserve">
+    <value>Açiklama</value>
+  </data>
   <data name="LBL_MTL_EXECUTANT" xml:space="preserve">
     <value>Yönetici</value>
   </data>
@@ -172,7 +175,7 @@
     <value>Toplantı Yonetici</value>
   </data>
   <data name="LBL_MT_NO" xml:space="preserve">
-    <value>No:</value>
+    <value>No</value>
   </data>
   <data name="LBL_MT_PLACE" xml:space="preserve">
     <value>Yer</value>

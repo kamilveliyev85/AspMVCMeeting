@@ -106,7 +106,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No:.
+        ///   Looks up a localized string similar to No.
         /// </summary>
         public static string LBL_MT_NO {
             get {
@@ -264,6 +264,15 @@ namespace AspMVCMeeting.App_GlobalResources {
         public static string LBL_MTL_DEPARTMENT {
             get {
                 return ResourceManager.GetString("LBL_MTL_DEPARTMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Açiklama.
+        /// </summary>
+        public static string LBL_MTL_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("LBL_MTL_DESCRIPTION", resourceCulture);
             }
         }
         

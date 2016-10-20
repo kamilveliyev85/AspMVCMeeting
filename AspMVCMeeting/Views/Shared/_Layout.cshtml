@@ -1,12 +1,13 @@
 ﻿@{
 
-//if (Request.IsAuthenticated)
-//{
-//    ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
-//}
-//else {
-//    ViewBag.UserName = "";
-//}
+    if (Request.IsAuthenticated)
+    {
+        ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
+    }
+    else
+    {
+        ViewBag.UserName = "";
+    }
 }
 
 <!DOCTYPE html>
@@ -69,7 +70,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <img alt="" class="img-circle" src="~/assets/layouts/layout/img/avatar3_small.jpg" />
-                                <span class="username username-hide-on-mobile"> @*@ViewBag.UserName*@ </span>
+                                <span class="username username-hide-on-mobile"> @ViewBag.UserName </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -80,7 +81,7 @@
                                     </li>
                                     <li class="divider"> </li>*@
                                 <li>
-                                    <a href="@Url.Action("Login", "Authentication")">
+                                    <a href="@Url.Action("Index", "Authentication")">
                                         <i class="icon-key"></i> Log Out
                                     </a>
                                 </li>
@@ -133,22 +134,22 @@
                                         <i class="icon-settings"></i> Ekle
                                     </a>
                                 </li>
-                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active open" : "")">
+                                <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Edit")? "active open" : "")">
                                     <a href="@Url.Action("Index", "MeetingMaster")" class="nav-link">
                                         <i class="icon-settings"></i> Listele
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Toplanti Bagimsiz Gorev</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "")">
+                                    <a href="@Url.Action("Create", "MeetingLineIndependent")" class="nav-link">
                                         <i class="icon-settings"></i> Karar Ekle
                                     </a>
                                 </li>
@@ -162,21 +163,21 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Listele
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Onaylama</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" ? "active open" : "")">
+                                    <a href="@Url.Action("Index", "Operation")" class="nav-link">
                                         <i class="icon-settings"></i> Onaylama
                                     </a>
                                 </li>
@@ -190,7 +191,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Baglantisi Yapilacak Kayitlar
                                     </a>
                                 </li>
@@ -204,41 +205,41 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Toplanti Listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Gorevlerin listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Zamani Kecen Gorevler
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
+                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Projects" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-home"></i>
                                 <span class="title">Sistem Yonetmi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Projects" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Projects")" class="nav-link">
                                         <i class="icon-settings"></i> Proje Listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Toplanti Turleri
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "BrandManagment")" class="nav-link">
+                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
                                         <i class="icon-settings"></i> Departman Listesi
                                     </a>
                                 </li>

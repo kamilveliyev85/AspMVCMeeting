@@ -220,5 +220,7 @@ namespace AspMVCMeeting.Models
                 .Property(e => e.SALARYTYP)
                 .IsUnicode(false);
         }
+
+        public System.Data.Entity.DbSet<AspMVCMeeting.Models.MEETING_LINES_DETAIL> MEETING_LINES_DETAIL { get; set; }
     }
 }
