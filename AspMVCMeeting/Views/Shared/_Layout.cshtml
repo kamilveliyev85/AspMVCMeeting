@@ -176,8 +176,13 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" ? "active open" : "")">
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Operation")" class="nav-link">
+                                        <i class="icon-settings"></i> İşlemler
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Approve"? "active open" : "")">
+                                    <a href="@Url.Action("Approve", "Operation")" class="nav-link">
                                         <i class="icon-settings"></i> Onaylama
                                     </a>
                                 </li>
@@ -288,13 +293,27 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            //$('.collapse').on('click', function () {
-            //    return false;
-            //});
+            $('.input-group-btn').click(function () {
+                if ($(this).children('button').children('.fa-calendar').length > 0 ||
+                    $(this).children('button').children('.fa-clock-o').length > 0) {
+                    var input = $(this).parent().find('input');
+                    input.trigger('focus');
+                }
+            });
 
-            //$('.expand').on('click', function () {
-            //    return false;
-            //});
+            $('.actionBtn').on('click', function () {
+
+                return false;
+
+            });
+
+            $('.tools > .collapse').on('click', function () {
+                return false;
+            });
+
+            $('.tools > .expand').on('click', function () {
+                return false;
+            });
 
             $("div.portlet-title").click(function (e) {
                 $('textarea').removeAttr('style');

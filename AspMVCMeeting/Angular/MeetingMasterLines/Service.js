@@ -1,9 +1,21 @@
 ﻿app.service("linesService", function ($http) {
 
+    // Publish Selected 
+    this.publishSelected = function (items) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/PublishSelected",
+            params: {
+                items: JSON.stringify(items),
+            }
+        });
+        return response;
+    }
+
     this.getMasterHistoryById = function (masterId) {
         var response = $http({
             method: "POST",
-            url: "/tr/MeetingMaster/getMasterHistoryById",
+            url: "/api/MeetingMaster/getMasterHistoryById",
             params: {
                 id: masterId
             }
@@ -15,7 +27,7 @@
     this.getMasterById = function (masterId) {
         var response = $http({
             method: "POST",
-            url: "/tr/MeetingMaster/getMasterById",
+            url: "/api/MeetingMaster/getMasterById",
             params: {
                 id: masterId
             }
@@ -27,7 +39,7 @@
     this.updateMaster = function (master) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/UpdateMaster",
+            url: "/api/MeetingMaster/UpdateMaster",
             data: JSON.stringify(master),
             dataType: "json"
         });
@@ -36,19 +48,19 @@
     
     //get All files
     this.GetAllFiles = function (MT_Ref) {
-        return $http.get("/tr/MeetingMaster/GetAllFiles/" + MT_Ref);
+        return $http.get("/api/MeetingMaster/GetAllFiles/" + MT_Ref);
     };
 
     //get All Line Files
     this.GetAllLineFiles = function (lineId) {
-        return $http.get("/tr/MeetingMaster/GetAllLineFiles/" + lineId);
+        return $http.get("/api/MeetingMaster/GetAllLineFiles/" + lineId);
     };
 
     //remove files by id
     this.removeFileByID = function (fileId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/removeFileByID",
+            url: "/api/MeetingMaster/removeFileByID",
             params: {
                 fileId: JSON.stringify(fileId),
             }
@@ -60,7 +72,7 @@
     this.removeLineFileByID = function (fileId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/removeLineFileByID",
+            url: "/api/MeetingMaster/removeLineFileByID",
             params: {
                 fileId: JSON.stringify(fileId),
             }
@@ -70,14 +82,14 @@
 
     //get All Files
     this.GetLinesAll = function (MT_Ref) {
-        return $http.get("/tr/MeetingMaster/GetLinesAll/" + MT_Ref);
+        return $http.get("/api/MeetingMaster/GetLinesAll/" + MT_Ref);
     };
 
     // get Line By Id
     this.getLine = function (lineId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/getLineById",
+            url: "/api/MeetingMaster/getLineById",
             params: {
                 id: JSON.stringify(lineId)
             }
@@ -89,7 +101,7 @@
     this.updateLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/UpdateLine",
+            url: "/api/MeetingMaster/UpdateLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -101,7 +113,7 @@
 
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/AddLine",
+            url: "/api/MeetingMaster/AddLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -113,7 +125,7 @@
     this.DeleteLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/DeleteLine",
+            url: "/api/MeetingMaster/DeleteLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -124,7 +136,7 @@
     this.publishLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingMaster/PublishLine",
+            url: "/api/MeetingMaster/PublishLine",
             data: JSON.stringify(line),
             dataType: "json"
         });

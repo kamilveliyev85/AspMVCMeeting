@@ -5,7 +5,7 @@
 
     $scope.UploadLineFileCreate = function () {
         upload({
-            url: '/tr/MeetingMaster/UploadLineFileCreate',
+            url: '/api/MeetingMaster/UploadLineFileCreate',
             method: 'POST',
             data: {
                 aFile: $scope.myFile
@@ -23,7 +23,7 @@
 
     $scope.removeLineFile = function (fileName) {
         upload({
-            url: '/tr/MeetingMaster/RemoveLineFile',
+            url: '/api/MeetingMaster/RemoveLineFile',
             method: 'POST',
             data: {
                 fileName: fileName
@@ -64,7 +64,7 @@
 
     $scope.UploadLineFileEdit = function () {
         upload({
-            url: '/tr/MeetingMaster/UploadLineFileEdit',
+            url: '/api/MeetingMaster/UploadLineFileEdit',
             method: 'POST',
             data: {
                 aFile: $scope.myFile,
@@ -136,7 +136,7 @@
             angular.element("#lineId").val(line.MEETING_LINES.ID);
             angular.element('textarea').removeAttr('style');
             angular.element("#MeetingLinesDiv").slideDown();
-            
+
         },
         function () {
             alert('Error in getting records');

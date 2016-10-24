@@ -31,6 +31,8 @@ namespace AspMVCMeeting.Models
         public virtual DbSet<DEPT> DEPT { get; set; }
         public virtual DbSet<DECISION_TYPES> DECISION_TYPES { get; set; }
         public virtual DbSet<VW_MEETING_LINE> VW_MEETING_LINE { get; set; }
+        public virtual DbSet<MEETING_PLACE> MEETING_PLACE { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

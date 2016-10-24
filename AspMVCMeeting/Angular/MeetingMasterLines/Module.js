@@ -1,4 +1,4 @@
-﻿var app = angular.module("app", ['lr.upload']);
+﻿var app = angular.module("app", ['ngTable','lr.upload']);
 
 app.directive('uploadFile', ['$parse', function ($parse) {
     return {
@@ -91,3 +91,19 @@ app.directive("select2", function ($timeout, $parse) {
         }
     };
 });
+
+
+//app.directive('bootraptags', function () {
+//    return {
+//        restrict: "EAC",
+//        link: function ($scope, $element, $attr) {
+//            angular.element($element).val('test');
+//            angular.element($element).tagsinput();
+
+//            $scope.$watch($attr.ngModel, function (newValue) {
+//                alert(newValue);
+//            });
+
+//        }
+//    };
+//});

@@ -48,7 +48,7 @@ namespace AspMVCMeeting.Controllers
             //EmployeeBusinessLayer bal = new EmployeeBusinessLayer();
             if (IsValidUser(userName, userPassword))
             {
-                FormsAuthentication.SetAuthCookie(userName, false);
+                FormsAuthentication.SetAuthCookie(userName.Replace('i', 'I').Replace('İ', 'I').ToUpper(), false);
 
                 return RedirectToAction("Index", "Home");
             }

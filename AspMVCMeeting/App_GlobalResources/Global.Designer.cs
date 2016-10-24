@@ -124,7 +124,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Özel Kod 1.
+        ///   Looks up a localized string similar to Ozel Kod 1.
         /// </summary>
         public static string LBL_MT_SCODE1 {
             get {
@@ -133,7 +133,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Özel Kod 2.
+        ///   Looks up a localized string similar to Ozel Kod 2.
         /// </summary>
         public static string LBL_MT_SCODE2 {
             get {
@@ -142,7 +142,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Özel Kod 3.
+        ///   Looks up a localized string similar to Ozel Kod 3.
         /// </summary>
         public static string LBL_MT_SCODE3 {
             get {
@@ -151,7 +151,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Özel Kod 4.
+        ///   Looks up a localized string similar to Ozel Kod 4.
         /// </summary>
         public static string LBL_MT_SCODE4 {
             get {
@@ -160,7 +160,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Özel Kod 5.
+        ///   Looks up a localized string similar to Ozel Kod 5.
         /// </summary>
         public static string LBL_MT_SCODE5 {
             get {

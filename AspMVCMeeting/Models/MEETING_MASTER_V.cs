@@ -31,7 +31,7 @@ namespace AspMVCMeeting.Models
         [Display(Name = "LBL_MT_TAGS", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_TAGS { get; set; }
         [Display(Name = "LBL_MT_PLACE", ResourceType = typeof(App_GlobalResources.Global))]
-        public string MT_PLACE { get; set; }
+        public int? MT_PLACE { get; set; }
         [Display(Name = "LBL_MT_START_TIME", ResourceType = typeof(App_GlobalResources.Global))]
         public Nullable<System.TimeSpan> MT_START_TIME { get; set; }
         [Display(Name = "LBL_MT_FINISH_TIME", ResourceType = typeof(App_GlobalResources.Global))]
@@ -65,6 +65,10 @@ namespace AspMVCMeeting.Models
         public Nullable<int> MTV_VERSION { get; set; }
         public Nullable<System.DateTime> MTV_CREATEDATE { get; set; }
         public string MTV_CREATE_USERID { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "LBL_MTL_DEPARTMENT", ResourceType = typeof(App_GlobalResources.Global))]
+        public string MT_DEPARTMENT { get; set; }
 
     }
 }

@@ -171,6 +171,7 @@
     <Compile Include="Models\MEETING_MASTER.cs" />
     <Compile Include="Models\MEETING_MASTER_V.cs" />
     <Compile Include="Models\MEETING_PARTICIPANTS.cs" />
+    <Compile Include="Models\MEETING_PLACE.cs" />
     <Compile Include="Models\MEETING_PROJECTS.cs" />
     <Compile Include="Models\MEETING_STATUS.cs" />
     <Compile Include="Models\MEETING_TYPE.cs" />
@@ -190,10 +191,14 @@
     <Content Include="Angular\MeetingLineIndependent\Module.js" />
     <Content Include="Angular\MeetingLineIndependent\Service.js" />
     <Content Include="Angular\MeetingMasterLines\Controller.js" />
+    <Content Include="Angular\MeetingMasterLines\MasterController.js" />
+    <Content Include="Angular\MeetingMasterLines\MasterModule.js" />
     <Content Include="Angular\MeetingMasterLines\Module.js" />
     <Content Include="Angular\MeetingMasterLines\Service.js" />
+    <Content Include="Angular\Operation\ApproveController.js" />
     <Content Include="Angular\Operation\DetailController.js" />
     <Content Include="Angular\Operation\Controller.js" />
+    <Content Include="Angular\Operation\ApproveModule.js" />
     <Content Include="Angular\Operation\Module.js" />
     <Content Include="Angular\Operation\Service.js" />
     <Content Include="assets\global\css\components.min.css" />
@@ -211,6 +216,11 @@
     <Content Include="assets\global\plugins\angularjs\plugins\ui-bootstrap-tpls.min.js" />
     <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.css" />
     <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.js" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.css" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.js" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js" />
     <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.css" />
     <Content Include="assets\global\plugins\bootstrap-timepicker\css\bootstrap-timepicker.min.css" />
     <Content Include="assets\global\plugins\bootstrap-timepicker\js\bootstrap-timepicker.js" />
@@ -347,6 +357,7 @@
     <Content Include="assets\pages\css\login.min.css" />
     <Content Include="assets\pages\img\logo-big.png" />
     <Content Include="assets\pages\scripts\app.js" />
+    <Content Include="assets\pages\scripts\components-bootstrap-tagsinput.min.js" />
     <Content Include="assets\pages\scripts\components-select2.min.js" />
     <Content Include="assets\pages\scripts\jquery.fileupload-angular.js" />
     <Content Include="assets\pages\scripts\login.min.js" />
@@ -452,12 +463,17 @@
     <Content Include="assets\plugins\font-awesome\css\font-awesome.css" />
     <Content Include="assets\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\plugins\jquery-datatable\dataTables.bootstrap.min.css" />
+    <Content Include="assets\plugins\jquery-datatable\dataTables.bootstrap.min.js" />
+    <Content Include="assets\plugins\jquery-datatable\jquery.dataTables.min.js" />
     <Content Include="assets\plugins\jquery-slimscroll\jquery.slimscroll.js" />
     <Content Include="assets\plugins\jquery-slimscroll\jquery.slimscroll.min.js" />
     <Content Include="assets\plugins\jquery-validation\js\jquery.validate.min.js" />
     <Content Include="assets\plugins\jquery.blockui.min.js" />
     <Content Include="assets\plugins\jquery.min.js" />
     <Content Include="assets\plugins\js.cookie.min.js" />
+    <Content Include="assets\plugins\ng-table\ng-table.min.css" />
+    <Content Include="assets\plugins\ng-table\ng-table.min.js" />
     <Content Include="assets\plugins\perfect-scrollbar\css\perfect-scrollbar.min.css" />
     <Content Include="assets\plugins\perfect-scrollbar\js\perfect-scrollbar.jquery.min.js" />
     <Content Include="assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
@@ -515,6 +531,7 @@
     <Content Include="assets\global\plugins\angularjs\angular-touch.min.js.map" />
     <Content Include="assets\global\plugins\angularjs\angular.min.js.map" />
     <Content Include="assets\global\plugins\angularjs\plugins\angular-file-upload\upload.php" />
+    <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -553,6 +570,7 @@
     <Content Include="Views\Authentication\Index.cshtml" />
     <Content Include="Views\Operation\Index.cshtml" />
     <Content Include="Views\Operation\Operations.cshtml" />
+    <Content Include="Views\Operation\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

@@ -84,7 +84,7 @@
 
     $scope.UploadDetailFileCreate = function () {
         upload({
-            url: '/tr/Operation/UploadDetailFileCreate',
+            url: '/api/Operation/UploadDetailFileCreate',
             method: 'POST',
             data: {
                 aFile: $scope.myFile
@@ -102,7 +102,7 @@
 
     $scope.removeDetailFile = function (fileName) {
         upload({
-            url: '/tr/Operation/RemoveDetailFile',
+            url: '/api/Operation/RemoveDetailFile',
             method: 'POST',
             data: {
                 fileName: fileName
@@ -143,7 +143,7 @@
 
     $scope.UploadDetailFileEdit = function () {
         upload({
-            url: '/tr/Operation/UploadDetailFileEdit',
+            url: '/api/Operation/UploadDetailFileEdit',
             method: 'POST',
             data: {
                 aFile: $scope.myFile,
