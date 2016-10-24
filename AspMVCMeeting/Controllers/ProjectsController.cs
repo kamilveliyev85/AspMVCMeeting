@@ -27,7 +27,7 @@ namespace AspMVCMeeting.Controllers
         public ActionResult Create()
         {
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
@@ -47,7 +47,7 @@ namespace AspMVCMeeting.Controllers
             db.SaveChanges();
 
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
@@ -65,7 +65,7 @@ namespace AspMVCMeeting.Controllers
             vm_projects.lst_PRJ_MEMBERS = vm_projects.MEETING_PROJECTS.PRJ_MEMBERS != null ? vm_projects.MEETING_PROJECTS.PRJ_MEMBERS.Split(',').ToList() : null;
                         
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
@@ -85,7 +85,7 @@ namespace AspMVCMeeting.Controllers
             db.SaveChanges();
 
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");

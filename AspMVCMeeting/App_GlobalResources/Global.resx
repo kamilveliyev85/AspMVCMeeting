@@ -181,19 +181,19 @@
     <value>Yer</value>
   </data>
   <data name="LBL_MT_SCODE1" xml:space="preserve">
-    <value>Özel Kod 1</value>
+    <value>Ozel Kod 1</value>
   </data>
   <data name="LBL_MT_SCODE2" xml:space="preserve">
-    <value>Özel Kod 2</value>
+    <value>Ozel Kod 2</value>
   </data>
   <data name="LBL_MT_SCODE3" xml:space="preserve">
-    <value>Özel Kod 3</value>
+    <value>Ozel Kod 3</value>
   </data>
   <data name="LBL_MT_SCODE4" xml:space="preserve">
-    <value>Özel Kod 4</value>
+    <value>Ozel Kod 4</value>
   </data>
   <data name="LBL_MT_SCODE5" xml:space="preserve">
-    <value>Özel Kod 5</value>
+    <value>Ozel Kod 5</value>
   </data>
   <data name="LBL_MT_START_TIME" xml:space="preserve">
     <value>Başlama Saati</value>

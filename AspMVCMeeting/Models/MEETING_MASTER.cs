@@ -21,7 +21,6 @@ namespace AspMVCMeeting.Models
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MT_DATE { get; set; }
 
-
         [StringLength(100)]
         [Display(Name = "LBL_MT_MANAGER", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_MANAGER { get; set; }
@@ -38,9 +37,8 @@ namespace AspMVCMeeting.Models
         [Display(Name = "LBL_MT_TAGS", ResourceType = typeof(App_GlobalResources.Global))]
         public string MT_TAGS { get; set; }
 
-        [StringLength(200)]
         [Display(Name = "LBL_MT_PLACE", ResourceType = typeof(App_GlobalResources.Global))]
-        public string MT_PLACE { get; set; }
+        public int? MT_PLACE { get; set; }
 
         [Display(Name = "LBL_MT_START_TIME", ResourceType = typeof(App_GlobalResources.Global))]
         public TimeSpan? MT_START_TIME { get; set; }
@@ -99,6 +97,10 @@ namespace AspMVCMeeting.Models
         public string MT_USER_CC { get; set; }
         
         public bool? MT_DELETED { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "LBL_MTL_DEPARTMENT", ResourceType = typeof(App_GlobalResources.Global))]
+        public string MT_DEPARTMENT { get; set; }
 
     }
 }

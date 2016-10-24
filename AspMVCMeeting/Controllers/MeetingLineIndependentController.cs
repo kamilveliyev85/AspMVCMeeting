@@ -23,7 +23,7 @@ namespace AspMVCMeeting.Controllers
             VM_MEETING vm_meeting = new VM_MEETING();
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
@@ -43,7 +43,7 @@ namespace AspMVCMeeting.Controllers
         {
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
@@ -94,6 +94,7 @@ namespace AspMVCMeeting.Controllers
 
         #region LINE
         [HttpGet]
+
         public JsonResult GetLinesAll(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
@@ -108,6 +109,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+
         public JsonResult getLineById(int? id)
         {
             VM_MEETING_LINES vm_meetings = new VM_MEETING_LINES();
@@ -123,6 +125,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+
         public string UpdateLine(VM_MEETING_LINES vm_meetings)
         {
             var mtl_executant = (vm_meetings.lst_MTL_EXECUTANT != null) ? String.Join(",", vm_meetings.lst_MTL_EXECUTANT.ToArray()) : string.Empty;
@@ -151,6 +154,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+
         public string DeleteLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -167,6 +171,7 @@ namespace AspMVCMeeting.Controllers
 
 
         [HttpPost]
+
         public string AddLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -210,6 +215,7 @@ namespace AspMVCMeeting.Controllers
         #region LINEFILES
         //BEGIN Upload files for the Create page in Meeting Master
         [HttpPost]
+
         public JsonResult UploadLineFileCreate(HttpPostedFileBase aFile)
         {
             if (aFile != null)
@@ -227,6 +233,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+
         public JsonResult RemoveLineFile(string fileName)
         {
             var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
@@ -246,6 +253,7 @@ namespace AspMVCMeeting.Controllers
         //BEGIN Upload files for the Edit page in Meeting Master
 
         [HttpPost]
+
         public string UploadLineFileEdit(HttpPostedFileBase aFile, int? lineId)
         {
             if (aFile != null)
@@ -270,6 +278,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpGet]
+
         public JsonResult GetAllLineFiles(int? id)
         {
             var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
@@ -277,6 +286,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+
         public string removeLineFileByID(int? fileId)
         {
             var file = db.MEETING_FILES.Find(fileId);

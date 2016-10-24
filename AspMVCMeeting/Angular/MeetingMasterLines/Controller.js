@@ -1,4 +1,4 @@
-﻿app.controller("linesCntrl", function ($scope, $http, upload, linesService) {
+﻿app.controller("linesCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, linesService) {
 
     //BEGIN MASER HISTORY
 
@@ -29,10 +29,16 @@
         if ($scope.history.MEETING_MASTER_V.MT_TYPE != null && typeof($scope.history.MEETING_MASTER_V.MT_TYPE) == 'number')
             $scope.history.MEETING_MASTER_V.MT_TYPE = $scope.history.MEETING_MASTER_V.MT_TYPE.toString();
 
+        if ($scope.history.MEETING_MASTER_V.MT_PLACE != null && typeof ($scope.history.MEETING_MASTER_V.MT_PLACE) == 'number')
+            $scope.history.MEETING_MASTER_V.MT_PLACE = $scope.history.MEETING_MASTER_V.MT_PLACE.toString();
+
         if ($scope.history.MEETING_MASTER_V.MT_DATE != null)
             $scope.history.MEETING_MASTER_V.MT_DATE = formatDate(new Date(parseInt($scope.history.MEETING_MASTER_V.MT_DATE.substr(6))));
 
         angular.element('textarea').removeAttr('style');
+
+        angular.element($('#MEETING_MASTER_V_MT_TAGS')).val($scope.master.MEETING_MASTER.MT_TAGS);
+        angular.element($('#MEETING_MASTER_V_MT_TAGS')).tagsinput();
 
         angular.element('#divShowHistory').slideDown('fast', 'swing', function () {
             var sectionOffset = angular.element('#divShowHistory').offset().top - 30;
@@ -63,6 +69,9 @@
             if ($scope.master.MEETING_MASTER.MT_TYPE != null)
                 $scope.master.MEETING_MASTER.MT_TYPE = $scope.master.MEETING_MASTER.MT_TYPE.toString();
 
+            if ($scope.master.MEETING_MASTER.MT_PLACE != null)
+                $scope.master.MEETING_MASTER.MT_PLACE = $scope.master.MEETING_MASTER.MT_PLACE.toString();
+
             if ($scope.master.MEETING_MASTER.MT_MANAGER != null)
                 $scope.master.MEETING_MASTER.MT_MANAGER = $scope.master.MEETING_MASTER.MT_MANAGER.toString();
 
@@ -71,6 +80,10 @@
 
             if ($scope.master.MEETING_MASTER.MT_DATE != null)
                 $scope.master.MEETING_MASTER.MT_DATE = formatDate(new Date(parseInt($scope.master.MEETING_MASTER.MT_DATE.substr(6))));
+
+            angular.element($('#MEETING_MASTER_MT_TAGS')).val($scope.master.MEETING_MASTER.MT_TAGS);
+            angular.element($('#MEETING_MASTER_MT_TAGS')).tagsinput();
+
         }, function () {
             alert('Error in getting record');
         });
@@ -89,46 +102,6 @@
     }
 
     //END Update Master
-
-    //BEGIN Master meeting files create
-
-    $scope.UploadMasterFileCreate = function () {
-        upload({
-            url: '/tr/MeetingMaster/upload',
-            method: 'POST',
-            data: {
-                aFile: $scope.myFile
-            }
-        }).then(
-          function (response) {
-              $scope.result = response.data;
-              console.log(response.data);
-          },
-          function (response) {
-              console.error(response);
-          }
-        );
-    }
-
-    $scope.removeFile = function (fileName) {
-        upload({
-            url: '/tr/MeetingMaster/RemoveFile',
-            method: 'POST',
-            data: {
-                fileName: fileName
-            }
-        }).then(
-          function (response) {
-              $scope.result = response.data;
-              console.log(response.data);
-          },
-          function (response) {
-              console.error(response);
-          }
-        );
-    }
-
-    //END Master meeting files create
 
     //BEGIN Master meeting files edit
     GetAllFiles();
@@ -154,7 +127,7 @@
 
     $scope.UploadMasterFileEdit = function () {
         upload({
-            url: '/tr/MeetingMaster/UploadFile',
+            url: '/api/MeetingMaster/UploadFile',
             method: 'POST',
             data: {
                 aFile: $scope.myFile,
@@ -178,7 +151,7 @@
 
     $scope.UploadLineFileCreate = function () {
         upload({
-            url: '/tr/MeetingMaster/UploadLineFileCreate',
+            url: '/api/MeetingMaster/UploadLineFileCreate',
             method: 'POST',
             data: {
                 aFile: $scope.myFile
@@ -196,7 +169,7 @@
 
     $scope.removeLineFile = function (fileName) {
         upload({
-            url: '/tr/MeetingMaster/RemoveLineFile',
+            url: '/api/MeetingMaster/RemoveLineFile',
             method: 'POST',
             data: {
                 fileName: fileName
@@ -237,7 +210,7 @@
 
     $scope.UploadLineFileEdit = function () {
         upload({
-            url: '/tr/MeetingMaster/UploadLineFileEdit',
+            url: '/api/MeetingMaster/UploadLineFileEdit',
             method: 'POST',
             data: {
                 aFile: $scope.myFile,
@@ -257,15 +230,67 @@
     //END Master meeting LINES edit
 
     GetLineAll();
-
+    
     function GetLineAll() {
-        var getData = linesService.GetLinesAll(angular.element("#MEETING_LINES_MTL_MT_REF").val());
-        getData.then(function (emp) {
-            $scope.lines = emp.data;
-        }, function (response) {
-            alert('Error in getting records');
-        });
+      
+            var getData = linesService.GetLinesAll(angular.element("#MEETING_LINES_MTL_MT_REF").val());
+            getData.then(function (emp) {
+                $scope.data = emp.data;
+                $scope.tableParams = new NgTableParams({
+                    page: 1, // show first page
+                    total: 1, // value less than count hide pagination
+                    count: 10 // count per page
+                }, { counts: [], dataset: $scope.data });
+
+                
+
+                $scope.checkboxes = { 'checked': false, items: {} };
+                angular.forEach($scope.data, function(item) {
+                    $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
+                });
+
+                // watch for check all checkbox
+                $scope.$watch('checkboxes.checked', function (value) {
+                    angular.forEach($scope.data, function (item) {
+                        if (angular.isDefined(item.MEETING_LINES.ID)) {
+                            $scope.checkboxes.items[item.MEETING_LINES.ID] = value;
+                        }
+                    });
+                });
+
+                // watch for data checkboxes
+                $scope.$watch('checkboxes.items', function (values) {
+                    if (!$scope.data) {
+                        return;
+                    }
+                    var checked = 0, unchecked = 0,
+                        total = $scope.data.length;
+                    angular.forEach($scope.data, function (item) {
+                        checked += ($scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                        unchecked += (!$scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                    });
+                    if ((unchecked == 0) || (checked == 0)) {
+                        $scope.checkboxes.checked = (checked == total);
+                    }
+                    // grayed checkbox
+                    angular.element($("#select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+                }, true);
+
+            }, function (response) {
+                alert('Error in getting records');
+            });
+        
     }
+
+    $scope.publishSelected = function(items){
+        var getData = linesService.publishSelected(items);
+        getData.then(function (emp) {
+            GetLineAll();
+        }, function (response) {
+                alert('Error in getting records');
+            });
+    }
+
 
     function formatDate(date) {
         var d = new Date(date),

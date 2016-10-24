@@ -1,6 +1,8 @@
 ﻿using AngularMVCFileUpload.Models;
 using AspMVCMeeting.Models;
 using AspMVCMeeting.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +15,7 @@ using System.Web.Mvc;
 
 namespace AspMVCMeeting.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MeetingMasterController : Controller
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
@@ -25,7 +27,7 @@ namespace AspMVCMeeting.Controllers
             vm_meetings.lst_MEETING_MASTER =
             (from mt in db.MEETING_MASTER
              where mt.MT_DELETED == false
-             select new VM_MEETING_MASTER { MEETING_MASTER = mt}).ToList();
+             select new VM_MEETING_MASTER { MEETING_MASTER = mt }).ToList();
 
             //vm_meetings.lst_MEETING_MASTER = db.MEETING_MASTER.Where(model=>model.MT_DELETED == false).ToList();
             return View(vm_meetings);
@@ -84,16 +86,17 @@ namespace AspMVCMeeting.Controllers
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
 
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).ToList(), "ID", "MLN_NAME");
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
+            ViewBag.MT_PLEACE = new SelectList(db.MEETING_PLACE.Where(model => model.MP_ACTIVE == true).Select(model => new { model.ID, MP_NAME = model.MP_NAME }).ToList(), "ID", "MP_NAME");
 
             vm_meetings.lst_MEETING_LINES =
             (from mtl in db.MEETING_LINES
@@ -116,13 +119,14 @@ namespace AspMVCMeeting.Controllers
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
+            ViewBag.MT_PLEACE = new SelectList(db.MEETING_PLACE.Where(model => model.MP_ACTIVE == true).Select(model => new { model.ID, MP_NAME = model.MP_NAME }).ToList(), "ID", "MP_NAME");
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
 
@@ -161,16 +165,17 @@ namespace AspMVCMeeting.Controllers
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2).Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
+            ViewBag.MT_PLEACE = new SelectList(db.MEETING_PLACE.Where(model => model.MP_ACTIVE == true).Select(model => new { model.ID, MP_NAME = model.MP_NAME }).ToList(), "ID", "MP_NAME");
 
             vm_meetings.lst_MEETING_LINES =
             (from mtl in db.MEETING_LINES
@@ -201,17 +206,18 @@ namespace AspMVCMeeting.Controllers
 
             ViewBag.MEETING_TYPE = new SelectList(db.MEETING_TYPE.Where(type => type.MTP_ACTIVE == true).ToList(), "ID", "MTP_NAME");
             var managerList = db.Database
-                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 5 ORDER BY PNAME, PSURNAME"))
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "CAST(RANKCODE AS FLOAT) >= 4 ORDER BY PNAME, PSURNAME"))
                 .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
 
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).ToList(), "ID", "MLN_NAME");
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2).Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
+            ViewBag.MT_PLEACE = new SelectList(db.MEETING_PLACE.Where(model => model.MP_ACTIVE == true).Select(model => new { model.ID, MP_NAME = model.MP_NAME }).ToList(), "ID", "MP_NAME");
 
             vm_meetings.lst_MEETING_LINES =
             (from mtl in db.MEETING_LINES
@@ -268,18 +274,20 @@ namespace AspMVCMeeting.Controllers
         public JsonResult GetLinesAll(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
-         
+
             vm_meetings.lst_MEETING_LINES =
            (from mtl in db.MEETING_LINES
             join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
             join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
             where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
+            orderby mtl.ID descending
             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
             return Json(vm_meetings.lst_MEETING_LINES, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        
         public JsonResult getLineById(int? id)
         {
             VM_MEETING_LINES vm_meetings = new VM_MEETING_LINES();
@@ -295,6 +303,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public string UpdateLine(VM_MEETING_LINES vm_meetings)
         {
             var mtl_executant = (vm_meetings.lst_MTL_EXECUTANT != null) ? String.Join(",", vm_meetings.lst_MTL_EXECUTANT.ToArray()) : string.Empty;
@@ -323,6 +332,33 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
+        public string PublishSelected(string items)
+        {
+            Dictionary<int, bool> values = JsonConvert.DeserializeObject<Dictionary<int, bool>>(items);
+
+            if (values != null)
+            {
+                foreach (KeyValuePair<int, bool> item in values)
+                {
+                    if (item.Value)
+                    {
+                        var line = db.MEETING_LINES.Find(item.Key);
+                        line.MTL_STS = 5;
+                        db.Entry(line).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                return "Line Changed";
+            }
+            else
+            {
+                return "Invalid Line";
+            }
+        }
+
+        [HttpPost]
+        
         public string DeleteLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -339,6 +375,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public string PublishLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -356,6 +393,7 @@ namespace AspMVCMeeting.Controllers
 
 
         [HttpPost]
+        
         public string AddLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -401,6 +439,7 @@ namespace AspMVCMeeting.Controllers
         #region LINEFILES
         //BEGIN Upload files for the Create page in Meeting Master
         [HttpPost]
+        
         public JsonResult UploadLineFileCreate(HttpPostedFileBase aFile)
         {
             if (aFile != null)
@@ -418,6 +457,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public JsonResult RemoveLineFile(string fileName)
         {
             var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
@@ -437,6 +477,7 @@ namespace AspMVCMeeting.Controllers
         //BEGIN Upload files for the Edit page in Meeting Master
 
         [HttpPost]
+        
         public string UploadLineFileEdit(HttpPostedFileBase aFile, int? lineId)
         {
             if (aFile != null)
@@ -461,6 +502,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpGet]
+        
         public JsonResult GetAllLineFiles(int? id)
         {
             var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
@@ -468,6 +510,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public string removeLineFileByID(int? fileId)
         {
             var file = db.MEETING_FILES.Find(fileId);
@@ -492,6 +535,7 @@ namespace AspMVCMeeting.Controllers
 
         #region MASTERHISTORY
         [HttpPost]
+        
         public JsonResult getMasterHistoryById(int? id)
         {
             VM_MEETING_MASTER_V vm_meeting_master_v = new VM_MEETING_MASTER_V();
@@ -522,6 +566,7 @@ namespace AspMVCMeeting.Controllers
         #region MASTER
 
         [HttpPost]
+        
         public JsonResult getMasterById(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
@@ -538,6 +583,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public string UpdateMaster(VM_MEETING vm_meetings)
         {
             MEETING_MASTER master = vm_meetings.MEETING_MASTER;
@@ -571,6 +617,7 @@ namespace AspMVCMeeting.Controllers
         #region MASTERFILES
         //BEGIN Upload files for the Create page in Meeting Master
         [HttpPost]
+        
         public JsonResult Upload(HttpPostedFileBase aFile)
         {
             if (aFile != null)
@@ -588,6 +635,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public JsonResult RemoveFile(string fileName)
         {
             var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
@@ -624,6 +672,7 @@ namespace AspMVCMeeting.Controllers
         //BEGIN Upload files for the Edit page in Meeting Master
 
         [HttpPost]
+        
         public string UploadFile(HttpPostedFileBase aFile, int? MT_REF)
         {
             if (aFile != null)
@@ -648,6 +697,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpGet]
+        
         public JsonResult GetAllFiles(int? id)
         {
             var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
@@ -655,6 +705,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        
         public string removeFileByID(int? fileId)
         {
             var file = db.MEETING_FILES.Find(fileId);

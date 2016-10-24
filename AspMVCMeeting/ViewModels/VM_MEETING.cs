@@ -10,6 +10,7 @@ namespace AspMVCMeeting.ViewModels
     public class VM_MEETING
     {
         public MEETING_MASTER MEETING_MASTER { get; set; }
+        public MEETING_MASTER_V MEETING_MASTER_V { get; set; }
         public MEETING_LINES MEETING_LINES { get; set; }
         public MEETING_LINES_DETAIL MEETING_LINES_DETAIL { get; set; }
         public MEETING_PARTICIPANTS MEETING_PARTICIPANTS { get; set; }

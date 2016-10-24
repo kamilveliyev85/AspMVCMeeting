@@ -2,14 +2,14 @@
        
     //get All Line Files
     this.GetAllLineFiles = function (lineId) {
-        return $http.get("/tr/MeetingLineIndependent/GetAllLineFiles/" + lineId);
+        return $http.get("/api/MeetingLineIndependent/GetAllLineFiles/" + lineId);
     };
     
     //remove line files by id
     this.removeLineFileByID = function (fileId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingLineIndependent/removeLineFileByID",
+            url: "/api/MeetingLineIndependent/removeLineFileByID",
             params: {
                 fileId: JSON.stringify(fileId),
             }
@@ -19,14 +19,14 @@
 
     //get All Lines
     this.GetLinesAll = function (MT_Ref) {
-        return $http.get("/tr/MeetingLineIndependent/GetLinesAll/" + MT_Ref);
+        return $http.get("/api/MeetingLineIndependent/GetLinesAll/" + MT_Ref);
     };
 
     // get Line By Id
     this.getLine = function (lineId) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingLineIndependent/getLineById",
+            url: "/api/MeetingLineIndependent/getLineById",
             params: {
                 id: JSON.stringify(lineId)
             }
@@ -38,7 +38,7 @@
     this.updateLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingLineIndependent/UpdateLine",
+            url: "/api/MeetingLineIndependent/UpdateLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -50,7 +50,7 @@
 
         var response = $http({
             method: "post",
-            url: "/tr/MeetingLineIndependent/AddLine",
+            url: "/api/MeetingLineIndependent/AddLine",
             data: JSON.stringify(line),
             dataType: "json"
         });
@@ -62,7 +62,7 @@
     this.DeleteLine = function (line) {
         var response = $http({
             method: "post",
-            url: "/tr/MeetingLineIndependent/DeleteLine",
+            url: "/api/MeetingLineIndependent/DeleteLine",
             data: JSON.stringify(line),
             dataType: "json"
         });

@@ -1,20 +1,25 @@
 ﻿operationApp.service("operationService", function ($http) {
      
-    //get All Files
+    //get All Lines
     this.GetLinesAll = function (MT_Ref) {
-        return $http.get("/tr/Operation/GetLinesAll/" + MT_Ref);
+        return $http.get("/api/Operation/GetLinesAll/" + MT_Ref);
+    };
+
+    //get All Approve
+    this.GetApproveAll = function (MT_Ref) {
+        return $http.get("/api/Operation/GetApproveAll/" + MT_Ref);
     };
 
     //get All Detail Files
     this.GetAllDetailFiles = function (detailId) {
-        return $http.get("/tr/Operation/GetAllDetailFiles/" + detailId);
+        return $http.get("/api/Operation/GetAllDetailFiles/" + detailId);
     };
 
     //remove detail files by id
     this.removeDetailFileByID = function (fileId) {
         var response = $http({
             method: "post",
-            url: "/tr/Operation/removeDetailFileByID",
+            url: "/api/Operation/removeDetailFileByID",
             params: {
                 fileId: JSON.stringify(fileId),
             }
@@ -25,14 +30,14 @@
 
     //get All Detail
     this.GetDetailAll = function (MLD_MTL_REF) {
-        return $http.get("/tr/Operation/GetDetailAll/" + MLD_MTL_REF);
+        return $http.get("/api/Operation/GetDetailAll/" + MLD_MTL_REF);
     };
 
     // get Detail By Id
     this.getDetail = function (detailId) {
         var response = $http({
             method: "post",
-            url: "/tr/Operation/getDetailById",
+            url: "/api/Operation/getDetailById",
             params: {
                 id: JSON.stringify(detailId)
             }
@@ -44,7 +49,7 @@
     this.updateDetail = function (detail) {
         var response = $http({
             method: "post",
-            url: "/tr/Operation/UpdateDetail",
+            url: "/api/Operation/UpdateDetail",
             data: JSON.stringify(detail),
             dataType: "json"
         });
@@ -56,7 +61,7 @@
 
         var response = $http({
             method: "post",
-            url: "/tr/Operation/AddDetail",
+            url: "/api/Operation/AddDetail",
             data: JSON.stringify(detail),
             dataType: "json"
         });
@@ -68,11 +73,35 @@
     this.DeleteDetail = function (detail) {
         var response = $http({
             method: "post",
-            url: "/tr/Operation/DeleteDetail",
+            url: "/api/Operation/DeleteDetail",
             data: JSON.stringify(detail),
             dataType: "json"
         });
         return response;
     }
     
+    // Update Status 
+    this.updateStatus = function (line) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/UpdateStatus",
+            data: JSON.stringify(line),
+            dataType: "json"
+        });
+        return response;
+    }
+
+    // Update Selected Status 
+    this.UpdateSelectedStatus = function (items, status) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/UpdateSelectedStatus",
+            params: {
+                items: JSON.stringify(items),
+                status: status
+            }
+        });
+        return response;
+    }
+
 });

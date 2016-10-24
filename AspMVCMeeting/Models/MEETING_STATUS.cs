@@ -16,5 +16,8 @@ namespace AspMVCMeeting.Models
         public int? MST_TYPE { get; set; }
 
         public bool? MST_ACTIVE { get; set; }
+
+        [StringLength(50)]
+        public string MST_PAGE { get; set; }
     }
 }

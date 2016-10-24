@@ -50,4 +50,19 @@
         //});
     }
 
+    $scope.changeStatusLine = function (line) {
+        angular.element('#statusUpdate').modal('show');
+        $scope.line = angular.copy(line);
+        $scope.line.MEETING_LINES.MTL_STS = $scope.line.MEETING_LINES.MTL_STS.toString();
+    }
+
+    $scope.updateStatus = function (line) {
+        var getData = operationService.updateStatus($scope.line);
+        getData.then(function (msg) {
+            GetLineAll();
+            angular.element('#statusUpdate').modal('hide');
+        }, function () {
+            alert('Error in updating record');
+        });
+    }
 });
