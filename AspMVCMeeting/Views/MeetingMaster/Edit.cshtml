@@ -793,6 +793,46 @@
                                   </div>
                                   <div class="col-md-4">
                                       <div class="form-group">
+                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
+                                          <div class="col-md-8">
+                                              @Html.TextAreaFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_DESCRIPTION" })
+                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
+                                          </div>
+                                      </div>
+
+                                  </div>
+                                  <div class="col-md-4">
+                                      
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                          <div class="col-md-8">
+                                              <div class="input-group select2-bootstrap-append">
+                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
+                                          </div>
+                                      </div>
+                                  </div>
+                                  
+
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_EXECUTANT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                          {{line.MTL_EXECUTANT}}
+                                          <div class="col-md-8">
+                                              <div class="input-group select2-bootstrap-append">
+                                                  @Html.DropDownListFor(model => model.lst_MTL_EXECUTANT, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.lst_MTL_EXECUTANT", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.lst_MTL_EXECUTANT, "", new { @class = "text-danger" })
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="form-group">
                                           @Html.LabelFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, htmlAttributes: new { @class = "control-label col-md-4" })
                                           <div class="col-md-8">
                                               <div class="select2-bootstrap-append">
@@ -803,7 +843,24 @@
 
                                           </div>
                                       </div>
+                                                                        
                                   </div>
+                                  <div class="col-md-4">
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "control-label col-md-4" })
+                                          <div class="col-md-8">
+                                              <div class="input-group select2-bootstrap-append">
+                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_CONFIRMER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_CONFIRMER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                              </div>
+                                          </div>
+                                          @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
+
+                                      </div>
+                                      
+                                  </div>
+
+                              </div>
+                              <div class="row">
                                   <div class="col-md-4">
                                       <div class="form-group">
                                           @Html.LabelFor(model => model.MEETING_LINES.MTL_START_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -832,56 +889,7 @@
                                                   </span>
                                               </div>
                                           </div>
-                                      </div>
-                                  </div>
-
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.TextAreaFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_DESCRIPTION" })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_EXECUTANT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          {{line.MTL_EXECUTANT}}
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.lst_MTL_EXECUTANT, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.lst_MTL_EXECUTANT", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
-
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.lst_MTL_EXECUTANT, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control" } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
+                                      </div> 
                                   </div>
                                   <div class="col-md-4">
                                       <div class="form-group">
@@ -895,7 +903,7 @@
                                           </div>
                                       </div>
                                   </div>
-                                  <div class="col-md-4">
+                                  @*<div class="col-md-4">
                                       <div class="form-group">
                                           @Html.LabelFor(model => model.MEETING_LINES.MTL_STS, htmlAttributes: new { @class = "control-label col-md-4" })
                                           <div class="col-md-8">
@@ -903,21 +911,10 @@
                                               @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_STS, "", new { @class = "text-danger" })
                                           </div>
                                       </div>
-                                  </div>
+                                  </div>*@
                               </div>
                               <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_CONFIRMER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_CONFIRMER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-                                              </div>
-                                          </div>
-                                          @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
-
-                                      </div>
-                                  </div>
+                                  
                                   <div class="col-md-4">
                                       <div class="form-group">
                                           @Html.LabelFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -965,6 +962,15 @@
                                   </div>
                               </div>
                               <div class="row">
+                                  <div class="col-md-4">
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                          <div class="col-md-8">
+                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control" } })
+                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
+                                          </div>
+                                      </div>
+                                  </div>
                                   <div class="col-md-4">
                                       <div class="form-group">
                                           @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-4" })
