@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/AspMVCMeeting/Properties/PublishProfiles/meeting_pub.pubxml
