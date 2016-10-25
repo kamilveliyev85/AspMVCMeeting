@@ -58,6 +58,7 @@ app.directive('jqdatepicker', function () {
             link: function(scope, elem, attr){
                 $(elem).datepicker({
                     format: "dd.mm.yyyy",
+                    autoclose: true
                 }).on("changeDate", function(e){
                     return scope.$apply(function(){
                         return scope.ngModel = e.format();

@@ -1,5 +1,4 @@
-﻿appIndep.controller("IndepCntrl", function ($scope, $http, upload, IndepService) {
-
+﻿appIndep.controller("IndepCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, IndepService) {
 
     //BEGIN Master LINES files create
 
@@ -86,13 +85,65 @@
     GetLineAll();
 
     function GetLineAll() {
+
         var getData = IndepService.GetLinesAll(null);
         getData.then(function (emp) {
-            $scope.lines = emp.data;
+            $scope.data = emp.data;
+            $scope.tableParams = new NgTableParams({
+                page: 1, // show first page
+                total: 1, // value less than count hide pagination
+                count: 5 // count per page
+            }, { counts: [], dataset: $scope.data });
+
+
+
+            $scope.checkboxes = { 'checked': false, items: {} };
+            angular.forEach($scope.data, function (item) {
+                $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
+            });
+
+            // watch for check all checkbox
+            $scope.$watch('checkboxes.checked', function (value) {
+                angular.forEach($scope.data, function (item) {
+                    if (angular.isDefined(item.MEETING_LINES.ID)) {
+                        $scope.checkboxes.items[item.MEETING_LINES.ID] = value;
+                    }
+                });
+            });
+
+            // watch for data checkboxes
+            $scope.$watch('checkboxes.items', function (values) {
+                if (!$scope.data) {
+                    return;
+                }
+                var checked = 0, unchecked = 0,
+                    total = $scope.data.length;
+                angular.forEach($scope.data, function (item) {
+                    checked += ($scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                    unchecked += (!$scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                });
+                if ((unchecked == 0) || (checked == 0)) {
+                    $scope.checkboxes.checked = (checked == total);
+                }
+                // grayed checkbox
+                angular.element($("#select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+            }, true);
+
+        }, function (response) {
+            alert('Error in getting records');
+        });
+
+    }
+
+    $scope.publishSelected = function (items) {
+        var getData = IndepService.publishSelected(items);
+        getData.then(function (emp) {
+            GetLineAll();
         }, function (response) {
             alert('Error in getting records');
         });
     }
+
 
     function formatDate(date) {
         var d = new Date(date),
@@ -106,7 +157,12 @@
         return [day, month, year].join('.');
     }
 
-    $scope.editLine = function (line) {
+    function convertDate(str) {
+        var from = str.split(".");
+        return new Date(from[2], from[1] - 1, from[0]);
+    }
+
+    $scope.editLine = function (line, isEdit) {
         $scope.fileCreate = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
@@ -114,7 +170,6 @@
         getData.then(function (emp) {
             $scope.line = emp.data;
             $scope.Action = "Update";
-
             for (var keyName in $scope.line.MEETING_LINES) {
                 var key = keyName;
                 var value = $scope.line.MEETING_LINES[keyName];
@@ -132,9 +187,20 @@
 
             $scope.fileEdit = true;
             GetAllLineFiles(line.MEETING_LINES.ID);
-
+            
             angular.element("#lineId").val(line.MEETING_LINES.ID);
             angular.element('textarea').removeAttr('style');
+            angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('removeAll');
+            angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('add', line.MEETING_LINES.MTL_TAGS);
+
+            if (isEdit) {
+                angular.element('#MeetingLinesDiv').find('input, textarea, select').removeAttr('disabled');
+            } else {
+                $scope.fileEdit = false;
+                $scope.fileCreate = false;
+                angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled');
+            }
+            
             angular.element("#MeetingLinesDiv").slideDown();
 
         },
@@ -144,18 +210,26 @@
     }
 
     $scope.AddLineDiv = function () {
+        $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
         $scope.fileEdit = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
         $scope.line = "";
-        $scope.line = { "MEETING_LINES": { "MTL_MT_REF": null } };
+        $scope.line = { "MEETING_LINES": { "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val() } };
         $scope.Action = "Add";
         $scope.fileCreate = true;
-        angular.element("#MeetingLinesDiv").slideDown();
         angular.element('textarea').removeAttr('style');
+        angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('removeAll');
+        angular.element("#MeetingLinesDiv").slideDown();
+
     }
 
     $scope.AddUpdateLine = function () {
+        if ($scope.line.MEETING_LINES.MTL_START_DATE != null)
+            $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+        if ($scope.line.MEETING_LINES.MTL_FINISH_DATE != null)
+            $scope.line.MEETING_LINES.MTL_FINISH_DATE = convertDate($scope.line.MEETING_LINES.MTL_FINISH_DATE);
+
         var getAction = $scope.Action;
         if (getAction == "Update") {
             var getData = IndepService.updateLine($scope.line);
@@ -188,5 +262,15 @@
             alert('Error in Deleting Record');
         });
     }
+
+    $scope.publishLine = function (line) {
+        var getData = IndepService.publishLine(line);
+        getData.then(function (msg) {
+            GetLineAll();
+        }, function () {
+            alert('Error in publishing Record');
+        });
+    }
+
 
 });

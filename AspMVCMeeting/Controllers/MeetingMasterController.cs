@@ -303,7 +303,6 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
         public string UpdateLine(VM_MEETING_LINES vm_meetings)
         {
             var mtl_executant = (vm_meetings.lst_MTL_EXECUTANT != null) ? String.Join(",", vm_meetings.lst_MTL_EXECUTANT.ToArray()) : string.Empty;
@@ -332,7 +331,6 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
         public string PublishSelected(string items)
         {
             Dictionary<int, bool> values = JsonConvert.DeserializeObject<Dictionary<int, bool>>(items);
@@ -375,7 +373,6 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
         public string PublishLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -393,7 +390,6 @@ namespace AspMVCMeeting.Controllers
 
 
         [HttpPost]
-        
         public string AddLine(VM_MEETING_LINES line)
         {
             if (line != null)
