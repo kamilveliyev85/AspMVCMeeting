@@ -18,8 +18,8 @@ namespace AspMVCMeeting.Controllers
             bool authenticated = false;
             try
             {
-                DirectoryEntry entry = new DirectoryEntry(ConfigurationManager.AppSettings["LdapEntry"], usr, pwd);
-                object nativeObject = entry.NativeObject;
+                //DirectoryEntry entry = new DirectoryEntry(ConfigurationManager.AppSettings["LdapEntry"], usr, pwd);
+                //object nativeObject = entry.NativeObject;
                 authenticated = true;
             }
             catch (DirectoryServicesCOMException cex)
@@ -48,7 +48,9 @@ namespace AspMVCMeeting.Controllers
             //EmployeeBusinessLayer bal = new EmployeeBusinessLayer();
             if (IsValidUser(userName, userPassword))
             {
-                FormsAuthentication.SetAuthCookie(userName.Replace('i', 'I').Replace('İ', 'I').ToUpper(), false);
+                userName = userName.Replace('i', 'I').Replace('İ', 'I').ToUpper();
+                //userName = "RESAD.YUSIFZADE@SGOFC.COM";
+                FormsAuthentication.SetAuthCookie(userName, false);
 
                 return RedirectToAction("Index", "Home");
             }

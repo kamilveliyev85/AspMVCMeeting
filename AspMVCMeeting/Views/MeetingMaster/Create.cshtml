@@ -160,6 +160,9 @@
             <div class="form-horizontal">
                 <div class="form-body" ng-app="app" ng-controller="masterCntrl">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*@{
+                        Html.RenderPartial("~/Views/Shared/ViewLoading.cshtml");
+                    }*@
 
                     <div class="row">
 

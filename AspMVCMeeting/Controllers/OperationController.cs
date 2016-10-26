@@ -17,6 +17,7 @@ namespace AspMVCMeeting.Controllers
     public class OperationController : Controller
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
+        string userName = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "empty" : System.Web.HttpContext.Current.User.Identity.Name;
 
         // GET: Operation
         public ActionResult Index()
@@ -28,6 +29,14 @@ namespace AspMVCMeeting.Controllers
             .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME + " (" + type.STATU_T + ")" })
             .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
+
+            var managerEmployeesList = db.Database
+                .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "SHEFCODE =(SELECT LREF FROM  DBHR.SAPHR.dbo.PERINFO WHERE ACCOUNTNAME ='" + userName + "') OR ACCOUNTNAME ='" + userName + "'"))
+                .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME })
+                .OrderBy(model => model.FULLNAME)
+                .ToList();
+
+            ViewBag.EMPLOYEES = new SelectList(managerEmployeesList, "ID", "FULLNAME"); ;
 
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2 && model.MST_PAGE == "Operation").Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
 
@@ -113,29 +122,43 @@ namespace AspMVCMeeting.Controllers
 
         #region LINE
         [HttpGet]
-        
         public JsonResult GetLinesAll(int? id)
         {
-            string userName = System.Web.HttpContext.Current.User.Identity.Name;
-
             VM_MEETING vm_meetings = new VM_MEETING();
 
+            var managerList = db.Database
+            .SqlQuery<SAP>("SAPHR_PERCODE @where", new SqlParameter("@where", "SHEFCODE =(SELECT LREF FROM  PERINFO WHERE ACCOUNTNAME ='" + userName + "') OR ACCOUNTNAME ='" + userName + "'"))
+            .Select(type => new { ID = type.ACCOUNTNAME, FULLNAME = type.PNAME + " " + type.PSURNAME })
+            .OrderBy(model=> model.FULLNAME)
+            .ToList();
+
+            var result = String.Join(", ", managerList.Select(model => model.ID).ToArray());
+
+            //ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
+            //managerList.Select(model => model.ID).ToList().Contains(mtl.MTL_RESPONSIBLE)
             vm_meetings.lst_MEETING_LINES =
-          (from mtl in db.MEETING_LINES
+          (from mtl in db.MEETING_LINES.Where(model => result.Contains(model.MTL_RESPONSIBLE))
            join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
            join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
-           where mtl.MTL_DELETED == false && (mtl.MTL_STS == 5 || mtl.MTL_STS == 11) && mtl.MTL_RESPONSIBLE == userName
-           select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
+           join sap in db.SAP on mtl.MTL_RESPONSIBLE equals sap.ACCOUNTNAME
+           join sap1 in db.SAP on mtl.MTL_CONFIRMER equals sap1.ACCOUNTNAME
+           where mtl.MTL_DELETED == false && (mtl.MTL_STS == 5 || mtl.MTL_STS == 11)
+           
+           select new VM_MEETING_LINES
+           {
+               MEETING_LINES = mtl,
+               MLN_NAME = mlt.MLN_NAME,
+               MTL_STS_TEXT = mst.MST_NAME,
+               MTL_CONFIRMER_DESC = sap1.PNAME + " " + sap1.PSURNAME,
+               MTL_RESPONSIBLE_DESC = sap.PNAME + " " + sap.PSURNAME
+           }).ToList();
 
             return Json(vm_meetings.lst_MEETING_LINES, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        
         public JsonResult GetApproveAll(int? id)
         {
-            string userName = System.Web.HttpContext.Current.User.Identity.Name;
-
             VM_MEETING vm_meetings = new VM_MEETING();
 
             vm_meetings.lst_MEETING_LINES =
@@ -149,7 +172,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string UpdateStatus(VM_MEETING_LINES vm_meetings)
         {
             MEETING_LINES line = vm_meetings.MEETING_LINES;
@@ -173,7 +196,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string UpdateSelectedStatus(string items, int? status)
         {
 
@@ -205,7 +228,7 @@ namespace AspMVCMeeting.Controllers
 
         #region DETAIL
         [HttpGet]
-        
+
         public JsonResult GetDetailAll(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
@@ -219,7 +242,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public JsonResult getDetailById(int? id)
         {
             VM_MEETING vm_meetings = new VM_MEETING();
@@ -233,7 +256,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string UpdateDetail(VM_MEETING_LINES_DETAIL vm_detail)
         {
             MEETING_LINES_DETAIL detail = vm_detail.MEETING_LINES_DETAIL;
@@ -257,7 +280,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string DeleteDetail(VM_MEETING_LINES_DETAIL vm_detail)
         {
             MEETING_LINES_DETAIL detail = vm_detail.MEETING_LINES_DETAIL;
@@ -276,7 +299,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string AddDetail(VM_MEETING_LINES_DETAIL vm_detail)
         {
             MEETING_LINES_DETAIL detail = vm_detail.MEETING_LINES_DETAIL;
@@ -316,14 +339,12 @@ namespace AspMVCMeeting.Controllers
             }
         }
 
-        string userName = "saddam.bilalov";
-
         #endregion DETAIL
 
         #region DETAILFILES
         //BEGIN Upload files for the Create page in Meeting Master
         [HttpPost]
-        
+
         public JsonResult UploadDetailFileCreate(HttpPostedFileBase aFile)
         {
             if (aFile != null)
@@ -341,7 +362,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public JsonResult RemoveDetailFile(string fileName)
         {
             var fileLoc = HttpContext.Server.MapPath("~/UploadsTemp/") + fileName;
@@ -361,7 +382,7 @@ namespace AspMVCMeeting.Controllers
         //BEGIN Upload files for the Edit page in Meeting Master
 
         [HttpPost]
-        
+
         public string UploadDetailFileEdit(HttpPostedFileBase aFile, int? detailId)
         {
             if (aFile != null)
@@ -386,7 +407,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpGet]
-        
+
         public JsonResult GetAllDetailFiles(int? id)
         {
             var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
@@ -394,7 +415,7 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-        
+
         public string removeDetailFileByID(int? fileId)
         {
             var file = db.MEETING_FILES.Find(fileId);

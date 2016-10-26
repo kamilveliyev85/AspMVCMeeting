@@ -15,7 +15,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#tblMeetingMaster').dataTable({
+            
+            var table = $('#tblMeetingMaster').DataTable({
                 "language": {
                     "lengthMenu": "Hər səhifədə _MENU_ sətir göstər",
                     "zeroRecords": "Hec bir məlumat tapilmadı",
@@ -29,6 +30,11 @@
                     },
                 }
             });
+
+            //$('#inputDatabaseName').on('input', function (e) {
+            //    table.columns(2).search('IKB2016101727|YKB2016101135|YKB2016101136', true, false).draw();
+            //});
+           
         });
 
 

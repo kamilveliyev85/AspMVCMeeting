@@ -1,4 +1,24 @@
-﻿var operationApp = angular.module("operationApp", ['lr.upload']);
+﻿var operationApp = angular.module("operationApp", ['ngTable', 'lr.upload']);
+
+operationApp.directive('loading', ['$http', function ($http) {
+    return {
+        restrict: 'A',
+        link: function (scope, elm, attrs) {
+            scope.isLoading = function () {
+                return $http.pendingRequests.length > 0;
+            };
+
+            scope.$watch(scope.isLoading, function (v) {
+                if (v) {
+                    elm.modal('show');
+                } else {
+                    elm.modal('hide');
+                }
+            });
+        }
+    };
+
+}]);
 
 operationApp.directive('uploadFile', ['$parse', function ($parse) {
     return {
@@ -43,27 +63,27 @@ operationApp.filter('ctime', function () {
 });
 
 operationApp.directive('jqdatepicker', function () {
-        return {
-            restrict: "EAC",
-            require: "ngModel",
-            scope: {
-                "ngModel": "="
-            },
-            link: function(scope, elem, attr){
-                $(elem).datepicker({
-                    format: "dd.mm.yyyy",
-                }).on("changeDate", function(e){
-                    return scope.$apply(function(){
-                        return scope.ngModel = e.format();
-                    });
+    return {
+        restrict: "EAC",
+        require: "ngModel",
+        scope: {
+            "ngModel": "="
+        },
+        link: function (scope, elem, attr) {
+            $(elem).datepicker({
+                format: "dd.mm.yyyy",
+            }).on("changeDate", function (e) {
+                return scope.$apply(function () {
+                    return scope.ngModel = e.format();
                 });
-                
-                return scope.$watch("ngModel", function(newValue){
-                    $(elem).datepicker("update", newValue);
-                });
-            }
-        };
-    });
+            });
+
+            return scope.$watch("ngModel", function (newValue) {
+                $(elem).datepicker("update", newValue);
+            });
+        }
+    };
+});
 
 operationApp.directive("select2", function ($timeout, $parse) {
     return {

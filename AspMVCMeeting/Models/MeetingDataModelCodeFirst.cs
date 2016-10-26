@@ -27,7 +27,7 @@ namespace AspMVCMeeting.Models
         public virtual DbSet<MEETING_TYPE_PERMISSION> MEETING_TYPE_PERMISSION { get; set; }
         public virtual DbSet<MEETING_LINE_TYPE> MEETING_LINE_TYPE { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<SAP> SAPs { get; set; }
+        public virtual DbSet<SAP> SAP { get; set; }
         public virtual DbSet<DEPT> DEPT { get; set; }
         public virtual DbSet<DECISION_TYPES> DECISION_TYPES { get; set; }
         public virtual DbSet<VW_MEETING_LINE> VW_MEETING_LINE { get; set; }

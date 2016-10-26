@@ -702,6 +702,10 @@
                     <a href="" class="collapse"> </a>
                 </div>
                 <div class="actions">
+                    <button type="button" ng-click="AddLineDiv()" class="btn btn-default btn-sm actionBtn" style="color:white">
+                        Yeni ekle
+                        <i class="fa fa-plus"></i>
+                    </button>
                     <a ng-click="publishSelected(checkboxes.items)" class="btn btn-default btn-sm actionBtn" style="color:white">
                         <i class="fa fa-check"> </i> Yayınla
                     </a>
@@ -749,8 +753,8 @@
                                     <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
                                     <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                     <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
-                                    <td title="'İcraçılar'" sortable="'MEETING_LINES.MTL_RESPONSIBLE'"> {{line.MEETING_LINES.MTL_RESPONSIBLE}} </td>
-                                    <td title="'Teyit edən'" sortable="'MEETING_LINES.MTL_CONFIRMER'"> {{line.MEETING_LINES.MTL_CONFIRMER}} </td>
+                                    <td title="'İcraçılar'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
+                                    <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
                                     <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
                                         <span ng-show="line.MEETING_LINES.MTL_STS == 9" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
                                         <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
@@ -767,12 +771,12 @@
                         @*</div>*@
                         <!--END TABLE -->
 
-                        <div class="form-actions right" style="background-color:#ffffff">
+                        @*<div class="form-actions right" style="background-color:#ffffff">
                             <button type="button" ng-click="AddLineDiv()" class="btn sbold blue">
                                 Yeni ekle
                                 <i class="fa fa-plus"></i>
                             </button>
-                        </div>
+                        </div>*@
 
                         <div id="MeetingLinesDiv" style="display:none">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

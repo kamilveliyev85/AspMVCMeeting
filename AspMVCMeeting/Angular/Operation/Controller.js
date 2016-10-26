@@ -1,11 +1,38 @@
-﻿operationApp.controller("operationCntrl", function ($scope, $http, upload, operationService) {
+﻿operationApp.controller("operationCntrl", function ($scope, $filter, $http, $q, NgTableParams, upload, operationService) {
     
     GetLineAll();
 
+    function filterBy(obj) {
+        if ($scope.employees.toString().indexOf(obj.MEETING_LINES.MTL_RESPONSIBLE) !== -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function GetLineAll() {
         var getData = operationService.GetLinesAll(null);
+
         getData.then(function (emp) {
-            $scope.lines = emp.data;
+            $scope.fullData = emp.data;
+            $scope.data = emp.data;
+
+            $scope.employees = null;
+            
+            $scope.$watch('employees', function () {
+                if ($scope.employees != null)
+                    $scope.data = $scope.fullData.filter(filterBy);
+                else
+                    $scope.data = $scope.fullData;
+
+                $scope.tableParams = new NgTableParams({
+                    page: 1, // show first page
+                    total: 1, // value less than count hide pagination
+                    count: 5 // count per page
+                }, { counts: [], dataset: $scope.data });
+
+            });
+            
         }, function (response) {
             alert('Error in getting records');
         });
@@ -48,6 +75,11 @@
         //function () {
         //    alert('Error in getting records');
         //});
+    }
+    
+    $scope.filterEmployee = function (employees) {
+
+        $scope.employees = employees;
     }
 
     $scope.changeStatusLine = function (line) {
