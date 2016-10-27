@@ -68,4 +68,28 @@
         });
         return response;
     }
+
+    //Publish Line
+    this.publishLine = function (line) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingLineIndependent/PublishLine",
+            data: JSON.stringify(line),
+            dataType: "json"
+        });
+        return response;
+    }
+
+    // Publish Selected 
+    this.publishSelected = function (items) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingLineIndependent/PublishSelected",
+            params: {
+                items: JSON.stringify(items),
+            }
+        });
+        return response;
+    }
+
 });

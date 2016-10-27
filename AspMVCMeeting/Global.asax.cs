@@ -20,12 +20,28 @@ namespace AspMVCMeeting
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
 
             Database.SetInitializer<MeetingDataModelCodeFirst>(null);
 
             ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator()));
 
         }
+    }
+
+    public class DateTimeModelBinder : IModelBinder
+    {
+        #region IModelBinder Members 
+
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var date = DateTime.ParseExact(value.ToString(), "dd.mm.yyyy", CultureInfo.InvariantCulture);
+
+            return date;
+        }
+
+        #endregion
     }
 
     public class LocalizedControllerActivator : IControllerActivator

@@ -55,12 +55,16 @@
         .bootstrap-tagsinput {
             width: 100% !important;
         }
+
+        #MeetingLinesDiv .form-group {
+            margin-bottom: 8px !important;
+        }
     </style>
 
     <script type="text/javascript">
         $(document).ready(function () {
 
-            //$('#MeetingLinesDiv').hide();
+            $('#divShowHistory').find('input, textarea, select').attr('disabled', 'disabled');
 
             $('#files').on('change', function () {
                 var files = $(this)[0].files;
@@ -203,185 +207,203 @@
                                     Tarix : {{history.MEETING_MASTER_V.MTV_CREATEDATE |ctime| date : 'dd.MM.yyyy'}}
                                 </div>
                                 <div class="row">
-
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_TYPE, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_TYPE, ViewBag.MEETING_TYPE as SelectList, new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TYPE", @disabled = "" })
+                                                @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_TYPE, ViewBag.MEETING_TYPE as SelectList, new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TYPE" })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_TYPE, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_TITLE, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_TITLE, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TITLE", @disabled = "" } })
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_TITLE, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TITLE" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_TITLE, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_PLACE, ViewBag.MT_PLEACE as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "history.MEETING_MASTER_V.MT_PLACE" })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_PLACE, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 <div class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
-                                                    <input class="form-control" disabled="" ng_model="history.MEETING_MASTER_V.MT_DATE" />
+                                                    @Html.EditorFor(model => model.MEETING_MASTER_V.MT_DATE, new { htmlAttributes = new { @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly", @ng_model = "history.MEETING_MASTER_V.MT_DATE", @jqdatepicker = "" } })
                                                     <span class="input-group-btn">
-                                                        <button class="btn default" type="button" disabled>
+                                                        <button class="btn default" type="button">
                                                             <i class="fa fa-calendar"></i>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_START_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    @Html.EditorFor(model => model.MEETING_MASTER_V.MT_START_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24", @ng_model = "history.MEETING_MASTER_V.MT_START_TIME" } })
+                                                    @*<input type="text" class="form-control timepicker timepicker-24">*@
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_FINISH_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    @Html.EditorFor(model => model.MEETING_MASTER_V.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24", @ng_model = "history.MEETING_MASTER_V.MT_FINISH_TIME" } })
+                                                    @*<input type="text" class="form-control timepicker timepicker-24">*@
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default" type="button">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                <div class="input-group select2-bootstrap-append">
+                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_DEPARTMENT, ViewBag.DEPT as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "history.MEETING_MASTER_V.MT_DEPARTMENT" })
 
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_DEPARTMENT, "", new { @class = "text-danger" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_MANAGER, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 <div class="input-group select2-bootstrap-append">
-                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "history.MEETING_MASTER_V.MT_MANAGER", @disabled = "" })
-
+                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "history.MEETING_MASTER_V.MT_MANAGER" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_MANAGER, "", new { @class = "text-danger" })
+
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_FOLLOWER_USERID, htmlAttributes: new { @class = "control-label col-md-4" })
 
                                             <div class="col-md-8">
                                                 <div class="input-group select2-bootstrap-append">
-                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "history.MEETING_MASTER_V.MT_FOLLOWER_USERID", @disabled = "" })
-
+                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "history.MEETING_MASTER_V.MT_FOLLOWER_USERID" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_FOLLOWER_USERID, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_NO, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_NO, new { htmlAttributes = new { @class = "form-control", @disabled = "readonly", @Value = ViewBag.MT_NO, @ng_model = "history.MEETING_MASTER_V.MT_NO" } })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_TAGS, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TAGS", @disabled = "" } })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_PLACE, ViewBag.MT_PLEACE as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "history.MEETING_MASTER_V.MT_PLACE", @disabled = "" })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                <div class="input-group select2-bootstrap-append">
-                                                    @Html.DropDownListFor(model => model.MEETING_MASTER_V.MT_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "history.MEETING_MASTER_V.MT_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @disabled = "" })
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                <div class="input-group select2-bootstrap-append">
-                                                    @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "history.lst_MT_USER_PARTICIPANTS", @disabled = "" })
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_USER_OUT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_USER_OUT, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_USER_OUT", @disabled = "" } })
-                                            </div>
-                                        </div>
-
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
                                                 <div class="input-group select2-bootstrap-append">
-                                                    @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "history.lst_MT_USER_CC", @disabled = "" })
+                                                    @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @multiple = "", @ng_model = "history.lst_MT_USER_CC" })
+
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.lst_MT_USER_CC, "", new { @class = "text-danger" })
+
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="col-md-6">
-
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_START_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input class="form-control timepicker timepicker-24" disabled="" ng_model="history.MEETING_MASTER_V.MT_START_TIME" />
-                                                    <span class="input-group-btn">
-                                                        <button class="btn default" type="button" disabled>
-                                                            <i class="fa fa-clock-o"></i>
-                                                        </button>
-                                                    </span>
+                                                <div class="input-group select2-bootstrap-append">
+                                                    @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @multiple = "", @ng_model = "history.lst_MT_USER_PARTICIPANTS" })
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.lst_MT_USER_PARTICIPANTS, "", new { @class = "text-danger" })
+
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_FINISH_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input class="form-control timepicker timepicker-24" disabled="" ng_model="history.MEETING_MASTER_V.MT_FINISH_TIME" />                                                        <span class="input-group-btn">
-                                                        <button class="btn default" type="button" disabled>
-                                                            <i class="fa fa-clock-o"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_TAGS, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_TAGS" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_TAGS, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_SCODE1, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_USER_OUT, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE1, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_SCODE1", @disabled = "" } })
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_USER_OUT, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_USER_OUT" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_USER_OUT, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_SCODE2, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE2, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_SCODE2", @disabled = "" } })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_SCODE3, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE3, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_SCODE3", @disabled = "" } })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_SCODE4, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE4, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_SCODE4", @disabled = "" } })
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.MEETING_MASTER_V.MT_SCODE5, htmlAttributes: new { @class = "control-label col-md-4" })
-                                            <div class="col-md-8">
-                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE5, new { htmlAttributes = new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_SCODE5", @disabled = "" } })
-                                            </div>
-                                        </div>
-
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.MEETING_MASTER_V.MT_DESCIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
                                             <div class="col-md-8">
-                                                @Html.TextAreaFor(model => model.MEETING_MASTER_V.MT_DESCIPTION, new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_DESCIPTION", @disabled = "" })
+                                                @Html.TextAreaFor(model => model.MEETING_MASTER_V.MT_DESCIPTION, new { @class = "form-control", @ng_model = "history.MEETING_MASTER_V.MT_DESCIPTION" })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_DESCIPTION, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE1, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER_V.MT_SCODE1), @ng_model = "history.MEETING_MASTER_V.MT_SCODE1" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_SCODE1, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE2, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER_V.MT_SCODE2), @ng_model = "history.MEETING_MASTER_V.MT_SCODE2" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_SCODE2, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE3, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER_V.MT_SCODE3), @ng_model = "history.MEETING_MASTER_V.MT_SCODE3" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_SCODE3, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                                @Html.EditorFor(model => model.MEETING_MASTER_V.MT_SCODE4, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER_V.MT_SCODE4), @ng_model = "history.MEETING_MASTER_V.MT_SCODE4" } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_MASTER_V.MT_SCODE4, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -407,14 +429,14 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-file"></i> Toplanti Yonetimi Deyişim Formu
+                    <i class="fa fa-file"></i> Toplanti Yonetimi Deyişim Formu: {{master.MEETING_MASTER.MT_NO}}
                 </div>
                 <div class="tools">
                     <a href="" class="expand"> </a>
                 </div>
                 <div class="actions">
                     <a ng-click="showHistory()" class="btn btn-default btn-sm actionBtn" style="color:white">
-                        <i class="fa fa-eye"> </i> Detail
+                        <i class="fa fa-eye"> </i> Geçmiş
                     </a>
                 </div>
             </div>
@@ -423,18 +445,19 @@
                     <div class="form-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.MEETING_MASTER.ID)
-                        <div class="row">
+                        @*ROW*@
 
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_TYPE, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @*@Html.EditorFor(model => model.MEETING_MASTER.MT_TYPE, new { htmlAttributes = new { @class = "form-control" } })*@
                                         @Html.DropDownListFor(model => model.MEETING_MASTER.MT_TYPE, ViewBag.MEETING_TYPE as SelectList, new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_TYPE" })
                                         @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TYPE, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_TITLE, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
@@ -442,15 +465,19 @@
                                         @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TITLE, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                @*<div class="form-group">
-                                        @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                        <div class="col-md-8">
-                                            @Html.EditorFor(model => model.MEETING_MASTER.MT_DATE, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DATE, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>*@
-
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.MEETING_MASTER.MT_PLACE, ViewBag.MT_PLEACE as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "master.MEETING_MASTER.MT_PLACE" })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_PLACE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
@@ -464,102 +491,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_MANAGER, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        <div class="input-group select2-bootstrap-append">
-                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "master.MEETING_MASTER.MT_MANAGER" })
-
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_MANAGER, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, htmlAttributes: new { @class = "control-label col-md-4" })
-
-                                    <div class="col-md-8">
-                                        <div class="input-group select2-bootstrap-append">
-                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "master.MEETING_MASTER.MT_FOLLOWER_USERID" })
-
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_NO, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_NO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.MT_NO, @ng_model = "master.MEETING_MASTER.MT_NO" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_NO, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_TAGS, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_TAGS" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TAGS, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_PLACE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.DropDownListFor(model => model.MEETING_MASTER.MT_PLACE, ViewBag.MT_PLEACE as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1", @ng_model = "master.MEETING_MASTER.MT_PLACE" })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_PLACE, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        <div class="input-group select2-bootstrap-append">
-                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "master.MEETING_MASTER.MT_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DEPARTMENT, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        <div class="input-group select2-bootstrap-append">
-                                            @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "master.lst_MT_USER_PARTICIPANTS" })
-
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.lst_MT_USER_PARTICIPANTS, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_OUT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_USER_OUT, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_USER_OUT" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_USER_OUT, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        <div class="input-group select2-bootstrap-append">
-                                            @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "", @ng_model = "master.lst_MT_USER_CC" })
-
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.lst_MT_USER_CC, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
-
                             </div>
-                            <div class="col-md-6">
-
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_START_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
                                     @*<div class="col-md-8">
@@ -567,7 +500,7 @@
                                             @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_START_TIME, "", new { @class = "text-danger" })
                                         </div>*@
                                     <div class="col-md-8">
-                                        <div id="div_MT_START_TIME" class="input-group">
+                                        <div class="input-group">
                                             @Html.EditorFor(model => model.MEETING_MASTER.MT_START_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24", @ng_model = "master.MEETING_MASTER.MT_START_TIME" } })
                                             @*<input type="text" class="form-control timepicker timepicker-24">*@
                                             <span class="input-group-btn">
@@ -578,15 +511,12 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_FINISH_TIME, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    @*<div class="col-md-8">
-                                            @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FINISH_TIME, "", new { @class = "text-danger" })
-                                        </div>*@
                                     <div class="col-md-8">
-                                        <div id="div_MT_FINISH_TIME" class="input-group">
+                                        <div class="input-group">
                                             @Html.EditorFor(model => model.MEETING_MASTER.MT_FINISH_TIME, new { htmlAttributes = new { @class = "form-control timepicker timepicker-24", @ng_model = "master.MEETING_MASTER.MT_FINISH_TIME" } })
                                             @*<input type="text" class="form-control timepicker timepicker-24">*@
                                             <span class="input-group-btn">
@@ -597,47 +527,94 @@
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE1, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE1, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_SCODE1" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_DEPARTMENT, ViewBag.DEPT as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "master.MEETING_MASTER.MT_DEPARTMENT" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DEPARTMENT, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE2, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_MANAGER, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE2, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_SCODE2" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE2, "", new { @class = "text-danger" })
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_MANAGER, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "master.MEETING_MASTER.MT_MANAGER" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_MANAGER, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE3, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, htmlAttributes: new { @class = "control-label col-md-4" })
+
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE3, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_SCODE3" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE3, "", new { @class = "text-danger" })
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @ng_model = "master.MEETING_MASTER.MT_FOLLOWER_USERID" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE4, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_CC, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE4, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_SCODE4" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE4, "", new { @class = "text-danger" })
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.lst_MT_USER_CC, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @multiple = "", @ng_model = "master.lst_MT_USER_CC" })
+
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.lst_MT_USER_CC, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_SCODE5, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
-                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE5, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_SCODE5" } })
-                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE5, "", new { @class = "text-danger" })
+                                        <div class="input-group select2-bootstrap-append">
+                                            @Html.DropDownListFor(model => model.lst_MT_USER_PARTICIPANTS, ViewBag.MT_MANAGER as SelectList, new { @class = "form-control select2 select2-multiple select2-hidden-accessible", @multiple = "", @ng_model = "master.lst_MT_USER_PARTICIPANTS" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.lst_MT_USER_PARTICIPANTS, "", new { @class = "text-danger" })
+
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_TAGS, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_TAGS" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_TAGS, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MEETING_MASTER.MT_USER_OUT, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_USER_OUT, new { htmlAttributes = new { @class = "form-control", @ng_model = "master.MEETING_MASTER.MT_USER_OUT" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_USER_OUT, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MEETING_MASTER.MT_DESCIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
@@ -645,13 +622,44 @@
                                         @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_DESCIPTION, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE1, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE1), @ng_model = "master.MEETING_MASTER.MT_SCODE1" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE2, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE2), @ng_model = "master.MEETING_MASTER.MT_SCODE2" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE3, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE3), @ng_model = "master.MEETING_MASTER.MT_SCODE3" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE3, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                        @Html.EditorFor(model => model.MEETING_MASTER.MT_SCODE4, new { htmlAttributes = new { @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE4), @ng_model = "master.MEETING_MASTER.MT_SCODE4" } })
+                                        @Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE4, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
 
                                 <div class="form-group">
                                     @Html.Label("Dosyalar", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-8">
 
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover">
+                                            <table class="table table-striped table-bordered table-hover" ng-show="files.length > 0">
                                                 <tbody>
                                                     <tr ng-repeat="file in files">
                                                         <td style="word-break:break-all">{{file.MTF_FILENAME}}</td>
@@ -672,7 +680,16 @@
                                 </div>
 
                             </div>
-                        </div> @*ROW*@
+
+                            <div class="col-md-4">
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-actions right">
                             <button type="button" id="btnCancelMeetingMaster" class="btn red"><i class="fa fa-close"></i> İptal</button>
@@ -704,6 +721,10 @@
                     <a href="" class="collapse"> </a>
                 </div>
                 <div class="actions">
+                    <button type="button" ng-click="AddLineDiv()" class="btn btn-default btn-sm actionBtn" style="color:white">
+                        Yeni ekle
+                        <i class="fa fa-plus"></i>
+                    </button>
                     <a ng-click="publishSelected(checkboxes.items)" class="btn btn-default btn-sm actionBtn" style="color:white">
                         <i class="fa fa-check"> </i> Yayınla
                     </a>
@@ -717,233 +738,231 @@
                         <script type="text/ng-template" id="ng-table/headers/checkbox.html">
                             <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
                         </script>
-                        <table ng-table="tableParams" class="table table-striped table-bordered table-hover"
-                               cellspacing="0" show-filter="false">
-                            <tr ng-repeat="line in $data">
-                                <td width="30" style="text-align: left" header="'ng-table/headers/checkbox.html'">
-                                    <input type="checkbox" ng-model="checkboxes.items[line.MEETING_LINES.ID]" />
-                                </td>
-                                <td title="'#'" sortable="'MEETING_LINES.ID'">{{data.length - data.indexOf(line)}}</td>
-                                <td title="'İşlemler'">
-                                    <div class="btn-group">
-                                        <button class="btn btn-xs blue dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                            İşlemler
-                                            <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a ng-click="publishLine(line)"><i class='fa fa-check'></i> Yayınla</a>
-                                            </li>
-                                            <li>
-                                                <a ng-click="viewLine(line)"><i class='fa fa-eye'></i> Görüntüle</a>
-                                            </li>
-                                            <li>
-                                                <a ng-click="editLine(line)"><i class='fa fa-pencil'></i>Deyiş</a>
-                                            </li>
-                                            <li>
-                                                <a ng-click="deleteLine(line)"><i class='fa fa-trash-o'></i>Sil</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td title="'Kayıt türü'" sortable="'MLN_NAME'">{{line.MLN_NAME}}</td>
-                                <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
-                                <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
-                                <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
-                                <td title="'İcraçılar'" sortable="'MEETING_LINES.MTL_RESPONSIBLE'"> {{line.MEETING_LINES.MTL_RESPONSIBLE}} </td>
-                                <td title="'Teyit edən'" sortable="'MEETING_LINES.MTL_CONFIRMER'"> {{line.MEETING_LINES.MTL_CONFIRMER}} </td>
-                                <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 9" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 5" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 6" class="label label-sm label-success"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 11" class="label label-sm label-danger"> {{line.MTL_STS_TEXT}} </span>
-                                </td>
-                                <td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'"> {{line.MEETING_LINES.MTL_TAGS}} </td>
-                                <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
-                            </tr>
-                        </table>
-
+                        <div class="table-responsive">
+                            <table ng-table="tableParams" class="table table-striped table-bordered table-hover"
+                                   cellspacing="0" show-filter="false">
+                                <tr ng-repeat="line in $data">
+                                    <td width="30" style="text-align: left" header="'ng-table/headers/checkbox.html'">
+                                        <input type="checkbox" ng-model="checkboxes.items[line.MEETING_LINES.ID]" />
+                                    </td>
+                                    <td title="'#'" sortable="'MEETING_LINES.ID'">{{data.length - data.indexOf(line)}}</td>
+                                    <td title="'İşlemler'">
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs blue dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                İşlemler
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a ng-click="publishLine(line)"><i class='fa fa-check'></i> Yayınla</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="editLine(line, false)"><i class='fa fa-eye'></i> Görüntüle</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="editLine(line, true)"><i class='fa fa-pencil'></i>Deyiş</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="deleteLine(line)"><i class='fa fa-trash-o'></i>Sil</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td title="'Kayıt türü'" sortable="'MLN_NAME'">{{line.MLN_NAME}}</td>
+                                    <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
+                                    <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
+                                    <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
+                                    <td title="'İcraçılar'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
+                                    <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
+                                    <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
+                                        <span ng-show="line.MEETING_LINES.MTL_STS == 9" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
+                                        <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
+                                        <span ng-show="line.MEETING_LINES.MTL_STS == 5" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
+                                        <span ng-show="line.MEETING_LINES.MTL_STS == 6" class="label label-sm label-success"> {{line.MTL_STS_TEXT}} </span>
+                                        <span ng-show="line.MEETING_LINES.MTL_STS == 11" class="label label-sm label-danger"> {{line.MTL_STS_TEXT}} </span>
+                                    </td>
+                                    <td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'"> {{line.MEETING_LINES.MTL_TAGS}} </td>
+                                    <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
+                                </tr>
+                            </table>
+                        </div>
 
                         @*</div>*@
                         <!--END TABLE -->
-
-                        <div class="form-actions right" style="background-color:#ffffff">
-                            <button type="button" ng-click="AddLineDiv()" class="btn sbold blue">
-                                Yeni ekle
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
+                        @*<div class="form-actions right" style="background-color:#ffffff">
+                                <button type="button" ng-click="AddLineDiv()" class="btn sbold blue">
+                                    Yeni ekle
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>*@
 
                         <div id="MeetingLinesDiv" style="display:none">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <input id="lineId" type="hidden" />
 
-                          <div class="container">
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_TYPE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.DropDownListFor(model => model.MEETING_LINES.MTL_TYPE, ViewBag.MEETING_LINE_TYPES as SelectList, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_TYPE" })
-                                              @*<select class="form-control" id="MTL_TYPE" ng-model="line.MTL_TYPE" ng-options="item.MLN_NAME for item in linetypes track by item.ID"></select>*@
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TYPE, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.TextAreaFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_DESCRIPTION" })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
+                            @*<div class="container">*@
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_TYPE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_TYPE, ViewBag.MEETING_LINE_TYPES as SelectList, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_TYPE" })
+                                            @*<select class="form-control" id="MTL_TYPE" ng-model="line.MTL_TYPE" ng-options="item.MLN_NAME for item in linetypes track by item.ID"></select>*@
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TYPE, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.TextAreaFor(model => model.MEETING_LINES.MTL_DESCRIPTION, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_DESCRIPTION" })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DESCRIPTION, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                                  </div>
-                                  <div class="col-md-4">
-                                      
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                </div>
+                                <div class="col-md-4">
 
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_DEPARTMENT, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DEPARTMENT, ViewBag.DEPT as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DEPARTMENT", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
 
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_EXECUTANT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          {{line.MTL_EXECUTANT}}
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.lst_MTL_EXECUTANT, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.lst_MTL_EXECUTANT", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DEPARTMENT, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_EXECUTANT, htmlAttributes: new { @class = "col-md-4" })
+                                        {{line.MTL_EXECUTANT}}
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.lst_MTL_EXECUTANT, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.lst_MTL_EXECUTANT", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
 
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.lst_MTL_EXECUTANT, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_RESPONSIBLE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.lst_MTL_EXECUTANT, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_RESPONSIBLE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
 
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, "", new { @class = "text-danger" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RESPONSIBLE, "", new { @class = "text-danger" })
 
-                                          </div>
-                                      </div>
-                                                                        
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_CONFIRMER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_CONFIRMER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-                                              </div>
-                                          </div>
-                                          @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                                      </div>
-                                      
-                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_CONFIRMER, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_CONFIRMER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_CONFIRMER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_CONFIRMER, "", new { @class = "text-danger" })
 
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_START_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
-                                                  @Html.EditorFor(model => model.MEETING_LINES.MTL_START_DATE, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_START_DATE", @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly", @jqdatepicker = "" } })
-                                                  <span class="input-group-btn">
-                                                      <button class="btn default" type="button">
-                                                          <i class="fa fa-calendar"></i>
-                                                      </button>
-                                                  </span>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_FINISH_DATE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group date date-picker" data-date-format="dd.mm.yyyy" data-date-viewmode="years">
-                                                  @Html.EditorFor(model => model.MEETING_LINES.MTL_FINISH_DATE, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_FINISH_DATE", @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly", @jqdatepicker = "" } })
-                                                  <span class="input-group-btn">
-                                                      <button class="btn default" type="button">
-                                                          <i class="fa fa-calendar"></i>
-                                                      </button>
-                                                  </span>
-                                              </div>
-                                          </div>
-                                      </div> 
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, ViewBag.MTL_PROJECT_CODE as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_PROJECT_CODE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                    </div>
 
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  @*<div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_STS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.DropDownListFor(model => model.MEETING_LINES.MTL_STS, ViewBag.STATUS as SelectList, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_STS" })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_STS, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>*@
-                              </div>
-                              <div class="row">
-                                  
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, ViewBag.DECISION_TYPES as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DECISION_TYPE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-                                              </div>
-                                          </div>
-                                          @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, "", new { @class = "text-danger" })
+                                </div>
 
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group" id="divOfferUser" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_USER, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_USER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_OFFER_USER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
-                                              </div>
-                                          </div>
-                                          @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_USER, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_START_DATE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group date date-picker" data-date-viewmode="years">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_START_DATE, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_START_DATE", @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly", @jqdatepicker = "" } })
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_FINISH_DATE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group date date-picker" data-date-viewmode="years">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_FINISH_DATE, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_FINISH_DATE", @class = "form-control", placeholder = "Daxil edin...", @readonly = "readonly", @jqdatepicker = "" } })
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, ViewBag.MTL_PROJECT_CODE as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_PROJECT_CODE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
 
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group" id="divOfferOk" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_OK, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_OK,
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_PROJECT_CODE, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-4">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MEETING_LINES.MTL_STS, htmlAttributes: new { @class = "col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_STS, ViewBag.STATUS as SelectList, new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_STS" })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_STS, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>*@
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, ViewBag.DECISION_TYPES as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_DECISION_TYPE", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_DECISION_TYPE, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" id="divOfferUser" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_USER, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_USER, ViewBag.MT_MANAGER as SelectList, new { @ng_model = "line.MEETING_LINES.MTL_OFFER_USER", @class = "form-control select2 select2-allow-clear select2-hidden-accessible", @tabindex = "-1" })
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_USER, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" id="divOfferOk" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_OFFER_OK, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.MEETING_LINES.MTL_OFFER_OK,
                          new SelectList(
                              new[]
                              {
@@ -956,138 +975,167 @@
                                  @ng_model = "line.MEETING_LINES.MTL_OFFER_OK",
                                  @class = "form-control"
                              })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_OK, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control" } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              <div class="input-group select2-bootstrap-append">
-                                                  @Html.DropDownListFor(model => model.lst_MTL_RELATED_FORM_REF, ViewBag.MTL_RELATED_FORM_REF as SelectList, new { @ng_model = "line.lst_MTL_RELATED_FORM_REF", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_OFFER_OK, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_TAGS, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_TAGS, new { htmlAttributes = new { @class = "form-control", @ng_model = "line.MEETING_LINES.MTL_TAGS" } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_TAGS, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="input-group select2-bootstrap-append">
+                                                @Html.DropDownListFor(model => model.lst_MTL_RELATED_FORM_REF, ViewBag.MTL_RELATED_FORM_REF as SelectList, new { @ng_model = "line.lst_MTL_RELATED_FORM_REF", @class = "form-control select2 select2-multiple select2-hidden-accessible", @tabindex = "-1", @multiple = "" })
 
-                                              </div>
-                                              @Html.ValidationMessageFor(model => model.lst_MTL_RELATED_FORM_REF, "", new { @class = "text-danger" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.lst_MTL_RELATED_FORM_REF, "", new { @class = "text-danger" })
 
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-group">
-                                          @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
-                                          <div class="col-md-8">
-                                              @Html.TextAreaFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, new { @ng_model = "line.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION", @class = "form-control" })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-md-2">
-                                      <div class="form-group">
-                                          <div class="col-md-12">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE1, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE1", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE1) } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                      <div class="form-group">
-                                          <div class="col-md-12">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE2, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE2", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE2) } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE2, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, htmlAttributes: new { @class = "col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.TextAreaFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, new { @ng_model = "line.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE1, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE1", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE1) } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE2, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE2", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE2) } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE2, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
 
-                                      <div class="form-group">
-                                          <div class="col-md-12">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE3, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE3", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE3) } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE3, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                      <div class="form-group">
-                                          <div class="col-md-12">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE4, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE4", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE4) } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE4, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-2">
-                                      <div class="form-group">
-                                          <div class="col-md-12">
-                                              @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE5, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE5", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE5) } })
-                                              @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE5, "", new { @class = "text-danger" })
-                                          </div>
-                                      </div>
-                                  </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE3, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE3", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE3) } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE3, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE4, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE4", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE4) } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE4, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE5, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE5", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE5) } })
+                                                @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE5, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                              </div>
-                              <div class="row">
-                                  <div class="form-group">
-                                      @Html.Label("Dosyalar", htmlAttributes: new { @class = "control-label col-md-4" })
-                                      <div ng-show="fileEdit" class="col-md-8">
+                                </div>*@
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.Label("Dosyalar", htmlAttributes: new { @class = "col-md-4", @ng_show = "fileEdit || fileCreate" })
+                                        <div ng-show="fileEdit" class="col-md-8">
 
-                                          <div class="table-responsive">
-                                              <table class="table table-striped table-bordered table-hover">
-                                                  <tbody>
-                                                      <tr ng-repeat="file in lineFiles">
-                                                          <td style="word-break:break-all">{{file.MTF_FILENAME}}</td>
-                                                          <td>{{file.ID}}</td>
-                                                          <td><a ng-click="removeLineFileByID(file.ID)"><i class='fa fa-trash-o'></i> Sil </a></td>
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <tbody>
+                                                        <tr ng-repeat="file in lineFiles">
+                                                            <td style="word-break:break-all">{{file.MTF_FILENAME}}</td>
+                                                            <td>{{file.ID}}</td>
+                                                            <td><a ng-click="removeLineFileByID(file.ID)"><i class='fa fa-trash-o'></i> Sil </a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
-                                          <label class="btn btn-primary" for="lineFileEdit">
-                                              <input id="lineFileEdit" name="myFile" upload-file="myFile" type="file" style="display:none;">
-                                              Yükle <i class="fa fa-upload"></i>
-                                          </label>
+                                            <label class="btn btn-primary" for="lineFileEdit">
+                                                <input id="lineFileEdit" name="myFile" upload-file="myFile" type="file" style="display:none;">
+                                                Yükle <i class="fa fa-upload"></i>
+                                            </label>
 
-                                          @*@Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })*@
-                                      </div>
+                                            @*@Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })*@
+                                        </div>
+                                        <div ng-show="fileCreate" class="col-md-8">
 
-                                      <div ng-show="fileCreate" class="col-md-8">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-hover" ng-show="resultLine.length > 0">
+                                                    <tbody>
+                                                        <tr ng-repeat="file in resultLine">
+                                                            <td style="word-break:break-all">{{file.fileName}}</td>
+                                                            <td>{{file.fileSize}}</td>
+                                                            <td><a ng-click="removeLineFile(file.fileName)"><i class='fa fa-trash-o'></i> Sil </a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
-                                          <div class="table-responsive">
-                                              <table class="table table-striped table-bordered table-hover">
-                                                  <tbody>
-                                                      <tr ng-repeat="file in resultLine">
-                                                          <td style="word-break:break-all">{{file.fileName}}</td>
-                                                          <td>{{file.fileSize}}</td>
-                                                          <td><a ng-click="removeLineFile(file.fileName)"><i class='fa fa-trash-o'></i> Sil </a></td>
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
+                                            <label class="btn btn-primary" for="lineFileCreate">
+                                                <input id="lineFileCreate" name="myFile" upload-file="myFile" type="file" style="display:none;">
+                                                Yükle <i class="fa fa-upload"></i>
+                                            </label>
 
-                                          <label class="btn btn-primary" for="lineFileCreate">
-                                              <input id="lineFileCreate" name="myFile" upload-file="myFile" type="file" style="display:none;">
-                                              Yükle <i class="fa fa-upload"></i>
-                                          </label>
-
-                                          @*@Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })*@
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
+                                            @*@Html.ValidationMessageFor(model => model.MEETING_MASTER.MT_SCODE1, "", new { @class = "text-danger" })*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE1, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE1", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE1) } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE2, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE2", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE2) } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4 right-padding" style="padding-bottom:10px;">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE3, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE3", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE3) } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4 left-padding" style="padding-bottom:10px;">
+                                            @Html.EditorFor(model => model.MEETING_LINES.MTL_SCODE4, new { htmlAttributes = new { @ng_model = "line.MEETING_LINES.MTL_SCODE4", @class = "form-control", @placeholder = Html.DisplayNameFor(model => model.MEETING_LINES.MTL_SCODE4) } })
+                                            @Html.ValidationMessageFor(model => model.MEETING_LINES.MTL_SCODE1, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*</div>*@
 
                             <div class="form-actions right">
                                 <button type="button" id="btnCancelMeetingLines" class="btn red"><i class="fa fa-close"></i> İptal</button>
@@ -1100,10 +1148,10 @@
                 </div>
             </div>
         </div>
-                <!-- END MEETING LINES -->
+    <!-- END MEETING LINES -->
     }
 
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

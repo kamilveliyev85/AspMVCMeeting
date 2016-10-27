@@ -43,6 +43,11 @@ namespace AspMVCMeeting.ViewModels
 
         [Display(Name = "LBL_MTL_RELATED_FORM_REF", ResourceType = typeof(App_GlobalResources.Global))]
         public List<string> lst_MTL_RELATED_FORM_REF { get; set; }
+
+        public string MTL_RESPONSIBLE_DESC { get; set; }
+
+        public string MTL_CONFIRMER_DESC { get; set; }
+
     }
 
     public class VM_MEETING_MASTER

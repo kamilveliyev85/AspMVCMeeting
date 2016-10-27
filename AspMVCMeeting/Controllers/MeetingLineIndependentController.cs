@@ -1,6 +1,7 @@
 ﻿using AngularMVCFileUpload.Models;
 using AspMVCMeeting.Models;
 using AspMVCMeeting.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -102,8 +103,10 @@ namespace AspMVCMeeting.Controllers
             vm_meetings.lst_MEETING_LINES =
            (from mtl in db.MEETING_LINES
             join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
-            where mtl.MTL_MT_REF == id
-            select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME }).ToList();
+            join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
+            where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
+            orderby mtl.ID descending
+            select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
             return Json(vm_meetings.lst_MEETING_LINES, JsonRequestBehavior.AllowGet);
         }
@@ -159,9 +162,51 @@ namespace AspMVCMeeting.Controllers
         {
             if (line != null)
             {
-                db.Entry(line.MEETING_LINES).State = EntityState.Deleted;
+                line.MEETING_LINES.MTL_DELETED = true;
+                db.Entry(line.MEETING_LINES).State = EntityState.Modified;
                 db.SaveChanges();
                 return "Line Deleted";
+            }
+            else
+            {
+                return "Invalid Line";
+            }
+        }
+
+        [HttpPost]
+        public string PublishSelected(string items)
+        {
+            Dictionary<int, bool> values = JsonConvert.DeserializeObject<Dictionary<int, bool>>(items);
+
+            if (values != null)
+            {
+                foreach (KeyValuePair<int, bool> item in values)
+                {
+                    if (item.Value)
+                    {
+                        var line = db.MEETING_LINES.Find(item.Key);
+                        line.MTL_STS = 5;
+                        db.Entry(line).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                return "Line Changed";
+            }
+            else
+            {
+                return "Invalid Line";
+            }
+        }
+
+        [HttpPost]
+        public string PublishLine(VM_MEETING_LINES line)
+        {
+            if (line != null)
+            {
+                line.MEETING_LINES.MTL_STS = 5;
+                db.Entry(line.MEETING_LINES).State = EntityState.Modified;
+                db.SaveChanges();
+                return "Line Published";
             }
             else
             {
@@ -176,6 +221,8 @@ namespace AspMVCMeeting.Controllers
         {
             if (line != null)
             {
+                line.MEETING_LINES.MTL_DELETED = false;
+                line.MEETING_LINES.MTL_STS = 4;
                 db.MEETING_LINES.Add(line.MEETING_LINES);
                 db.SaveChanges();
 

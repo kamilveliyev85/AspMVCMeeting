@@ -31,8 +31,31 @@
         .portlet-title:hover {
             cursor: pointer;
         }
-         .control-label {
+
+        .control-label {
             text-align: left !important;
+        }
+
+        .form .form-actions.right, .portlet-form .form-actions.right {
+            padding: 5px !important;
+        }
+
+        @@media (min-width: 768px) {
+            .right-padding {
+                padding-right: 3px !important;
+            }
+
+            .form-horizontal .control-label {
+                padding-top: 0px !important;
+            }
+
+            .left-padding {
+                padding-left: 3px !important;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
         }
     </style>
     @Styles.Render("~/bundles/masterGlobalcss")

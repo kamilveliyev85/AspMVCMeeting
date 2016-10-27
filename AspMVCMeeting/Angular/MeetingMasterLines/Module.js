@@ -1,5 +1,25 @@
 ﻿var app = angular.module("app", ['ngTable','lr.upload']);
 
+app.directive('loading', ['$http', function ($http) {
+    return {
+        restrict: 'A',
+        link: function (scope, elm, attrs) {
+            scope.isLoading = function () {
+                return $http.pendingRequests.length > 0;
+            };
+
+            scope.$watch(scope.isLoading, function (v) {
+                if (v) {
+                    elm.modal('show');
+                } else {
+                    elm.modal('hide');
+                }
+            });
+        }
+    };
+
+}]);
+
 app.directive('uploadFile', ['$parse', function ($parse) {
     return {
         restrict: 'A',
@@ -58,6 +78,7 @@ app.directive('jqdatepicker', function () {
             link: function(scope, elem, attr){
                 $(elem).datepicker({
                     format: "dd.mm.yyyy",
+                    autoclose: true
                 }).on("changeDate", function(e){
                     return scope.$apply(function(){
                         return scope.ngModel = e.format();

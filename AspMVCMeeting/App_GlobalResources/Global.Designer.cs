@@ -277,7 +277,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yönetici.
+        ///   Looks up a localized string similar to İlgili.
         /// </summary>
         public static string LBL_MTL_EXECUTANT {
             get {

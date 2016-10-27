@@ -1,4 +1,5 @@
 ﻿app.controller("masterCntrl", function ($scope, $http, upload, linesService) {
+
     //BEGIN Master meeting files create
 
     $scope.UploadMasterFileCreate = function () {

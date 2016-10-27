@@ -1,4 +1,4 @@
-﻿var appIndep = angular.module("appIndep", ['lr.upload']);
+﻿var appIndep = angular.module("appIndep", ['ngTable', 'lr.upload']);
 
 appIndep.directive('uploadFile', ['$parse', function ($parse) {
     return {
@@ -58,6 +58,7 @@ appIndep.directive('jqdatepicker', function () {
         link: function (scope, elem, attr) {
             $(elem).datepicker({
                 format: "dd.mm.yyyy",
+                autoclose: true
             }).on("changeDate", function (e) {
                 return scope.$apply(function () {
                     return scope.ngModel = e.format();
