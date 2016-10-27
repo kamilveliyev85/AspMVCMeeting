@@ -18,6 +18,11 @@
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+            display: none !important;
+        }
+    </style>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,6 +65,49 @@
     </style>
     @Styles.Render("~/bundles/masterGlobalcss")
     @Styles.Render("~/bundles/masterPageLayoutcss")
+
+    @Scripts.Render("~/bundles/masterPageGlobaljs")
+    @Scripts.Render("~/bundles/masterPageLayoutjs")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.input-group-btn').click(function () {
+                if ($(this).children('button').children('.fa-calendar').length > 0 ||
+                    $(this).children('button').children('.fa-clock-o').length > 0) {
+                    var input = $(this).parent().find('input');
+                    input.trigger('focus');
+                }
+            });
+
+            $('.actionBtn').on('click', function () {
+
+                return false;
+
+            });
+
+            $('.tools > .collapse').on('click', function () {
+                return false;
+            });
+
+            $('.tools > .expand').on('click', function () {
+                return false;
+            });
+
+            $("div.portlet-title").click(function (e) {
+                $('textarea').removeAttr('style');
+                if ($(this).closest(".portlet.box").find('.expand').length != 0) {
+                    $(this).closest(".portlet.box").find('.expand').addClass('collapse').removeClass('expand');
+                } else {
+                    $(this).closest(".portlet.box").find('.collapse').addClass('expand').removeClass('collapse');
+                }
+                $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
+            });
+        });
+    </script>
+
+    @RenderSection("CustomScripts", required: false)
+
     <!-- END THEME LAYOUT STYLES -->
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
@@ -310,47 +358,6 @@
     <script src="~/assets/global/plugins/excanvas.min.js"></script>
     <script src="~/assets/global/plugins/ie8.fix.min.js"></script>
     <![endif]-->
-    @Scripts.Render("~/bundles/masterPageGlobaljs")
-    @Scripts.Render("~/bundles/masterPageLayoutjs")
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('.input-group-btn').click(function () {
-                if ($(this).children('button').children('.fa-calendar').length > 0 ||
-                    $(this).children('button').children('.fa-clock-o').length > 0) {
-                    var input = $(this).parent().find('input');
-                    input.trigger('focus');
-                }
-            });
-
-            $('.actionBtn').on('click', function () {
-
-                return false;
-
-            });
-
-            $('.tools > .collapse').on('click', function () {
-                return false;
-            });
-
-            $('.tools > .expand').on('click', function () {
-                return false;
-            });
-
-            $("div.portlet-title").click(function (e) {
-                $('textarea').removeAttr('style');
-                if ($(this).closest(".portlet.box").find('.expand').length != 0) {
-                    $(this).closest(".portlet.box").find('.expand').addClass('collapse').removeClass('expand');
-                } else {
-                    $(this).closest(".portlet.box").find('.collapse').addClass('expand').removeClass('collapse');
-                }
-                $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
-            });
-        });
-    </script>
-
-    @RenderSection("CustomScripts", required: false)
     @*@Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)*@
 
