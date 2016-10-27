@@ -130,7 +130,7 @@
     <value>Açiklama</value>
   </data>
   <data name="LBL_MTL_EXECUTANT" xml:space="preserve">
-    <value>Yönetici</value>
+    <value>İlgili</value>
   </data>
   <data name="LBL_MTL_FINISH_DATE" xml:space="preserve">
     <value>Bitme Tarihi</value>
@@ -145,7 +145,7 @@
     <value>Proje Kodu</value>
   </data>
   <data name="LBL_MTL_RELATED_FORM_DESCRIPTION" xml:space="preserve">
-    <value>Bağlı Oldugu Form Açıklama</value>
+    <value>Bağlı Form Açıklama</value>
   </data>
   <data name="LBL_MTL_RELATED_FORM_REF" xml:space="preserve">
     <value>Bağlı Olduğu Form</value>
@@ -211,7 +211,7 @@
     <value>Toplanti Turu</value>
   </data>
   <data name="LBL_MT_USER_CC" xml:space="preserve">
-    <value>Bilgilendirilecekler</value>
+    <value>Bilgi verilecek</value>
   </data>
   <data name="LBL_MT_USER_OUT" xml:space="preserve">
     <value>Kurum Dışı Katılımcılar</value>

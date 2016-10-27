@@ -1,5 +1,17 @@
 ﻿app.service("linesService", function ($http) {
 
+    //Find Department by User Account
+    this.findDepByAccount = function (accountName) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/findDepByAccount",
+            params: {
+                accountName: accountName,
+            }
+        });
+        return response;
+    }
+
     // Publish Selected 
     this.publishSelected = function (items) {
         var response = $http({

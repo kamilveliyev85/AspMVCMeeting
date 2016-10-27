@@ -1,5 +1,7 @@
 ﻿app.controller("linesCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, linesService) {
 
+    var clearDepWatch = null;
+
     //BEGIN MASER HISTORY
 
     function getMasterHistoryById(masterId) {
@@ -314,9 +316,11 @@
     }
 
     $scope.editLine = function (line, isEdit) {
+        if(clearDepWatch != null) clearDepWatch();
         $scope.fileCreate = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
+        $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function () { });
         var getData = linesService.getLine(line.MEETING_LINES.ID);
         getData.then(function (emp) {
             $scope.line = emp.data;
@@ -352,6 +356,14 @@
                 $scope.fileCreate = false;
                 angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled'); 
             }
+            
+            clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    //alert(newValue + " " + oldValue);
+                    findDepByAccount(newValue);
+                }
+            });
+
             angular.element("#MeetingLinesDiv").slideDown();
 
         },
@@ -361,19 +373,27 @@
     }
 
     $scope.AddLineDiv = function () {
+        if (clearDepWatch != null) clearDepWatch();
         $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
         $scope.fileEdit = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
         $scope.line = "";
-        $scope.line = { "MEETING_LINES": { "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val() } };
+        $scope.line = { "MEETING_LINES": { "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val(), "MTL_START_DATE": new Date() } };
         $scope.Action = "Add";
         $scope.fileCreate = true;
         angular.element('textarea').removeAttr('style');
         angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('removeAll');
+        
+        clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue) {
+            //alert(newValue);
+            findDepByAccount(newValue);
+        });
+
         angular.element("#MeetingLinesDiv").slideDown();
 
     }
+
 
     $scope.AddUpdateLine = function () {
         if ($scope.line.MEETING_LINES.MTL_START_DATE != null)
@@ -399,11 +419,11 @@
             }, function () {
                 alert('Error in adding record');
             });
+            
         }
         debugger;
         $scope.refresh();
     }
-
 
     $scope.deleteLine = function (line) {
         var getData = linesService.DeleteLine(line);
@@ -421,6 +441,17 @@
         }, function () {
             alert('Error in publishing Record');
         });
+    }
+
+    function findDepByAccount(accountName) {
+        var getData = linesService.findDepByAccount(accountName);
+        getData.then(function (emp) {
+            $scope.line.MEETING_LINES.MTL_DEPARTMENT = emp.data;
+        },
+        function () {
+            //alert('Error in getting records');
+        });
+
     }
 
 });

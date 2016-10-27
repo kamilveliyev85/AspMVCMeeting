@@ -130,7 +130,7 @@
     <value>Açiklama</value>
   </data>
   <data name="LBL_MTL_EXECUTANT" xml:space="preserve">
-    <value>Yönetici</value>
+    <value>İlgili</value>
   </data>
   <data name="LBL_MTL_FINISH_DATE" xml:space="preserve">
     <value>Bitme Tarihi</value>

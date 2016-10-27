@@ -78,7 +78,8 @@ operationApp.directive('jqdatepicker', function () {
                 });
             });
 
-            return scope.$watch("ngModel", function (newValue) {
+            return scope.$watch("ngModel", function (
+) {
                 $(elem).datepicker("update", newValue);
             });
         }

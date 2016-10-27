@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
@@ -277,10 +278,14 @@ namespace AspMVCMeeting.Controllers
 
             vm_meetings.lst_MEETING_LINES =
            (from mtl in db.MEETING_LINES
-            join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
-            join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
-            join sap in db.SAP on mtl.MTL_RESPONSIBLE equals sap.ACCOUNTNAME
-            join sap1 in db.SAP on mtl.MTL_CONFIRMER equals sap1.ACCOUNTNAME
+            join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID into m
+            from mlt in m.DefaultIfEmpty()
+            join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID into m1
+            from mst in m1.DefaultIfEmpty()
+            join sap in db.SAP on mtl.MTL_RESPONSIBLE equals sap.ACCOUNTNAME into p
+            from sap in p.DefaultIfEmpty()
+            join sap1 in db.SAP on mtl.MTL_CONFIRMER equals sap1.ACCOUNTNAME into p1
+            from sap1 in p1.DefaultIfEmpty()
             where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
             orderby mtl.ID descending
             select new VM_MEETING_LINES
@@ -296,7 +301,6 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
-
         public JsonResult getLineById(int? id)
         {
             VM_MEETING_LINES vm_meetings = new VM_MEETING_LINES();
@@ -309,6 +313,41 @@ namespace AspMVCMeeting.Controllers
             vm_meetings.lst_MTL_RELATED_FORM_REF = (vm_meetings.MEETING_LINES.MTL_RELATED_FORM_REF != null) ? vm_meetings.MEETING_LINES.MTL_RELATED_FORM_REF.Split(',').ToList() : null;
 
             return Json(vm_meetings, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult findDepByAccount(string accountName)
+        {
+            string dep = "";
+
+            if (string.IsNullOrEmpty(accountName))
+            {
+                return Json(dep, JsonRequestBehavior.AllowGet);
+            }
+
+            string constr = ConfigurationManager.ConnectionStrings["MeetingDataModelCodeFirst"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = @"select FIRMNAME from DBHR.SAPHR.dbo.ORG_OLD O 
+                            inner join PERINFO p on p.PERCODE = O.PERcode
+                            where p.ACCOUNTNAME = '" + accountName + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        dep = reader.GetString(0);
+                    }
+
+
+                    con.Close();
+                }
+            }
+
+            return Json(dep, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
