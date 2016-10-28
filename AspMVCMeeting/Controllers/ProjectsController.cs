@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace AspMVCMeeting.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();

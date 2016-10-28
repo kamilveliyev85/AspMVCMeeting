@@ -175,7 +175,7 @@
         </div>
         <div class="portlet-body form">
             <div class="form-horizontal">
-                <div class="form-body" ng-app="app" ng-controller="masterCntrl">
+                <div class="form-body" ng-app="app" ng-controller="masterCntrl" ng-cloak>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @*@{
                             Html.RenderPartial("~/Views/Shared/ViewLoading.cshtml");
