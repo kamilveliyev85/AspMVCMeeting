@@ -61,6 +61,15 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Açıklama.
+        /// </summary>
+        public static string LBL_MLD_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("LBL_MLD_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tarih.
         /// </summary>
         public static string LBL_MT_DATE {

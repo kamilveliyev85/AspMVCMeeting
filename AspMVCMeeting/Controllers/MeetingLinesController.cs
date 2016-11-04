@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class MeetingLinesController : Controller
+    public class MeetingLinesController : BaseController
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 

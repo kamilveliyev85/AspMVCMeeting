@@ -17,9 +17,9 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class MeetingMasterController : Controller
+    public class MeetingMasterController : BaseController
     {
-        MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
+        private MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 
         // GET: MeetingMaster
         public ActionResult Index()
@@ -27,9 +27,19 @@ namespace AspMVCMeeting.Controllers
             VM_MEETING vm_meetings = new VM_MEETING();
             vm_meetings.lst_MEETING_MASTER =
             (from mt in db.MEETING_MASTER
+             join mtt in db.MEETING_TYPE on mt.MT_TYPE equals mtt.ID
+             join mts in db.MEETING_STATUS on mt.MT_STS equals mts.ID
+             join mtl in db.MEETING_LINES.Where(m=>m.MTL_DELETED == false) on mt.ID equals mtl.MTL_MT_REF into countAll
+             join mtl in db.MEETING_LINES.Where(m => m.MTL_STS == 6 && m.MTL_DELETED == false) on mt.ID equals mtl.MTL_MT_REF into countCompletes
              where mt.MT_DELETED == false
-             select new VM_MEETING_MASTER { MEETING_MASTER = mt }).ToList();
-
+             select new VM_MEETING_MASTER
+             {
+                 MEETING_MASTER = mt,
+                 MT_STS_TEXT = mts.MST_NAME,
+                 MT_TYPE_TEXT = mtt.MTP_NAME,
+                 MT_STS_TEXT_INFO = countCompletes.Count().ToString() + "/" + countAll.Count().ToString()
+             }).ToList();
+            
             //vm_meetings.lst_MEETING_MASTER = db.MEETING_MASTER.Where(model=>model.MT_DELETED == false).ToList();
             return View(vm_meetings);
         }
@@ -53,6 +63,9 @@ namespace AspMVCMeeting.Controllers
 
             vm_meetings.MEETING_MASTER.MT_USER_PARTICIPANTS = user_participant;
             vm_meetings.MEETING_MASTER.MT_USER_CC = user_cc;
+
+            vm_meetings.MEETING_MASTER.MT_DELETED = false;
+            vm_meetings.MEETING_MASTER.MT_STS = 1;
 
             db.MEETING_MASTER.Add(vm_meetings.MEETING_MASTER);
             db.SaveChanges();
@@ -325,27 +338,32 @@ namespace AspMVCMeeting.Controllers
                 return Json(dep, JsonRequestBehavior.AllowGet);
             }
 
-            string constr = ConfigurationManager.ConnectionStrings["MeetingDataModelCodeFirst"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                string query = @"select FIRMNAME from DBHR.SAPHR.dbo.ORG_OLD O 
+            var dbQuery = db.Database.SqlQuery<string>(@"select FIRMNAME from DBHR.SAPHR.dbo.ORG_OLD O 
                             inner join PERINFO p on p.PERCODE = O.PERcode
-                            where p.ACCOUNTNAME = '" + accountName + "'";
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Connection = con;
-                    con.Open();
+                            where p.ACCOUNTNAME = '" + accountName + "'");
+            dep = dbQuery.AsEnumerable().First();
 
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        dep = reader.GetString(0);
-                    }
+            //string constr = ConfigurationManager.ConnectionStrings["MeetingDataModelCodeFirst"].ConnectionString;
+            //using (SqlConnection con = new SqlConnection(constr))
+            //{
+            //    string query = @"select FIRMNAME from DBHR.SAPHR.dbo.ORG_OLD O 
+            //                inner join PERINFO p on p.PERCODE = O.PERcode
+            //                where p.ACCOUNTNAME = '" + accountName + "'";
+            //    using (SqlCommand cmd = new SqlCommand(query))
+            //    {
+            //        cmd.Connection = con;
+            //        con.Open();
+
+            //        SqlDataReader reader = cmd.ExecuteReader();
+            //        while (reader.Read())
+            //        {
+            //            dep = reader.GetString(0);
+            //        }
 
 
-                    con.Close();
-                }
-            }
+            //        con.Close();
+            //    }
+            //}
 
             return Json(dep, JsonRequestBehavior.AllowGet);
         }
@@ -385,26 +403,59 @@ namespace AspMVCMeeting.Controllers
 
             if (values != null)
             {
+                int? id = null;
                 foreach (KeyValuePair<int, bool> item in values)
                 {
                     if (item.Value)
                     {
                         var line = db.MEETING_LINES.Find(item.Key);
+                        if (id == null) id = line.MTL_MT_REF;
                         line.MTL_STS = 5;
                         db.Entry(line).State = EntityState.Modified;
                         db.SaveChanges();
                     }
                 }
+
+                updateMasterStatus(id);
                 return "Line Changed";
             }
             else
             {
                 return "Invalid Line";
             }
+
+        }
+
+        public static void updateMasterStatus(int? ID)
+        {
+            MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
+
+            var master = db.MEETING_MASTER.Find(ID);
+            if (master.MT_STS == 1)
+            {
+                var count = db.MEETING_LINES.Count(m => m.MTL_MT_REF == ID && m.MTL_STS != 4 && m.MTL_DELETED == false);
+
+                if (count > 0)
+                {
+                    db.Entry(master).State = EntityState.Modified;
+                    master.MT_STS = 2;
+                    db.SaveChanges();
+                }
+            }
+            else if (master.MT_STS == 2)
+            {
+                var count = db.MEETING_LINES.Count(m => m.MTL_MT_REF == ID && m.MTL_DELETED == false && m.MTL_STS != 6);
+
+                if (count == 0)
+                {
+                    db.Entry(master).State = EntityState.Modified;
+                    master.MT_STS = 3;
+                    db.SaveChanges();
+                }
+            }
         }
 
         [HttpPost]
-
         public string DeleteLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -421,6 +472,29 @@ namespace AspMVCMeeting.Controllers
         }
 
         [HttpPost]
+        public JsonResult CopyLine(VM_MEETING_LINES line)
+        {
+            if (line != null)
+            {
+                MEETING_LINES lineCopy = db.MEETING_LINES.Find(line.MEETING_LINES.ID);
+                lineCopy.MTL_STS = 4;
+
+                db.MEETING_LINES.Add(lineCopy);
+                db.SaveChanges();
+
+                VM_MEETING_LINES vm_lineCopy = new VM_MEETING_LINES();
+                vm_lineCopy.MEETING_LINES = new MEETING_LINES();
+                vm_lineCopy.MEETING_LINES = lineCopy;
+
+                return Json(vm_lineCopy, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Invalid Line", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
         public string PublishLine(VM_MEETING_LINES line)
         {
             if (line != null)
@@ -428,6 +502,7 @@ namespace AspMVCMeeting.Controllers
                 line.MEETING_LINES.MTL_STS = 5;
                 db.Entry(line.MEETING_LINES).State = EntityState.Modified;
                 db.SaveChanges();
+                updateMasterStatus(line.MEETING_LINES.MTL_MT_REF);
                 return "Line Published";
             }
             else
@@ -483,7 +558,7 @@ namespace AspMVCMeeting.Controllers
             }
         }
 
-        string userName = "saddam.bilalov";
+        string userName = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "empty" : System.Web.HttpContext.Current.User.Identity.Name;
 
         #endregion LINE
 

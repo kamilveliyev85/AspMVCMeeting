@@ -1,7 +1,11 @@
-﻿operationApp.controller("DetailCntrl", function ($scope, $http, upload, operationService) {
-
+﻿operationApp.controller("DetailCntrl", function ($scope, $document, $http, upload, operationService) {
+    
     GetDetailAll();
 
+    $document.ready(function(){
+        addNewDetail();
+    });
+    
     function GetDetailAll() {
         var getData = operationService.GetDetailAll(angular.element("#MEETING_LINES_ID").val());
         getData.then(function (emp) {
@@ -13,18 +17,15 @@
 
     $scope.editDetail = function (detail) {
         $scope.fileCreate = false;
+        $scope.fileEdit = true;
         $scope.detailFiles = '';
         $scope.resultDetail = '';
 
         var getData = operationService.getDetail(detail.MEETING_LINES_DETAIL.ID);
         getData.then(function (emp) {
             $scope.detail = emp.data;
-
             $scope.Action = "Update";
-
-            $scope.fileEdit = true;
             GetAllDetailFiles(detail.MEETING_LINES_DETAIL.ID);
-
             angular.element("#detailId").val(detail.MEETING_LINES_DETAIL.ID);
             angular.element('textarea').removeAttr('style');
             angular.element("#divAddOperation").slideDown();
@@ -35,11 +36,15 @@
     }
 
     $scope.AddDetailDiv = function () {
+        addNewDetail();
+    }
+
+    function addNewDetail() {
         $scope.fileEdit = false;
         $scope.fileCreate = true;
-        //$scope.lineFiles = '';
-        //$scope.resultLine = '';
-        $scope.detail = "";
+        $scope.detailFiles = '';
+        $scope.resultDetail = '';
+        $scope.detail = [];
         $scope.detail = { "MEETING_LINES_DETAIL": { "MLD_MTL_REF": angular.element("#MEETING_LINES_ID").val() } };
         $scope.Action = "Add";
         angular.element("#divAddOperation").slideDown();

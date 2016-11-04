@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class ProjectsController : Controller
+    public class ProjectsController : BaseController
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 

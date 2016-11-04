@@ -144,6 +144,17 @@
         return response;
     }
 
+    //Copy Line
+    this.CopyLine = function (line) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/CopyLine",
+            data: JSON.stringify(line),
+            dataType: "json"
+        });
+        return response;
+    }
+
     //Publish Line
     this.publishLine = function (line) {
         var response = $http({

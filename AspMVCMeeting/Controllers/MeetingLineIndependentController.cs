@@ -14,7 +14,7 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class MeetingLineIndependentController : Controller
+    public class MeetingLineIndependentController : BaseController
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 
@@ -106,6 +106,7 @@ namespace AspMVCMeeting.Controllers
             join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
             join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
             where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
+            && (mtl.MTL_CREATE_USERID == userName || mtl.MTL_CONFIRMER == userName)
             orderby mtl.ID descending
             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
@@ -256,7 +257,7 @@ namespace AspMVCMeeting.Controllers
             }
         }
 
-        string userName = "saddam.bilalov";
+        string userName = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "empty" : System.Web.HttpContext.Current.User.Identity.Name;
 
         #endregion LINE
 

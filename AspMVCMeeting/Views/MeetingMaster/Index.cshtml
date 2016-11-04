@@ -15,7 +15,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            
+
             var table = $('#tblMeetingMaster').DataTable({
                 "language": {
                     "lengthMenu": "Hər səhifədə _MENU_ sətir göstər",
@@ -34,7 +34,7 @@
             //$('#inputDatabaseName').on('input', function (e) {
             //    table.columns(2).search('IKB2016101727|YKB2016101135|YKB2016101136', true, false).draw();
             //});
-           
+
         });
 
 
@@ -67,9 +67,10 @@
                     <thead>
                         <tr>
                             <th scope="col"> İşlemler </th>
-                            <th scope="col"> Nr</th>
+                            <th scope="col"> # </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_NO) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TYPE) </th>
+                            <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TITLE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DATE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_START_TIME) </th>
@@ -91,9 +92,9 @@
                                             <i class="fa fa-angle-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="@Url.Action("View", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-eye'></i> Görüntüle</a>
-                                            </li>
+                                            @*<li>
+                                                    <a href="@Url.Action("View", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-eye'></i> Görüntüle</a>
+                                                </li>*@
                                             <li>
                                                 <a href="@Url.Action("Edit", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-pencil'></i>Deyiş</a>
                                             </li>
@@ -105,14 +106,39 @@
                                 </td>
                                 <td> @rowNum </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_NO) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_TYPE) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MT_TYPE_TEXT) </td>
+                                <td>
+                                    @{
+                                        var spnClass = "";
+
+                                        if (item.MEETING_MASTER.MT_STS == 1)
+                                        {
+                                            spnClass = "label label-sm label-primary";
+                                        }
+                                        else if (item.MEETING_MASTER.MT_STS == 2)
+                                        {
+                                            spnClass = "label label-sm label-warning";
+                                        }
+                                        else if (item.MEETING_MASTER.MT_STS == 3)
+                                        {
+                                            spnClass = "label label-sm label-success";
+                                        }
+                                    }
+                                    <div class="@spnClass" style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.MT_STS_TEXT) 
+                                        <span class="badge alert-dismisssable" style="vertical-align: inherit; height: inherit;">
+                                           @Html.DisplayFor(modelItem => item.MT_STS_TEXT_INFO) 
+                                        </span>
+                                    </div>
+
+                                </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_TITLE) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DATE) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_START_TIME) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_FINISH_TIME) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DESCIPTION) </td>
                             </tr>
-                        }
+                                        }
                     </tbody>
                 </table>
                 @*</div>*@

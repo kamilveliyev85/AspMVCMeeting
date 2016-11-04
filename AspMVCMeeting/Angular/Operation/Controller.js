@@ -64,8 +64,10 @@
             if ($scope.line.MEETING_LINES.MTL_FINISH_DATE != null)
                 $scope.line.MEETING_LINES.MTL_FINISH_DATE = formatDate(new Date(parseInt($scope.line.MEETING_LINES.MTL_FINISH_DATE.substr(6))));
 
-            $scope.fileEdit = true;
-            //GetAllLineFiles(line.MEETING_LINES.ID);
+            $scope.fileEdit = false;
+            $scope.fileCreate = false;
+            angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled');
+            angular.element('#btnAddLine').hide();
 
             angular.element("#lineId").val(line.MEETING_LINES.ID);
             angular.element('textarea').removeAttr('style');
@@ -97,4 +99,22 @@
             alert('Error in updating record');
         });
     }
+    
+    $scope.CancelAddEdit = function () {
+        $scope.line = null;
+        angular.element("#MeetingLinesDiv").slideUp();
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [day, month, year].join('.');
+    }
+
 });

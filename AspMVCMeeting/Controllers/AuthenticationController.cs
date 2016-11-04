@@ -11,7 +11,7 @@ using System.Web.Security;
 namespace AspMVCMeeting.Controllers
 {
 
-    public class AuthenticationController : Controller
+    public class AuthenticationController : BaseController
     {
         private static bool IsAuthenticated(string usr, string pwd)
         {
@@ -49,6 +49,7 @@ namespace AspMVCMeeting.Controllers
             if (IsValidUser(userName, userPassword))
             {
                 userName = userName.Replace('i', 'I').Replace('İ', 'I').ToUpper();
+                userName = userName.Split('@')[0] + "@SGOFC.COM";
                 //userName = "RESAD.YUSIFZADE@SGOFC.COM";
                 FormsAuthentication.SetAuthCookie(userName, false);
 

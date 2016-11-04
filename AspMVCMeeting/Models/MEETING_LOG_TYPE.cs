@@ -14,5 +14,9 @@ namespace AspMVCMeeting.Models
         public string MLG_NAME { get; set; }
 
         public bool? MLG_ACTIVE { get; set; }
+
+        [StringLength(50)]
+        public string MLG_PAGE { get; set; }
+                
     }
 }

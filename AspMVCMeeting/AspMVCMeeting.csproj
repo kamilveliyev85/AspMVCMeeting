@@ -147,6 +147,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeetingLineIndependentController.cs" />
     <Compile Include="Controllers\MeetingLinesController.cs" />
@@ -200,6 +201,8 @@
     <Content Include="Angular\Operation\Controller.js" />
     <Content Include="Angular\Operation\ApproveModule.js" />
     <Content Include="Angular\Operation\Module.js" />
+    <Content Include="Angular\Operation\FollowController.js" />
+    <Content Include="Angular\Operation\OfferController.js" />
     <Content Include="Angular\Operation\Service.js" />
     <Content Include="assets\global\css\components.min.css" />
     <Content Include="assets\global\css\plugins.min.css" />
@@ -572,6 +575,10 @@
     <Content Include="Views\Operation\Approve.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\ViewLoading.cshtml" />
+    <Content Include="Views\Shared\MeetingLine.cshtml" />
+    <Content Include="Views\Operation\Follow.cshtml" />
+    <Content Include="Views\Operation\Offer.cshtml" />
+    <Content Include="Views\Shared\FilesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -579,6 +586,7 @@
     <Folder Include="assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="UploadsTemp\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\MeetingLines\" />
   </ItemGroup>
   <ItemGroup>

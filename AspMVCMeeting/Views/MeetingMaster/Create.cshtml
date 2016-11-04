@@ -54,9 +54,11 @@
                 if ($(this).val() === '1') {
                     $('#MEETING_MASTER_MT_PLACE').val("1").trigger("change");
                     $('#MEETING_MASTER_MT_FOLLOWER_USERID').val("CIHAN.ERDOGAN@SGOFC.COM").trigger("change");
+                    $('#MEETING_MASTER_MT_MANAGER').val("AGOOZAL@SGOFC.COM").trigger("change");
                 } else if ($(this).val() === '2') {
                     $('#MEETING_MASTER_MT_PLACE').val("2").trigger("change");
                     $('#MEETING_MASTER_MT_FOLLOWER_USERID').val("TURAB.RZAYEV@SGOFC.COM").trigger("change");
+                    $('#MEETING_MASTER_MT_MANAGER').val("SAVAS.UZAN@SGOFC.COM").trigger("change");
                 } else {
                     $('#MEETING_MASTER_MT_PLACE').val("").trigger("change");
                     $('#MEETING_MASTER_MT_FOLLOWER_USERID').val("").trigger("change");
@@ -84,7 +86,7 @@
             //    autoclose: true,
             //})
 
-
+            
             $("#MEETING_MASTER_MT_START_TIME").timepicker({
                 maxHours: 24,
                 showMeridian: false,
@@ -92,11 +94,16 @@
                 minuteStep: 5
             });
 
+            function addMinutes(date, minutes) {
+                return new Date(date.getTime() + minutes * 60000);
+            }
+
+            var dateNow = addMinutes(new Date(), 30);
 
             $("#MEETING_MASTER_MT_FINISH_TIME").timepicker({
                 maxHours: 24,
                 showMeridian: false,
-                defaultTime: 'current',
+                defaultTime: dateNow,
                 minuteStep: 5
             });
 
@@ -440,7 +447,7 @@
                     </div>
 
                     <div class="form-actions right">
-                        <button type="button" class="btn red" onclick="window.location.href = '/MeetingMaster';"><i class="fa fa-close"></i> İptal</button>
+                        <button type="button" class="btn red" onclick="window.location.href = 'Index';"><i class="fa fa-close"></i> Kapat</button>
                         <button type="submit" class="btn green"><i class="fa fa-check"></i> Kaydet </button>
                     </div>
 
@@ -452,5 +459,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Listeye dön", "Index")
 </div>

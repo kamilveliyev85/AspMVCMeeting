@@ -1,4 +1,4 @@
-﻿app.controller("linesCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, linesService) {
+﻿app.controller("linesCntrl", function ($scope, $document, $http, $filter, $q, NgTableParams, upload, linesService) {
 
     var clearDepWatch = null;
 
@@ -238,7 +238,6 @@
     GetLineAll();
 
     function GetLineAll() {
-
         var getData = linesService.GetLinesAll(angular.element("#MEETING_LINES_MTL_MT_REF").val());
         getData.then(function (emp) {
             $scope.data = emp.data;
@@ -316,7 +315,7 @@
     }
 
     $scope.editLine = function (line, isEdit) {
-        if(clearDepWatch != null) clearDepWatch();
+        if (clearDepWatch != null) clearDepWatch();
         $scope.fileCreate = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
@@ -351,10 +350,12 @@
 
             if (isEdit) {
                 angular.element('#MeetingLinesDiv').find('input, textarea, select').removeAttr('disabled');
+                angular.element('#btnAddLine').show();
             } else {
                 $scope.fileEdit = false;
                 $scope.fileCreate = false;
-                angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled'); 
+                angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled');
+                angular.element('#btnAddLine').hide();
             }
             
             clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue, oldValue) {
@@ -364,6 +365,8 @@
                 }
             });
 
+            $scope.editClass = {};
+            $scope.editClass[line.MEETING_LINES.ID] = 'active';
             angular.element("#MeetingLinesDiv").slideDown();
 
         },
@@ -373,8 +376,8 @@
     }
 
     $scope.AddLineDiv = function () {
-        if (clearDepWatch != null) clearDepWatch();
-        $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+        if (clearDepWatch !== null) clearDepWatch();
+        angular.element('#btnAddLine').show();
         $scope.fileEdit = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
@@ -384,6 +387,7 @@
         $scope.fileCreate = true;
         angular.element('textarea').removeAttr('style');
         angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('removeAll');
+        //$scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
         
         clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue) {
             //alert(newValue);
@@ -394,6 +398,13 @@
 
     }
 
+    $scope.CancelAddEdit = function () {
+        $scope.editClass = {};
+        $scope.Action = null;
+        $scope.line = null;
+
+        angular.element("#MeetingLinesDiv").slideUp();
+    }
 
     $scope.AddUpdateLine = function () {
         if ($scope.line.MEETING_LINES.MTL_START_DATE != null)
@@ -401,8 +412,7 @@
         if ($scope.line.MEETING_LINES.MTL_FINISH_DATE != null)
             $scope.line.MEETING_LINES.MTL_FINISH_DATE = convertDate($scope.line.MEETING_LINES.MTL_FINISH_DATE);
 
-        var getAction = $scope.Action;
-        if (getAction == "Update") {
+        if ($scope.Action === "Update") {
             var getData = linesService.updateLine($scope.line);
             getData.then(function (msg) {
                 GetLineAll();
@@ -411,7 +421,7 @@
                 alert('Error in updating record');
             });
         }
-        else {
+        else if ($scope.Action === "Add"){
             var getData = linesService.AddLine($scope.line);
             getData.then(function (msg) {
                 GetLineAll();
@@ -419,10 +429,11 @@
             }, function () {
                 alert('Error in adding record');
             });
-            
         }
-        debugger;
-        $scope.refresh();
+       
+        $scope.Action = null;
+        $scope.line = null;
+
     }
 
     $scope.deleteLine = function (line) {
@@ -432,6 +443,17 @@
         }, function () {
             alert('Error in Deleting Record');
         });
+    }
+
+    $scope.copyLine = function (line) {
+        var getData = linesService.CopyLine(line);
+        getData.then(function (msg) {
+            GetLineAll();
+            $scope.editLine(msg.data, true);
+        }, function () {
+            alert('Error in Coping Record');
+        });
+
     }
 
     $scope.publishLine = function (line) {
@@ -453,5 +475,24 @@
         });
 
     }
+
+    $document.bind("keydown", function (event) {
+        if (event.ctrlKey || event.metaKey) {
+            switch (String.fromCharCode(event.which).toLowerCase()) {
+                case 's':
+                    event.preventDefault();
+                    if ($scope.Action != null) {
+                        $scope.AddUpdateLine();
+                        $scope.$apply();
+                    }
+                    break;
+                case 'y':
+                    event.preventDefault();
+                    $scope.AddLineDiv();
+                    $scope.$apply();
+                    break;
+            }
+        }
+    });
 
 });

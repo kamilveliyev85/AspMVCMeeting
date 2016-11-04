@@ -195,10 +195,12 @@
 
             if (isEdit) {
                 angular.element('#MeetingLinesDiv').find('input, textarea, select').removeAttr('disabled');
+                angular.element('#btnAddLine').show();
             } else {
                 $scope.fileEdit = false;
                 $scope.fileCreate = false;
                 angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled');
+                angular.element('#btnAddLine').hide();
             }
             
             angular.element("#MeetingLinesDiv").slideDown();
@@ -211,6 +213,7 @@
 
     $scope.AddLineDiv = function () {
         $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+        angular.element('#btnAddLine').show();
         $scope.fileEdit = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
