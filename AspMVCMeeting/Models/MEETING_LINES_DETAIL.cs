@@ -22,5 +22,6 @@ namespace AspMVCMeeting.Models
         public Nullable<System.DateTime> MLD_CREATEDATE { get; set; }
         public string MLD_CREATE_USER { get; set; }
         public Nullable<bool> MLD_DELETED { get; set; }
+        public DateTime? MLD_DELETED_DATE { get; set; }
     }
 }

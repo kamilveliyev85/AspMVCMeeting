@@ -1,8 +1,17 @@
-﻿@{
+﻿@using System.Web.Script.Serialization;
+@using AspMVCMeeting.ViewModels;
+
+@{
 
     if (Request.IsAuthenticated)
     {
-        ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
+        // Get the custom user data encrypted in the ticket.
+        string userData = ((FormsIdentity)(Context.User.Identity)).Ticket.UserData;
+        // Deserialize the json data and set it on the custom principal.
+        var serializer = new JavaScriptSerializer();
+        ViewBag.UserName = ((User)serializer.Deserialize(userData, typeof(User))).FullName;
+
+        // ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
     }
     else
     {
@@ -19,6 +28,34 @@
 <!-- BEGIN HEAD -->
 <head>
     <style>
+        .dl-horizontal dt {
+            text-align: left !important;
+            width: initial !important;
+        }
+
+        .dl-horizontal dd {
+            text-align: left !important;
+        }
+
+        @@media (min-width: 768px) {
+            .dl-horizontal dd {
+                margin-left: 10px !important;
+            }
+        }
+
+        .rows .row {
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .text-bold {
+            font-weight: bold;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 5px !important;
+        }
+
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
             display: none !important;
         }
@@ -33,6 +70,13 @@
 
         .form .form-actions.right, .portlet-form .form-actions.right {
             padding: 5px !important;
+        }
+
+        .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+            background-color: #428bca !important;
+            outline: 0 !important;
         }
 
         .bootstrap-tagsinput {
@@ -69,12 +113,30 @@
             border-radius: 5px !important;
         }
 
+        .btn.btn-outline.dark {
+            border-radius: 5px !important;
+        }
+
         [ng-cloak].splash {
             display: block !important;
         }
 
         .table-hover > tbody > tr:hover, .table > tbody > tr.active > td, .table > tbody > tr.active > th, .table > tbody > tr > td.active, .table > tbody > tr > th.active, .table > tfoot > tr.active > td, .table > tfoot > tr.active > th, .table > tfoot > tr > td.active, .table > tfoot > tr > th.active, .table > thead > tr.active > td, .table > thead > tr.active > th, .table > thead > tr > td.active, .table > thead > tr > th.active {
             background-color: #b9d1ea !important;
+        }
+
+        .input-filter {
+            padding: 3px 3px !important;
+            min-height: initial !important;
+            height: initial !important;
+        }
+
+        .label-danger {
+            background-color: #FF0000 !important;
+        }
+
+        .dropdown-menu.ng-isolate-scope {
+            margin: 1px 0 0 !important;
         }
     </style>
     <meta charset="utf-8" />
@@ -99,6 +161,10 @@
         //});
 
         $(document).ready(function () {
+
+            $('body').tooltip({
+                selector: '.tooltips'
+            });
 
             $('.input-group-btn').click(function () {
                 if ($(this).children('button').children('.fa-calendar').length > 0 ||
@@ -131,6 +197,29 @@
                 }
                 $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
             });
+
+            //$('.table-responsive').on('show.bs.dropdown', function () {
+            //    $('.table-responsive').css("overflow", "inherit");
+            //});
+
+            //$('.table-responsive').on('hide.bs.dropdown', function () {
+            //    $('.table-responsive').css("overflow", "auto");
+            //});
+
+            $('.table-responsive').on('shown.bs.dropdown', function (e) {
+                var $table = $(this),
+                    $menu = $(e.target).find('.dropdown-menu'),
+                    tableOffsetHeight = $table.offset().top + $table.height(),
+                    menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+
+                if (menuOffsetHeight > tableOffsetHeight)
+                    $table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight + 10);
+            });
+
+            $('.table-responsive').on('hide.bs.dropdown', function () {
+                $(this).css("padding-bottom", 0);
+            });
+
         });
     </script>
 
@@ -168,12 +257,52 @@
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 
                         <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
-                            <a href="@Url.Action("Approve", "Operation")" class="dropdown-toggle" data-hover="dropdown" data-close-others="true">
-                                <i class="icon-envelope-open"></i>
-                                <span class="badge badge-default spn_Message_Count"> @ViewBag.MESSAGECOUNT </span>
+                            <a href="@Url.Action("Notification", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Bildirişler">
+                                <i class="fa fa-info-circle"></i>
+                                <span class="badge badge-default spn_Notification_Count"> @ViewBag.NOTIFICATIONCOUNT </span>
                             </a>
                             <ul class="dropdown-menu"></ul>
                         </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Index", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Görevlerim">
+                                <i class="fa fa-tasks"></i>
+                                <span class="badge badge-default spn_Task_Count"> @ViewBag.TASKCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Follow", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Takiplerim">
+                                <i class="fa fa-cc"></i>
+                                <span class="badge badge-default spn_Follow_Count"> @ViewBag.FOLLOWCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Offer", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Tekliflerim">
+                                <i class="fa fa-question-circle"></i>
+                                <span class="badge badge-default spn_Offer_Count"> @ViewBag.OFFERCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                           
+                            <a href="@Url.Action("Approve", "Operation")" class="dropdown-toggle tooltips" 
+                               data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Onaylarım">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span class="badge badge-default spn_Approve_Count"> @ViewBag.APPROVECOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
                         <li class="dropdown dropdown-user">
 
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -251,7 +380,7 @@
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-random"></i>
                                 <span class="title">Toplanti Bagimsiz Gorev</span>
                                 <span class="arrow"></span>
                             </a>
@@ -263,67 +392,56 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
-                                <span class="title">Gorev  ve Kararlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="fa fa-chevron-right"></i> Listele
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-gavel"></i>
                                 <span class="title">İşlemler</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Operation")" class="nav-link">
-                                        <i class="fa fa-chevron-right"></i> Görevlerim
+                                        <span class="title"><i class="fa fa-tasks"></i> Görevlerim</span>
+                                        <span class="badge badge-success" id="spn_Task_Count">@ViewBag.TASKCOUNT</span>
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Follow"? "active open" : "")">
                                     <a href="@Url.Action("Follow", "Operation")" class="nav-link">
-                                        <span class="title"><i class="fa fa-chevron-right"></i> Takiplerim</span>
+                                        <span class="title"><i class="fa fa-cc"></i> Takiplerim</span>
+                                        <span class="badge badge-success" id="spn_Follow_Count">@ViewBag.FOLLOWCOUNT</span>
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Offer"? "active open" : "")">
                                     <a href="@Url.Action("Offer", "Operation")" class="nav-link">
-                                        <span class="title"><i class="fa fa-chevron-right"></i> Tekliflerim</span>
+                                        <span class="title"><i class="fa fa-question-circle"></i> Tekliflerim</span>
+                                        <span class="badge badge-success" id="spn_Offer_Count">@ViewBag.OFFERCOUNT</span>
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Approve"? "active open" : "")">
                                     <a href="@Url.Action("Approve", "Operation")" class="nav-link">
-                                        <span class="title"><i class="fa fa-chevron-right"></i> Onaylarım</span>
-                                        <span class="badge badge-success spn_Message_Count" id="spn_Message_Count">@ViewBag.MESSAGECOUNT</span>
+                                        <span class="title"><i class="fa fa-calendar-check-o"></i> Onaylarım</span>
+                                        <span class="badge badge-success" id="spn_Approve_Count">@ViewBag.APPROVECOUNT</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        @*<li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa fa-home"></i>
+                                    <span class="title">Baglantisi Yapilacak Kayitlar</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
+                                        <a href="@Url.Action("Index", "Home")" class="nav-link">
+                                            <i class="fa fa-chevron-right"></i> Baglantisi Yapilacak Kayitlar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>*@
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
-                                <span class="title">Baglantisi Yapilacak Kayitlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="fa fa-chevron-right"></i> Baglantisi Yapilacak Kayitlar
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-pie-chart"></i>
                                 <span class="title">Raporlar</span>
                                 <span class="arrow"></span>
                             </a>
@@ -347,7 +465,7 @@
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Projects" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-cogs"></i>
                                 <span class="title">Sistem Yonetmi</span>
                                 <span class="arrow"></span>
                             </a>

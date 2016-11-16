@@ -41,6 +41,7 @@ namespace AspMVCMeeting.Models
         public int? MT_PLACE { get; set; }
 
         [Display(Name = "LBL_MT_START_TIME", ResourceType = typeof(App_GlobalResources.Global))]
+        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan? MT_START_TIME { get; set; }
 
         [Display(Name = "LBL_MT_FINISH_TIME", ResourceType = typeof(App_GlobalResources.Global))]

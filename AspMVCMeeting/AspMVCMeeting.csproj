@@ -154,6 +154,7 @@
     <Compile Include="Controllers\MeetingMasterController.cs" />
     <Compile Include="Controllers\OperationController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -171,6 +172,7 @@
     <Compile Include="Models\MEETING_LOG_TYPE.cs" />
     <Compile Include="Models\MEETING_MASTER.cs" />
     <Compile Include="Models\MEETING_MASTER_V.cs" />
+    <Compile Include="Models\MEETING_NOTIFICATIONS.cs" />
     <Compile Include="Models\MEETING_PARTICIPANTS.cs" />
     <Compile Include="Models\MEETING_PLACE.cs" />
     <Compile Include="Models\MEETING_PROJECTS.cs" />
@@ -183,6 +185,8 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VW_MEETING_LINE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\FilterModel.cs" />
+    <Compile Include="ViewModels\User.cs" />
     <Compile Include="ViewModels\VM_MEETING.cs" />
     <Compile Include="ViewModels\VM_MEETING_MASTER_V.cs" />
     <Compile Include="ViewModels\VM_PROJECTS.cs" />
@@ -197,6 +201,7 @@
     <Content Include="Angular\MeetingMasterLines\Module.js" />
     <Content Include="Angular\MeetingMasterLines\Service.js" />
     <Content Include="Angular\Operation\ApproveController.js" />
+    <Content Include="Angular\Operation\NotificationController.js" />
     <Content Include="Angular\Operation\DetailController.js" />
     <Content Include="Angular\Operation\Controller.js" />
     <Content Include="Angular\Operation\ApproveModule.js" />
@@ -219,6 +224,7 @@
     <Content Include="assets\global\plugins\angularjs\plugins\ui-bootstrap-tpls.min.js" />
     <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.css" />
     <Content Include="assets\global\plugins\angularjs\plugins\ui-select\select.min.js" />
+    <Content Include="assets\global\plugins\bootstrap-confirmation\bootstrap-confirmation.min.js" />
     <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" />
     <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput-angular.min.js" />
     <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.css" />
@@ -284,6 +290,8 @@
     <Content Include="assets\global\plugins\jquery.blockui.min.js" />
     <Content Include="assets\global\plugins\jquery.min.js" />
     <Content Include="assets\global\plugins\js.cookie.min.js" />
+    <Content Include="assets\global\plugins\momentjs\moment.min.js" />
+    <Content Include="assets\global\plugins\ng-table\ng-table.min.js" />
     <Content Include="assets\global\plugins\select2\css\select2-bootstrap.min.css" />
     <Content Include="assets\global\plugins\select2\css\select2.css" />
     <Content Include="assets\global\plugins\select2\css\select2.min.css" />
@@ -348,6 +356,7 @@
     <Content Include="assets\global\scripts\angular-upload.js" />
     <Content Include="assets\global\scripts\app.min.js" />
     <Content Include="assets\global\scripts\jquery.slimscroll.min.js" />
+    <Content Include="assets\global\scripts\ui-bootstrap-tpls-2.2.0.min.js" />
     <Content Include="assets\layouts\global\scripts\quick-nav.min.js" />
     <Content Include="assets\layouts\global\scripts\quick-sidebar.min.js" />
     <Content Include="assets\layouts\layout\css\custom.min.css" />
@@ -359,6 +368,7 @@
     <Content Include="assets\layouts\layout\scripts\layout.min.js" />
     <Content Include="assets\pages\css\login.min.css" />
     <Content Include="assets\pages\img\logo-big.png" />
+    <Content Include="assets\pages\img\logo_large.png" />
     <Content Include="assets\pages\scripts\app.js" />
     <Content Include="assets\pages\scripts\components-bootstrap-tagsinput.min.js" />
     <Content Include="assets\pages\scripts\components-select2.min.js" />
@@ -535,6 +545,7 @@
     <Content Include="assets\global\plugins\angularjs\angular.min.js.map" />
     <Content Include="assets\global\plugins\angularjs\plugins\angular-file-upload\upload.php" />
     <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -579,6 +590,10 @@
     <Content Include="Views\Operation\Follow.cshtml" />
     <Content Include="Views\Operation\Offer.cshtml" />
     <Content Include="Views\Shared\FilesView.cshtml" />
+    <Content Include="Views\Report\MeetingMaster.cshtml" />
+    <Content Include="Views\Operation\Notification.cshtml" />
+    <Content Include="Views\Shared\Meeting_Detail.cshtml" />
+    <Content Include="Views\Shared\ReplyView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -604,6 +619,7 @@
     <EmbeddedResource Include="App_GlobalResources\Global.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="App_GlobalResources\Global.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

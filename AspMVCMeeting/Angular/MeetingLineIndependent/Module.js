@@ -1,4 +1,4 @@
-﻿var appIndep = angular.module("appIndep", ['ngTable', 'lr.upload']);
+﻿var appIndep = angular.module("appIndep", ['ngTable', 'lr.upload','ui.bootstrap']);
 
 appIndep.directive('uploadFile', ['$parse', function ($parse) {
     return {

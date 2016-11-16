@@ -31,9 +31,27 @@
                 }
             });
 
-            //$('#inputDatabaseName').on('input', function (e) {
-            //    table.columns(2).search('IKB2016101727|YKB2016101135|YKB2016101136', true, false).draw();
-            //});
+            $("#tblMeetingMaster_wrapper").find(".row:first").find(".col-sm-6:first").after("<div class='col-sm-2'><label class='switch'><input type='checkbox' id='chkBxNotCompleted' checked><div class='sliders round tooltips' data-placement='bottom' data-original-title='Hepsi/Açıkda kalanlar'></div></div>");
+            $("#tblMeetingMaster_wrapper").find(".row:first").find(".col-sm-6:last").attr('class', 'col-sm-4');;
+                     
+
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var notcompleted = $("#chkBxNotCompleted").is(':checked');
+                    var status = data[5];
+
+                    if ((notcompleted && status !== '3') || (!notcompleted)) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            table.draw();
+
+            $("#chkBxNotCompleted").change(function () {
+                table.draw();
+            });
 
         });
 
@@ -44,6 +62,66 @@
         .dataTable > thead > tr > th[class*="sort"]:after {
             content: "" !important;
         }
+    </style>
+
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+            .switch input {
+                display: none;
+            }
+
+        .sliders {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .sliders:before {
+                position: absolute;
+                content: "";
+                height: 24px;
+                width: 24px;
+                left: 5px;
+                bottom: 3px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .sliders {
+            background-color: #2196F3;
+        }
+
+        input:focus + .sliders {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .sliders:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .sliders.round {
+            border-radius: 20px !important;
+        }
+
+            .sliders.round:before {
+                border-radius: 50%;
+            }
     </style>
 
 }
@@ -71,6 +149,7 @@
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_NO) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TYPE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
+                            <th scope="col" style="display: none"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TITLE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DATE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_START_TIME) </th>
@@ -96,10 +175,13 @@
                                                     <a href="@Url.Action("View", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-eye'></i> Görüntüle</a>
                                                 </li>*@
                                             <li>
-                                                <a href="@Url.Action("Edit", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-pencil'></i>Deyiş</a>
+                                                <a href="@Url.Action("Edit", "MeetingMaster", new { id = item.MEETING_MASTER.ID })"><i class='fa fa-pencil'></i>Deyiş</a>
                                             </li>
+                                            @*<li>
+                                                    <a href="@Url.Action("DownloadPDF", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-file-pdf-o'></i>PDF</a>
+                                                </li>*@
                                             <li>
-                                                <a href="@Url.Action("Delete", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-trash-o'></i>Sil</a>
+                                                <a href="@Url.Action("Delete", "MeetingMaster", new { id = item.MEETING_MASTER.ID })"><i class='fa fa-trash-o'></i>Sil</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -125,13 +207,14 @@
                                         }
                                     }
                                     <div class="@spnClass" style="text-align:center">
-                                        @Html.DisplayFor(modelItem => item.MT_STS_TEXT) 
+                                        @Html.DisplayFor(modelItem => item.MT_STS_TEXT)
                                         <span class="badge alert-dismisssable" style="vertical-align: inherit; height: inherit;">
-                                           @Html.DisplayFor(modelItem => item.MT_STS_TEXT_INFO) 
+                                            @Html.DisplayFor(modelItem => item.MT_STS_TEXT_INFO)
                                         </span>
                                     </div>
 
                                 </td>
+                                <td style="display: none"> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_STS) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_TITLE) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DATE) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_START_TIME) </td>

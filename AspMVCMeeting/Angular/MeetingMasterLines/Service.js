@@ -1,5 +1,20 @@
 ﻿app.service("linesService", function ($http) {
 
+    //get All Titles by Column Name
+    this.GetAllByColumnName = function (columnName, tableName) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/GetAllByColumnName",
+            params: {
+                columnName: JSON.stringify(columnName),
+                tableName: JSON.stringify(tableName)
+            }
+        });
+        return response;
+
+        return $http.get("/api/MeetingMaster/GetAllByColumnName");
+    };
+
     //Find Department by User Account
     this.findDepByAccount = function (accountName) {
         var response = $http({
@@ -57,10 +72,18 @@
         });
         return response;
     }
-    
+
     //get All files
-    this.GetAllFiles = function (MT_Ref) {
-        return $http.get("/api/MeetingMaster/GetAllFiles/" + MT_Ref);
+    this.GetAllFiles = function (id, type) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/GetAllFiles",
+            params: {
+                id: id,
+                type: type
+            }
+        });
+        return response;
     };
 
     //get All Line Files
@@ -92,7 +115,7 @@
         return response;
     };
 
-    //get All Files
+    //get All Lines
     this.GetLinesAll = function (MT_Ref) {
         return $http.get("/api/MeetingMaster/GetLinesAll/" + MT_Ref);
     };

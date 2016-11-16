@@ -1,4 +1,4 @@
-﻿var app = angular.module("app", ['ngTable','lr.upload']);
+﻿var app = angular.module("app", ['ngTable','lr.upload','ui.bootstrap']);
 
 app.directive('loading', ['$http', function ($http) {
     return {

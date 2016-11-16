@@ -1,4 +1,4 @@
-﻿var app = angular.module("app", ['lr.upload']);
+﻿var app = angular.module("app", ['lr.upload', 'ui.bootstrap']);
 
 app.directive('loading', ['$http', function ($http) {
     return {

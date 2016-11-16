@@ -31,6 +31,8 @@ namespace AspMVCMeeting.ViewModels
         public List<string> lst_MTL_EXECUTANT { get; set; }
 
         public List<string> lst_MTL_RELATED_FORM_REF { get; set; }
+
+        public IList<VM_MEETING_NOTIFICATIONS> lst_MEETING_NOTIFICATIONS { get; set; }
     }
 
 
@@ -40,10 +42,12 @@ namespace AspMVCMeeting.ViewModels
 
         public string MLN_NAME { get; set; }
 
+        public string MTL_TYPE_DESC { get; set; }
+
         public string MTL_STS_TEXT { get; set; }
 
         public string MTL_ACTION_TEXT { get; set; }
-        public int? MTL_ACTION_TYPE{ get; set; }
+        public int? MTL_ACTION_TYPE { get; set; }
 
         public string MTL_ACTION_DESC { get; set; }
 
@@ -55,7 +59,10 @@ namespace AspMVCMeeting.ViewModels
         public string MTL_RESPONSIBLE_DESC { get; set; }
 
         public string MTL_CONFIRMER_DESC { get; set; }
-
+        public string MT_FOLLOWER_DESC { get; set; }
+        public string MTL_OFFER_USER_DESC { get; set; }
+        public string MTL_EXECUTANT_DESC { get; set; }
+        public string MTL_DECISION_TYPE_DESC { get; set; }
     }
 
     public class VM_MEETING_MASTER
@@ -69,5 +76,19 @@ namespace AspMVCMeeting.ViewModels
     public class VM_MEETING_LINES_DETAIL
     {
         public MEETING_LINES_DETAIL MEETING_LINES_DETAIL { get; set; }
+
+        public string MLD_CREATE_USER_DESC { get; set; }
     }
+
+    public class VM_MEETING_NOTIFICATIONS
+    {
+        public MEETING_NOTIFICATIONS MEETING_NOTIFICATIONS { get; set; }
+
+        public VM_MEETING_LINES_DETAIL VM_MEETING_LINES_DETAIL { get; set; }
+        public string MTL_DESCRIPTION { get; set; }
+        public string MTL_TYPE_DESC { get; set; }
+
+        public int? detailFileCount { get; set; }
+    }
+
 }

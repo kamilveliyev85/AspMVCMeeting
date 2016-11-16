@@ -2,14 +2,23 @@
 
     GetFollowAll();
 
+    $scope.isAfter = function(jsonDate)
+    {
+        if (jsonDate !== null)
+            return new Date(parseInt(jsonDate.substr(6))).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        else
+            return null;
+    }
+
     function GetFollowAll() {
         var getData = operationService.GetFollowAll();
         getData.then(function (emp) {
             $scope.data = emp.data;
+            angular.element(".spn_Follow_Count").text($scope.data.length);
             $scope.tableParams = new NgTableParams({
                 page: 1, // show first page
                 total: 1, // value less than count hide pagination
-                count: 5 // count per page
+                count: 12 // count per page
             }, { counts: [], dataset: $scope.data });
         }, function (response) {
             alert('Error in getting records');
@@ -21,7 +30,9 @@
         $scope.lineFiles = '';
         $scope.resultLine = '';
 
-        $scope.line = line;
+        var getData = operationService.getLine(line.MEETING_LINES.ID);
+        getData.then(function (emp) {
+            $scope.line = emp.data;
 
         for (var keyName in $scope.line.MEETING_LINES) {
             var key = keyName;
@@ -47,10 +58,10 @@
         angular.element('textarea').removeAttr('style');
         angular.element("#MeetingLinesDiv").slideDown();
 
-        //},
-        //function () {
-        //    alert('Error in getting records');
-        //});
+        },
+        function () {
+            alert('Error in getting records');
+        });
     }
 
     $scope.CancelAddEdit = function () {
@@ -90,8 +101,8 @@
         angular.element('#fileModal').modal('show');
     }
 
-    function GetAllFiles(id) {
-        var getData = operationService.GetAllFiles(id);
+    function GetAllFiles(id, type) {
+        var getData = operationService.GetAllFiles(id, type);
         getData.then(function (emp) {
             $scope.files = emp.data;
         }, function (response) {

@@ -125,16 +125,15 @@
                                 <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
                                 <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
-                                <td title="'İcraçılar'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
+                                <td title="'@Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
                                 <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
                                 <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 9" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 5" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 6" class="label label-sm label-success"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 11" class="label label-sm label-danger"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 12" class="label label-sm label-primary"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 13" class="label label-sm label-success"> {{line.MTL_STS_TEXT}} </span>
+                                    <span ng-class="{
+                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 9, 'label label-sm label-info': line.MEETING_LINES.MTL_STS == 4,
+                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 5, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 6,
+                                          'label label-sm label-primary':  line.MEETING_LINES.MTL_STS == 12, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 13,
+                                          'label label-sm label-info': line.MEETING_LINES.MTL_STS == 11, 'label label-sm label-danger': isAfter(line.MEETING_LINES.MTL_FINISH_DATE)
+                                          }"> {{line.MTL_STS_TEXT}} </span>
                                 </td>
                                 <td title="'İşlem'" sortable="'MTL_ACTION_TYPE'">
                                     <span ng-hide="line.MTL_ACTION_TYPE != 1" class="label label-sm label-success"> {{line.MTL_ACTION_TEXT}} </span>
@@ -157,7 +156,7 @@
                                 <tr>
                                     <th scope="col"> #</th>
                                     <th scope="col">İşlemler</th>
-                                    <th scope="col"> Açıklama </th>
+                                    <th scope="col"> @Html.DisplayNameFor(m => m.MEETING_LINES_DETAIL.MLD_DESCRIPTION)  </th>
                                     <th scope="col"> Not sahibi </th>
                                     <th scope="col"> Oluşturma tarih </th>
                                 </tr>
@@ -173,7 +172,7 @@
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li>
-                                                    <a ng-click="viewFiles(detail.MEETING_LINES_DETAIL.MLD_MTL_REF)"><i class='fa fa-file'></i> Dosya</a>
+                                                    <a ng-click="viewFiles(detail.MEETING_LINES_DETAIL.MLD_MTL_REF)"><i class='fa fa-file'></i> Ek gorüntüle</a>
                                                 </li>
                                             </ul>
                                         </div>

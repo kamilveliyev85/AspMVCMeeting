@@ -77,7 +77,7 @@
                             <tr>
                                 <th scope="col"> İşlemler </th>
                                 <th scope="col"> #</th>
-                                <th scope="col"> Açıklama </th>
+                                <th scope="col"> @Html.DisplayNameFor(m=>m.MEETING_LINES_DETAIL.MLD_DESCRIPTION) </th>
                                 <th scope="col"> Not sahibi </th>
                                 <th scope="col"> Oluşturma tarih </th>
                             </tr>
@@ -91,9 +91,9 @@
                                             <i class="fa fa-angle-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li>
+                                            @*<li>
                                                 <a ng-click="editDetail(detail)"><i class='fa fa-pencil'></i>Deyiş</a>
-                                            </li>
+                                            </li>*@
                                             <li>
                                                 <a ng-click="deleteDetail(detail)"><i class='fa fa-trash-o'></i>Sil</a>
                                             </li>
@@ -102,7 +102,7 @@
                                 </td>
                                 <td>{{$index + 1}}</td>
                                 <td>{{detail.MEETING_LINES_DETAIL.MLD_DESCRIPTION}} </td>
-                                <td>{{detail.MEETING_LINES_DETAIL.MLD_CREATE_USER}}</td>
+                                <td>{{detail.MLD_CREATE_USER_DESC}}</td>
                                 <td> {{detail.MEETING_LINES_DETAIL.MLD_CREATEDATE | ctime | date : 'dd.MM.yyyy'}} </td>
                             </tr>
                         </tbody>
@@ -179,7 +179,7 @@
 
                             <div class="form-actions right">
                                 <button type="button" id="btnCancelDetail" class="btn red"><i class="fa fa-close"></i> Kapat</button>
-                                <button type="button" ng-click="AddUpdateDetail()" class="btn green"><i class="fa fa-check"></i> Kaydet </button>
+                                <button type="button" ng-click="AddUpdateDetail()" class="btn green"><i class="fa fa-floppy-o"></i> Kaydet </button>
                             </div>
                         </div>
                     }

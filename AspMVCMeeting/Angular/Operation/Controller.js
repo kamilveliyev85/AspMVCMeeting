@@ -1,5 +1,5 @@
 ﻿operationApp.controller("operationCntrl", function ($scope, $filter, $http, $q, NgTableParams, upload, operationService) {
-    
+
     GetLineAll();
 
     function filterBy(obj) {
@@ -16,9 +16,8 @@
         getData.then(function (emp) {
             $scope.fullData = emp.data;
             $scope.data = emp.data;
-
+            angular.element(".spn_Task_Count").text($scope.data.length);
             $scope.employees = null;
-            
             $scope.$watch('employees', function () {
                 if ($scope.employees != null)
                     $scope.data = $scope.fullData.filter(filterBy);
@@ -28,26 +27,30 @@
                 $scope.tableParams = new NgTableParams({
                     page: 1, // show first page
                     total: 1, // value less than count hide pagination
-                    count: 5 // count per page
+                    count: 12 // count per page
                 }, { counts: [], dataset: $scope.data });
 
             });
-            
+
         }, function (response) {
             alert('Error in getting records');
         });
+    }
+
+    $scope.isAfter = function (jsonDate) {
+        if (jsonDate !== null)
+            return new Date(parseInt(jsonDate.substr(6))).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        else
+            return null;
     }
 
     $scope.viewLine = function (line) {
         $scope.fileCreate = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
-        //var getData = operationService.getLine(line.MEETING_LINES.ID);
-        //getData.then(function (emp) {
-            //$scope.line = emp.data;
-        //$scope.Action = "Update";
-
-        $scope.line = line;
+        var getData = operationService.getLine(line.MEETING_LINES.ID);
+        getData.then(function (emp) {
+            $scope.line = emp.data;
 
             for (var keyName in $scope.line.MEETING_LINES) {
                 var key = keyName;
@@ -73,12 +76,12 @@
             angular.element('textarea').removeAttr('style');
             angular.element("#MeetingLinesDiv").slideDown();
 
-        //},
-        //function () {
-        //    alert('Error in getting records');
-        //});
+        },
+            function () {
+                alert('Error in getting records');
+            });
     }
-    
+
     $scope.filterEmployee = function (employees) {
 
         $scope.employees = employees;
@@ -99,7 +102,7 @@
             alert('Error in updating record');
         });
     }
-    
+
     $scope.CancelAddEdit = function () {
         $scope.line = null;
         angular.element("#MeetingLinesDiv").slideUp();

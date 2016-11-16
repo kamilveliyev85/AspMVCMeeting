@@ -1,5 +1,14 @@
 ﻿operationApp.controller("approveCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, operationService) {
 
+    $scope.names = [{ "id": "Karar", "title": "Karar" }]
+
+    var getData = operationService.GetColumnValues("MLN_NAME", "MEETING_LINE_TYPE");
+    getData.then(function (emp) {
+        $scope.names = emp.data;
+
+    });
+
+
     //BEGIN Master meeting LINES edit
 
     function GetAllLineFiles(lineId) {
@@ -9,6 +18,13 @@
         }, function (response) {
             alert('Error in getting records');
         });
+    }
+
+    $scope.isAfter = function (jsonDate) {
+        if (jsonDate !== null)
+            return new Date(parseInt(jsonDate.substr(6))).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        else 
+            return null;
     }
 
     $scope.removeLineFileByID = function (fileId) {
@@ -48,9 +64,7 @@
         var getData = operationService.GetApproveAll(null);
         getData.then(function (emp) {
             $scope.data = emp.data;
-
-            angular.element(".spn_Message_Count").text($scope.data.length);
-
+            angular.element(".spn_Approve_Count").text($scope.data.length);
             $scope.tableParams = new NgTableParams({
                 page: 1, // show first page
                 total: 1, // value less than count hide pagination
@@ -60,7 +74,7 @@
             $scope.checkboxes = { 'checked': false, items: {} };
             angular.forEach($scope.data, function (item) {
                 if (item.MEETING_LINES.MTL_STS !== 9)
-                $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
+                    $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
             });
 
             // watch for check all checkbox
@@ -82,16 +96,17 @@
                 angular.forEach($scope.data, function (item) {
                     if (item.MEETING_LINES.MTL_STS !== 9) total += 1;
                 });
-                
+
                 angular.forEach($scope.data, function (item) {
                     if (item.MEETING_LINES.MTL_STS !== 9) {
                         checked += ($scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
                         unchecked += (!$scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
                     }
                 });
-                
+
                 if ((unchecked == 0) || (checked == 0)) {
                     $scope.checkboxes.checked = (checked == total);
+                    if (total == 0) $scope.checkboxes.checked = false;
                 }
                 // grayed checkbox
                 angular.element($("#select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));

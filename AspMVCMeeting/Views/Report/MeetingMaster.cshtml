@@ -1,0 +1,165 @@
+﻿@using AspMVCMeeting.ViewModels
+@model VM_MEETING
+
+@{
+    Layout = null;
+}
+
+<link href="@Server.MapPath("~/assets/plugins/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+<img height="100" width="100" src="@Server.MapPath("~/assets/pages/img/logo-big.png")" />
+
+
+<div class="row">
+    <div class="col-xs-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS)
+            </dt>
+
+            <dd style= "word-break: break-all;">
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_USER_PARTICIPANTS)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TAGS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_TAGS)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_USER_OUT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_USER_OUT)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DESCIPTION)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_DESCIPTION)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE1)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_SCODE1)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE2)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_SCODE2)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE3)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_SCODE3)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_SCODE4)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_SCODE4)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col-xs-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TYPE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_TYPE)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TITLE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_TITLE)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_PLACE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_PLACE)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DATE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_DATE)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_START_TIME)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_START_TIME)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_FINISH_TIME)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_FINISH_TIME)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DEPARTMENT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_DEPARTMENT)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_MANAGER)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_MANAGER)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_FOLLOWER_USERID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_USER_CC)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MEETING_MASTER.MT_USER_CC)
+            </dd>
+
+        </dl>
+    </div>
+</div>

@@ -1,7 +1,28 @@
 ﻿operationApp.service("operationService", function ($http) {
+    //get All Titles by Column Name
+    this.GetColumnValues = function (columnName, tableName) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/GetColumnValues",
+            params: {
+                columnName: JSON.stringify(columnName),
+                tableName: JSON.stringify(tableName)
+            }
+        });
+        return response;
+    };
+
     //get All files
-    this.GetAllFiles = function (MT_Ref) {
-        return $http.get("/api/MeetingMaster/GetAllFiles/" + MT_Ref);
+    this.GetAllFiles = function (id, type) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/GetAllFiles",
+            params: {
+                id: id,
+                type: type
+            }
+        });
+        return response;
     };
 
     //BEGIN change and Save
@@ -206,4 +227,62 @@
     };
 
     //END OFFER
+
+    //BEGIN NOTIFICATION
+
+     //get All Notifications
+    this.GetNotificationAll = function () {
+        return $http.get("/api/Operation/GetNotificationAll");
+    };
+
+    //get All Detail
+    this.GetDetailAllByDetailId = function (id, NTF_REFID) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/GetDetailAllByDetailId",
+            params: {
+                id: id,
+                NTF_REFID: NTF_REFID
+            }
+        });
+        return response;
+    };
+
+    //get Line by Id
+    this.getLineById = function (NTF_REFID) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/getLineById",
+            params: {
+                NTF_REFID: NTF_REFID
+            }
+        });
+        return response;
+    };
+
+    //remove Notification
+    this.removeNotification = function (id) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/removeNotification",
+            params: {
+                id: id
+            }
+        });
+        return response;
+    };
+
+    //reply Notification
+    this.replyNotification = function (id) {
+        var response = $http({
+            method: "post",
+            url: "/api/Operation/replyNotification",
+            params: {
+                id: id
+            }
+        });
+        return response;
+    };
+
+    //END NOTIFICATION
 });

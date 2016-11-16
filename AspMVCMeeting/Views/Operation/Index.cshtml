@@ -83,8 +83,8 @@
 <div ng-app="operationApp" ng-controller="operationCntrl" ng-cloak>
 
     @*@{
-        Html.RenderPartial("~/Views/Shared/ViewLoading.cshtml");
-    }*@
+            Html.RenderPartial("~/Views/Shared/ViewLoading.cshtml");
+        }*@
 
     <!-- /.Master Version Modal -->
     <div class="modal fade bs-modal-sm" id="statusUpdate" tabindex="-1" role="dialog" aria-hidden="true">
@@ -125,7 +125,7 @@
                 </ng-form>
                 <div class="modal-footer">
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal"><i class="fa fa-close"></i> Kapat</button>
-                    <button type="button" ng-disabled="updateForm.$error.required"  ng-click="updateStatus(line)" class="btn green"><i class="fa fa-check"></i> Kaydet</button>
+                    <button type="button" ng-disabled="updateForm.$error.required" ng-click="updateStatus(line)" class="btn green"><i class="fa fa-floppy-o"></i> Kaydet</button>
                 </div>
 
                 <!-- /.modal-content -->
@@ -189,14 +189,15 @@
                                 <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
                                 <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
-                                <td title="'İcraçılar'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
+                                <td title="'@Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
                                 <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
                                 <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 9" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 4" class="label label-sm label-info"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 5" class="label label-sm label-warning"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 6" class="label label-sm label-success"> {{line.MTL_STS_TEXT}} </span>
-                                    <span ng-show="line.MEETING_LINES.MTL_STS == 11" class="label label-sm label-danger"> {{line.MTL_STS_TEXT}} </span>
+                                    <span ng-class="{
+                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS === 9, 'label label-sm label-info': line.MEETING_LINES.MTL_STS === 4,
+                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS === 5, 'label label-sm label-success': line.MEETING_LINES.MTL_STS === 6,
+                                          'label label-sm label-primary':  line.MEETING_LINES.MTL_STS === 12, 'label label-sm label-success': line.MEETING_LINES.MTL_STS === 13,
+                                          'label label-sm label-info': line.MEETING_LINES.MTL_STS === 11, 'label label-sm label-danger': isAfter(line.MEETING_LINES.MTL_FINISH_DATE)
+                                          }">{{line.MTL_STS_TEXT}}</span>
                                 </td>
                                 <td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'"> {{line.MEETING_LINES.MTL_TAGS}} </td>
                                 <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
