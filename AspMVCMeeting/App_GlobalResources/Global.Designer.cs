@@ -214,7 +214,7 @@ namespace AspMVCMeeting.App_GlobalResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toplanti Turu.
+        ///   Looks up a localized string similar to Toplantı Turu.
         /// </summary>
         public static string LBL_MT_TYPE {
             get {

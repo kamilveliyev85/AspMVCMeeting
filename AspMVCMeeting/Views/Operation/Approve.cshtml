@@ -167,8 +167,8 @@
                                 <td title="'Takip eden'" sortable="'MT_FOLLOWER_DESC'" filter="{ 'MT_FOLLOWER_DESC': 'text'}"> {{line.MT_FOLLOWER_DESC}} </td>
                                 @*<td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'" filter="{ 'MEETING_LINES.MTL_TAGS': 'text'}"> {{line.MEETING_LINES.MTL_TAGS}} </td>*@
                                 @*<td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'" filter="{ 'MEETING_LINES.MTL_RELATED_FORM_REF': 'text'}"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>*@
-                                <td title="'İşlem'" sortable="'MTL_ACTION_TEXT'" filter="{ 'MTL_ACTION_TEXT': 'text'}">
-                                    <span ng-hide="line.MTL_ACTION_TYPE != 1" class="label label-sm label-success"> {{line.MTL_ACTION_TEXT}} </span>
+                                <td title="'Son işlem'" sortable="'MTL_ACTION_TEXT'" filter="{ 'MTL_ACTION_TEXT': 'text'}">
+                                    <span ng-hide="line.MTL_ACTION_TYPE != 1"> {{line.MTL_ACTION_TEXT}} </span>
                                     <span ng-hide="line.MTL_ACTION_TYPE != 2" class="label label-sm label-danger"> {{line.MTL_ACTION_TEXT}} </span>
                                 </td>
                                 <td title="'Not'" sortable="'MTL_ACTION_DESC'" filter="{ 'MTL_ACTION_DESC': 'text'}"> {{line.MTL_ACTION_DESC}} </td>

@@ -341,7 +341,7 @@
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-home"></i>
-                                <span class="title">Toplanti Yönetimi</span>
+                                <span class="title">Toplantı Yönetimi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
@@ -360,7 +360,7 @@
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-random"></i>
-                                <span class="title">Toplanti Bagimsiz Gorev</span>
+                                <span class="title">Toplantı Bagimsiz Gorev</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
@@ -378,6 +378,14 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
+
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Notification" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
+                                    <a href="@Url.Action("Notification", "Operation")" class="nav-link">
+                                        <span class="title"><i class="fa fa-info-circle"></i> Bildirişler</span>
+                                        <span class="badge badge-success" id="spn_Notification_Count">@ViewBag.TASKCOUNT</span>
+                                    </a>
+                                </li>
+
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Operation")" class="nav-link">
                                         <span class="title"><i class="fa fa-tasks"></i> Görevlerim</span>
@@ -404,20 +412,6 @@
                                 </li>
                             </ul>
                         </li>
-                        @*<li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="fa fa-home"></i>
-                                    <span class="title">Baglantisi Yapilacak Kayitlar</span>
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                        <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                            <i class="fa fa-chevron-right"></i> Baglantisi Yapilacak Kayitlar
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>*@
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-pie-chart"></i>
@@ -427,7 +421,7 @@
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="fa fa-chevron-right"></i> Toplanti Listesi
+                                        <i class="fa fa-chevron-right"></i> Toplantı Listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
@@ -456,7 +450,7 @@
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="fa fa-chevron-right"></i> Toplanti Turleri
+                                        <i class="fa fa-chevron-right"></i> Toplantı Turleri
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">

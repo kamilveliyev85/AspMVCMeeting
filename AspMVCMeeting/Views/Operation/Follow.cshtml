@@ -127,8 +127,8 @@
                                 <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'@Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
                                 <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
-                               <td title="'İşlem'" sortable="'MTL_ACTION_TYPE'">
-                                    <span ng-hide="line.MTL_ACTION_TYPE != 1" class="label label-sm label-success"> {{line.MTL_ACTION_TEXT}} </span>
+                               <td title="'Son işlem'" sortable="'MTL_ACTION_TYPE'">
+                                    <span ng-hide="line.MTL_ACTION_TYPE != 1"> {{line.MTL_ACTION_TEXT}} </span>
                                     <span ng-hide="line.MTL_ACTION_TYPE != 2" class="label label-sm label-danger"> {{line.MTL_ACTION_TEXT}} </span>
                                 </td>
                                 <td title="'Not'" sortable="'MTL_ACTION_DESC'"> {{line.MTL_ACTION_DESC}} </td>

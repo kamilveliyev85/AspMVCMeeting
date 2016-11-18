@@ -428,7 +428,8 @@
         $scope.line = {
             "MEETING_LINES": {
                 "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val(), "MTL_START_DATE": new Date(),
-                "MTL_DECISION_TYPE": angular.element("#MEETING_MASTER_MT_TYPE").val()
+                "MTL_DECISION_TYPE": angular.element("#MEETING_MASTER_MT_TYPE").val(),
+                "MTL_TYPE": "4"
             }
         };
         $scope.Action = "Add";
