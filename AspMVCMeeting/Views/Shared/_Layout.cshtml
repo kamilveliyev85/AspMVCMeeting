@@ -1,16 +1,4 @@
-﻿@{
-
-    if (Request.IsAuthenticated)
-    {
-        ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
-    }
-    else
-    {
-        ViewBag.UserName = "";
-    }
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -19,20 +7,38 @@
 <!-- BEGIN HEAD -->
 <head>
     <style>
+        .dl-horizontal dt {
+            text-align: left !important;
+            width: initial !important;
+        }
+
+        .dl-horizontal dd {
+            text-align: left !important;
+        }
+
+        @@media (min-width: 768px) {
+            .dl-horizontal dd {
+                margin-left: 10px !important;
+            }
+        }
+
+        .rows .row {
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .text-bold {
+            font-weight: bold;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding: 5px !important;
+        }
+
         [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
             display: none !important;
         }
-    </style>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #1 for blank page layout"
-          name="description" />
-    <meta content="" name="author" />
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    <style type="text/css">
+
         .portlet-title:hover {
             cursor: pointer;
         }
@@ -43,6 +49,17 @@
 
         .form .form-actions.right, .portlet-form .form-actions.right {
             padding: 5px !important;
+        }
+
+        .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+            background-color: #428bca !important;
+            outline: 0 !important;
+        }
+
+        .bootstrap-tagsinput {
+            width: 100% !important;
         }
 
         @@media (min-width: 768px) {
@@ -62,7 +79,55 @@
                 margin-bottom: 10px;
             }
         }
+
+        .splash {
+            display: none;
+        }
+
+        .btn.red:not(.btn-outline) {
+            border-radius: 5px !important;
+        }
+
+        .btn.green:not(.btn-outline) {
+            border-radius: 5px !important;
+        }
+
+        .btn.btn-outline.dark {
+            border-radius: 5px !important;
+        }
+
+        [ng-cloak].splash {
+            display: block !important;
+        }
+
+        .table-hover > tbody > tr:hover, .table > tbody > tr.active > td, .table > tbody > tr.active > th, .table > tbody > tr > td.active, .table > tbody > tr > th.active, .table > tfoot > tr.active > td, .table > tfoot > tr.active > th, .table > tfoot > tr > td.active, .table > tfoot > tr > th.active, .table > thead > tr.active > td, .table > thead > tr.active > th, .table > thead > tr > td.active, .table > thead > tr > th.active {
+            background-color: #b9d1ea !important;
+        }
+
+        .input-filter {
+            padding: 3px 3px !important;
+            min-height: initial !important;
+            height: initial !important;
+        }
+
+        .label-danger {
+            background-color: #FF0000 !important;
+        }
+
+        .dropdown-menu.ng-isolate-scope {
+            margin: 1px 0 0 !important;
+        }
     </style>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #1 for blank page layout"
+          name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+
     @Styles.Render("~/bundles/masterGlobalcss")
     @Styles.Render("~/bundles/masterPageLayoutcss")
 
@@ -70,7 +135,15 @@
     @Scripts.Render("~/bundles/masterPageLayoutjs")
 
     <script type="text/javascript">
+        //$(window).load(function () {
+        //    $(".progress-bar").animate();
+        //});
+
         $(document).ready(function () {
+
+            $('body').tooltip({
+                selector: '.tooltips'
+            });
 
             $('.input-group-btn').click(function () {
                 if ($(this).children('button').children('.fa-calendar').length > 0 ||
@@ -103,6 +176,29 @@
                 }
                 $(this).closest(".portlet.box").find(".portlet-body.form").slideToggle();
             });
+
+            //$('.table-responsive').on('show.bs.dropdown', function () {
+            //    $('.table-responsive').css("overflow", "inherit");
+            //});
+
+            //$('.table-responsive').on('hide.bs.dropdown', function () {
+            //    $('.table-responsive').css("overflow", "auto");
+            //});
+
+            $('.table-responsive').on('shown.bs.dropdown', function (e) {
+                var $table = $(this),
+                    $menu = $(e.target).find('.dropdown-menu'),
+                    tableOffsetHeight = $table.offset().top + $table.height(),
+                    menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+
+                if (menuOffsetHeight > tableOffsetHeight)
+                    $table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight + 10);
+            });
+
+            $('.table-responsive').on('hide.bs.dropdown', function () {
+                $(this).css("padding-bottom", 0);
+            });
+
         });
     </script>
 
@@ -112,7 +208,7 @@
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <!-- END HEAD -->
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-closed">
     <div class="page-wrapper">
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
@@ -138,9 +234,58 @@
                     <ul class="nav navbar-nav pull-right">
                         <!-- BEGIN USER LOGIN DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Notification", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Bildirişler">
+                                <i class="fa fa-info-circle"></i>
+                                <span class="badge badge-default spn_Notification_Count"> @ViewBag.NOTIFICATIONCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Index", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Görevlerim">
+                                <i class="fa fa-tasks"></i>
+                                <span class="badge badge-default spn_Task_Count"> @ViewBag.TASKCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Follow", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Takiplerim">
+                                <i class="fa fa-cc"></i>
+                                <span class="badge badge-default spn_Follow_Count"> @ViewBag.FOLLOWCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="@Url.Action("Offer", "Operation")" class="dropdown-toggle tooltips" data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Tekliflerim">
+                                <i class="fa fa-question-circle"></i>
+                                <span class="badge badge-default spn_Offer_Count"> @ViewBag.OFFERCOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                           
+                            <a href="@Url.Action("Approve", "Operation")" class="dropdown-toggle tooltips" 
+                               data-hover="dropdown" data-close-others="true"
+                               data-container="body" data-placement="bottom" data-original-title="Onaylarım">
+                                <i class="fa fa-calendar-check-o"></i>
+                                <span class="badge badge-default spn_Approve_Count"> @ViewBag.APPROVECOUNT </span>
+                            </a>
+                            <ul class="dropdown-menu"></ul>
+                        </li>
+
                         <li class="dropdown dropdown-user">
+
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img alt="" class="img-circle" src="~/assets/layouts/layout/img/avatar3_small.jpg" />
+                                <img alt="" class="img-circle" src="@ViewBag.imgSrc" />
                                 <span class="username username-hide-on-mobile"> @ViewBag.UserName </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
@@ -153,7 +298,7 @@
                                     <li class="divider"> </li>*@
                                 <li>
                                     <a href="@Url.Action("Index", "Authentication")">
-                                        <i class="icon-key"></i> Log Out
+                                        <i class="fa fa-key"></i> Çikiş
                                     </a>
                                 </li>
                             </ul>
@@ -184,7 +329,7 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
                         <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
                         <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                         <li class="sidebar-toggler-wrapper hide">
@@ -195,128 +340,122 @@
                         <!-- END SIDEBAR TOGGLER BUTTON -->
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Toplanti Yönetimi</span>
+                                <i class="fa fa-home"></i>
+                                <span class="title">Toplantı Yönetimi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && ViewContext.RouteData.Values["action"].ToString() == "Create" ? "active open" : "")">
                                     <a href="@Url.Action("Create", "MeetingMaster")" class="nav-link">
-                                        <i class="icon-settings"></i> Ekle
+                                        <i class="fa fa-chevron-right"></i> Ekle
                                     </a>
                                 </li>
                                 <li class="nav-item  @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingMaster" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Edit")? "active open" : "")">
                                     <a href="@Url.Action("Index", "MeetingMaster")" class="nav-link">
-                                        <i class="icon-settings"></i> Listele
+                                        <i class="fa fa-chevron-right"></i> Listele
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Toplanti Bagimsiz Gorev</span>
+                                <i class="fa fa-random"></i>
+                                <span class="title">Toplantı Bagimsiz Gorev</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MeetingLineIndependent" ? "active open" : "")">
                                     <a href="@Url.Action("Create", "MeetingLineIndependent")" class="nav-link">
-                                        <i class="icon-settings"></i> Karar Ekle
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Gorev  ve Kararlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Listele
+                                        <i class="fa fa-chevron-right"></i> Karar Listesi
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Onaylama</span>
+                                <i class="fa fa-gavel"></i>
+                                <span class="title">İşlemler</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
+
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Notification" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
+                                    <a href="@Url.Action("Notification", "Operation")" class="nav-link">
+                                        <span class="title"><i class="fa fa-info-circle"></i> Bildirişler</span>
+                                        <span class="badge badge-success" id="spn_Notification_Count">@ViewBag.TASKCOUNT</span>
+                                    </a>
+                                </li>
+
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && (ViewContext.RouteData.Values["action"].ToString() == "Index" || ViewContext.RouteData.Values["action"].ToString() == "Operations")  ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Operation")" class="nav-link">
-                                        <i class="icon-settings"></i> İşlemler
+                                        <span class="title"><i class="fa fa-tasks"></i> Görevlerim</span>
+                                        <span class="badge badge-success" id="spn_Task_Count">@ViewBag.TASKCOUNT</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Follow"? "active open" : "")">
+                                    <a href="@Url.Action("Follow", "Operation")" class="nav-link">
+                                        <span class="title"><i class="fa fa-cc"></i> Takiplerim</span>
+                                        <span class="badge badge-success" id="spn_Follow_Count">@ViewBag.FOLLOWCOUNT</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Offer"? "active open" : "")">
+                                    <a href="@Url.Action("Offer", "Operation")" class="nav-link">
+                                        <span class="title"><i class="fa fa-question-circle"></i> Tekliflerim</span>
+                                        <span class="badge badge-success" id="spn_Offer_Count">@ViewBag.OFFERCOUNT</span>
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Operation" && ViewContext.RouteData.Values["action"].ToString() == "Approve"? "active open" : "")">
                                     <a href="@Url.Action("Approve", "Operation")" class="nav-link">
-                                        <i class="icon-settings"></i> Onaylama
+                                        <span class="title"><i class="fa fa-calendar-check-o"></i> Onaylarım</span>
+                                        <span class="badge badge-success" id="spn_Approve_Count">@ViewBag.APPROVECOUNT</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">Baglantisi Yapilacak Kayitlar</span>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
-                                    <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Baglantisi Yapilacak Kayitlar
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "") ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
+                                <i class="fa fa-pie-chart"></i>
                                 <span class="title">Raporlar</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Toplanti Listesi
+                                        <i class="fa fa-chevron-right"></i> Toplantı Listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Gorevlerin listesi
+                                        <i class="fa fa-chevron-right"></i> Gorevlerin listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Zamani Kecen Gorevler
+                                        <i class="fa fa-chevron-right"></i> Zamani Kecen Gorevler
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item start @(ViewContext.RouteData.Values["Controller"].ToString() == "Projects" ? "active open" : "") ">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
+                                <i class="fa fa-cogs"></i>
                                 <span class="title">Sistem Yonetmi</span>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Projects" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Projects")" class="nav-link">
-                                        <i class="icon-settings"></i> Proje Listesi
+                                        <i class="fa fa-chevron-right"></i> Proje Listesi
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Toplanti Turleri
+                                        <i class="fa fa-chevron-right"></i> Toplantı Turleri
                                     </a>
                                 </li>
                                 <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "TestController" ? "active open" : "")">
                                     <a href="@Url.Action("Index", "Home")" class="nav-link">
-                                        <i class="icon-settings"></i> Departman Listesi
+                                        <i class="fa fa-chevron-right"></i> Departman Listesi
                                     </a>
                                 </li>
                             </ul>

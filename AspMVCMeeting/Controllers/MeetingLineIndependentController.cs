@@ -14,7 +14,7 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class MeetingLineIndependentController : Controller
+    public class MeetingLineIndependentController : BaseController
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 
@@ -32,7 +32,7 @@ namespace AspMVCMeeting.Controllers
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2).Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
 
@@ -52,7 +52,7 @@ namespace AspMVCMeeting.Controllers
             ViewBag.MTL_PROJECT_CODE = new SelectList(db.MEETING_PROJECTS.Select(model => new { model.ID, PRJ_NAME = model.PRJ_CODE + " " + model.PRJ_NAME }).ToList(), "ID", "PRJ_NAME");
             ViewBag.STATUS = new SelectList(db.MEETING_STATUS.Where(model => model.MST_ACTIVE == true).Where(model => model.MST_TYPE == 2).Select(model => new { model.ID, model.MST_NAME }).ToList(), "ID", "MST_NAME");
             ViewBag.MEETING_LINE_TYPES = new SelectList(db.MEETING_LINE_TYPE.Where(type => type.MLN_ACTIVE == true).Select(model => new { MTL_TYPE = model.ID, MLN_NAME = model.MLN_NAME }).ToList(), "MTL_TYPE", "MLN_NAME");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
             ViewBag.DECISION_TYPES = new SelectList(db.DECISION_TYPES.Where(model => model.DCN_ACTIVE == true).Select(model => new { model.ID, model.DCN_NAME }).ToList(), "ID", "DCN_NAME");
             ViewBag.MTL_RELATED_FORM_REF = new SelectList(db.VW_MEETING_LINE.Select(model => new { model.ID, DESCRIPTION = model.MT_TITLE + "/" + model.MTL_DESCRIPTION }).ToList(), "ID", "DESCRIPTION");
 
@@ -106,6 +106,7 @@ namespace AspMVCMeeting.Controllers
             join mlt in db.MEETING_LINE_TYPE on mtl.MTL_TYPE equals mlt.ID
             join mst in db.MEETING_STATUS on mtl.MTL_STS equals mst.ID
             where mtl.MTL_MT_REF == id && mtl.MTL_DELETED == false
+            && (mtl.MTL_CREATE_USERID == userName || mtl.MTL_CONFIRMER == userName)
             orderby mtl.ID descending
             select new VM_MEETING_LINES { MEETING_LINES = mtl, MLN_NAME = mlt.MLN_NAME, MTL_STS_TEXT = mst.MST_NAME }).ToList();
 
@@ -174,6 +175,21 @@ namespace AspMVCMeeting.Controllers
             }
         }
 
+        private void logStatus(int? id)
+        {
+            if (id == null) return;
+
+            MEETING_LOG log = new MEETING_LOG();
+            log.MLS_MLG_REF = id;
+            log.MLS_CREATE_USERID = userName;
+            log.MLS_BROWSER = Request.UserAgent;
+            log.MLS_IP = Request.UserHostAddress;
+            log.MLS_LOG_TYPE = 1;
+
+            db.MEETING_LOG.Add(log);
+            db.SaveChanges();
+        }
+
         [HttpPost]
         public string PublishSelected(string items)
         {
@@ -183,12 +199,15 @@ namespace AspMVCMeeting.Controllers
             {
                 foreach (KeyValuePair<int, bool> item in values)
                 {
+                    int? id = null;
                     if (item.Value)
                     {
                         var line = db.MEETING_LINES.Find(item.Key);
+                        if (id == null) id = line.MTL_MT_REF;
                         line.MTL_STS = 5;
                         db.Entry(line).State = EntityState.Modified;
                         db.SaveChanges();
+                        logStatus(item.Key);
                     }
                 }
                 return "Line Changed";
@@ -207,6 +226,7 @@ namespace AspMVCMeeting.Controllers
                 line.MEETING_LINES.MTL_STS = 5;
                 db.Entry(line.MEETING_LINES).State = EntityState.Modified;
                 db.SaveChanges();
+                logStatus(line.MEETING_LINES.ID);
                 return "Line Published";
             }
             else
@@ -224,6 +244,7 @@ namespace AspMVCMeeting.Controllers
             {
                 line.MEETING_LINES.MTL_DELETED = false;
                 line.MEETING_LINES.MTL_STS = 4;
+                line.MEETING_LINES.MTL_CREATE_USERID = userName;
                 db.MEETING_LINES.Add(line.MEETING_LINES);
                 db.SaveChanges();
 
@@ -236,12 +257,15 @@ namespace AspMVCMeeting.Controllers
 
                     if (fileInfo.Name.StartsWith(userName + "_"))
                     {
-                        System.IO.File.Move(filePath, HttpContext.Server.MapPath("~/Uploads/") + fileInfo.Name);
+                        var fileName = fileInfo.Name.Substring(fileInfo.Name.IndexOf("_") + 1);
+                        System.IO.File.Move(filePath, HttpContext.Server.MapPath("~/Uploads/") + fileName);
                         MEETING_FILES meeting_files = new MEETING_FILES();
                         meeting_files.MTF_MT_REF = line.MEETING_LINES.ID;
-                        meeting_files.MTF_FILENAME = fileInfo.Name;
                         meeting_files.MTF_TYPE = 1;
                         meeting_files.MTF_CREATE_USERID = userName;
+                        meeting_files.MTF_FILENAME = fileName;
+                        var dbQuery = db.Database.SqlQuery<DateTime>("SELECT getdate() ");
+                        meeting_files.MTF_CREATEDATE = dbQuery.AsEnumerable().First();
 
                         db.MEETING_FILES.Add(meeting_files);
                         db.SaveChanges();
@@ -256,7 +280,7 @@ namespace AspMVCMeeting.Controllers
             }
         }
 
-        string userName = "saddam.bilalov";
+        string userName = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "empty" : System.Web.HttpContext.Current.User.Identity.Name;
 
         #endregion LINE
 
@@ -307,15 +331,17 @@ namespace AspMVCMeeting.Controllers
             if (aFile != null)
             {
                 //TODO user session id should include
-                var fileName = userName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
+                var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + aFile.FileName;
                 string path = HttpContext.Server.MapPath("~/Uploads/");
                 aFile.SaveAs(path + fileName);
 
                 MEETING_FILES meeting_files = new MEETING_FILES();
                 meeting_files.MTF_MT_REF = lineId;
-                meeting_files.MTF_FILENAME = fileName;
                 meeting_files.MTF_TYPE = 1;
                 meeting_files.MTF_CREATE_USERID = userName;
+                meeting_files.MTF_FILENAME = fileName;
+                var dbQuery = db.Database.SqlQuery<DateTime>("SELECT getdate() ");
+                meeting_files.MTF_CREATEDATE = dbQuery.AsEnumerable().First();
 
                 db.MEETING_FILES.Add(meeting_files);
                 db.SaveChanges();
@@ -329,7 +355,7 @@ namespace AspMVCMeeting.Controllers
 
         public JsonResult GetAllLineFiles(int? id)
         {
-            var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
+            var meeting_files = db.MEETING_FILES.Where(model => model.MTF_MT_REF == id && model.MTF_TYPE == 1).Select(model => new { model.MTF_FILENAME, model.ID }).ToList();
             return Json(meeting_files, JsonRequestBehavior.AllowGet);
         }
 

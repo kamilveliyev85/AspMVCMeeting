@@ -1,0 +1,177 @@
+﻿@using AspMVCMeeting.ViewModels
+@model VM_MEETING
+
+< !--BEGIN LINE DETAILS-->
+<div class="rows" id="divLineDetail" style="display:none">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_TYPE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_TYPE_DESC}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_DESCRIPTION)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_DESCRIPTION}}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_DEPARTMENT)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_DEPARTMENT}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_RESPONSIBLE_DESC}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" ng-hide="line.MEETING_LINES.MTL_TYPE == 1">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_EXECUTANT)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_EXECUTANT_DESC}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" ng-hide="line.MEETING_LINES.MTL_TYPE == 1">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_CONFIRMER)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_CONFIRMER_DESC}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_START_DATE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_START_DATE |ctime| date : 'dd.MM.yyyy'}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" ng-class="{'has-error': lineForm['MEETING_LINES.MTL_FINISH_DATE'].$invalid && (line.MEETING_LINES.MTL_TYPE === '3' || line.MEETING_LINES.MTL_TYPE === '4')}">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_FINISH_DATE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_FINISH_DATE |ctime| date : 'dd.MM.yyyy'}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_PROJECT_CODE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_PROJECT_CODE}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="row" ng-hide="line.MEETING_LINES.MTL_TYPE == 1">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_DECISION_TYPE)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_DECISION_TYPE_DESC}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" id="divOfferUser" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_OFFER_USER)
+                </div>
+                <div class="col-md-8">
+                    {{line.MTL_OFFER_USER_DESC}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" id="divOfferOk" ng-show="line.MEETING_LINES.MTL_TYPE == 2">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_OFFER_OK)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_OFFER_OK === 'true' ? 'Evet': 'Hayır'}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_TAGS)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_TAGS}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" ng-hide="line.MEETING_LINES.MTL_TYPE == 1">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RELATED_FORM_REF)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_RELATED_FORM_REF}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row" ng-hide="line.MEETING_LINES.MTL_TYPE == 1">
+                <div class="col-md-4 text-bold">
+                    @Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION)
+                </div>
+                <div class="col-md-8">
+                    {{line.MEETING_LINES.MTL_RELATED_FORM_DESCRIPTION}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions right">
+        <button type="button" ng-click="closeDetail()" class="btn red"><i class="fa fa-close"></i> Kapat</button>
+    </div>
+</div>
+<!--END LINE DETAILS-->

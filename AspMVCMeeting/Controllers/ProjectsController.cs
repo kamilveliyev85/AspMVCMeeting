@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace AspMVCMeeting.Controllers
 {
     [Authorize]
-    public class ProjectsController : Controller
+    public class ProjectsController : BaseController
     {
         MeetingDataModelCodeFirst db = new MeetingDataModelCodeFirst();
 
@@ -33,7 +33,7 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
             ViewBag.CURRENCY = new SelectList(db.CURRENCies.Select(model => new { model.ID, model.prb_kod }).ToList(), "ID", "prb_kod");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
 
             return View();
         }
@@ -53,7 +53,7 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
             ViewBag.CURRENCY = new SelectList(db.CURRENCies.Select(model => new { model.ID, model.prb_kod }).ToList(), "ID", "prb_kod");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
 
             return View();
         }
@@ -71,7 +71,7 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
             ViewBag.CURRENCY = new SelectList(db.CURRENCies.Select(model => new { model.ID, model.prb_kod }).ToList(), "ID", "prb_kod");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
 
             return View(vm_projects);
         }
@@ -91,7 +91,7 @@ namespace AspMVCMeeting.Controllers
                 .ToList();
             ViewBag.MT_MANAGER = new SelectList(managerList, "ID", "FULLNAME");
             ViewBag.CURRENCY = new SelectList(db.CURRENCies.Select(model => new { model.ID, model.prb_kod }).ToList(), "ID", "prb_kod");
-            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNR", "FIRMNAME");
+            ViewBag.DEPT = new SelectList(db.DEPT.OrderBy(model => model.FIRMNAME).ToList(), "FIRMNAME", "FIRMNAME");
 
             return View(vm_projects);
         }

@@ -1,4 +1,4 @@
-﻿var appIndep = angular.module("appIndep", ['ngTable', 'lr.upload']);
+﻿var appIndep = angular.module("appIndep", ['ngTable', 'lr.upload','ui.bootstrap']);
 
 appIndep.directive('uploadFile', ['$parse', function ($parse) {
     return {
@@ -77,7 +77,7 @@ appIndep.directive("select2", function ($timeout, $parse) {
         restrict: 'C',
         link: function (scope, element, attrs) {
             $timeout(function () {
-                element.select2({ width: '100%' });
+                element.select2({ width: '100%', allowClear: true, placeholder: "Seçin edin"});
                 element.select2Initialized = true;
             });
 

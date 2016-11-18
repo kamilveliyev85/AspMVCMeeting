@@ -68,7 +68,7 @@
     <!-- BEGIN LOGIN -->
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
-@using (Html.BeginForm("Index", "Authentication"))
+@using (Html.BeginForm("Index", "Authentication", new { returnUrl = ViewBag.RETURN_URL }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
             <p style="text-align:center"><img src="~/assets/pages/img/logo-big.png" alt="" /></p>

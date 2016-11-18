@@ -12,6 +12,7 @@ namespace AspMVCMeeting.Models
 
         public int? MLS_MLG_REF { get; set; }
 
+        [NotMapped]
         public DateTime? MLS_CREATE_DATE { get; set; }
 
         [StringLength(100)]
@@ -25,5 +26,7 @@ namespace AspMVCMeeting.Models
 
         [StringLength(1500)]
         public string MLS_BROWSER { get; set; }
+
+        public int? MLS_LOG_TYPE { get; set; }
     }
 }

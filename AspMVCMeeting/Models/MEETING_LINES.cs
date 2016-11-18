@@ -108,5 +108,8 @@ namespace AspMVCMeeting.Models
 
         public bool? MTL_DELETED { get; set; }
 
+        [StringLength(100)]
+        public string MTL_NO { get; set; }
+
     }
 }

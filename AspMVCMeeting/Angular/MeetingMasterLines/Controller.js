@@ -1,6 +1,33 @@
-﻿app.controller("linesCntrl", function ($scope, $http, $filter, $q, NgTableParams, upload, linesService) {
+﻿app.controller("linesCntrl", function ($scope, $document, $http, $filter, $q, NgTableParams, upload, linesService) {
+
+    $scope.isAfter = function (jsonDate) {
+        if (jsonDate !== null)
+            return new Date(parseInt(jsonDate.substr(6))).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        else
+            return null;
+    }
 
     var clearDepWatch = null;
+
+    var getData = linesService.GetAllByColumnName("MTL_SCODE1", "MEETING_LINES");
+    getData.then(function (emp) {
+        $scope.lineScopes1 = emp.data;
+    });
+
+    var getData = linesService.GetAllByColumnName("MTL_SCODE2", "MEETING_LINES");
+    getData.then(function (emp) {
+        $scope.lineScopes2 = emp.data;
+    });
+
+    var getData = linesService.GetAllByColumnName("MTL_SCODE3", "MEETING_LINES");
+    getData.then(function (emp) {
+        $scope.lineScopes3 = emp.data;
+    });
+
+    var getData = linesService.GetAllByColumnName("MTL_SCODE4", "MEETING_LINES");
+    getData.then(function (emp) {
+        $scope.lineScopes4 = emp.data;
+    });
 
     //BEGIN MASER HISTORY
 
@@ -99,7 +126,7 @@
         var getData = linesService.updateMaster($scope.master);
         getData.then(function (response) {
             //GetMasterById();
-            //angular.element("#MeetingMasterBody").slideUp();
+            angular.element("#MeetingMasterBody").slideUp();
             angular.element('#divUpdateAlert').fadeIn(1500, function () { angular.element('#divUpdateAlert').fadeOut(1500) });
         }, function () {
             alert('Error in updating record');
@@ -113,7 +140,7 @@
     GetAllFiles();
 
     function GetAllFiles() {
-        var getData = linesService.GetAllFiles(angular.element("#MEETING_LINES_MTL_MT_REF").val());
+        var getData = linesService.GetAllFiles(angular.element("#MEETING_LINES_MTL_MT_REF").val(), 1);
         getData.then(function (emp) {
             $scope.files = emp.data;
         }, function (response) {
@@ -237,28 +264,28 @@
 
     GetLineAll();
 
-    function GetLineAll() {
-
+    function GetLineAll(notClose) {
         var getData = linesService.GetLinesAll(angular.element("#MEETING_LINES_MTL_MT_REF").val());
         getData.then(function (emp) {
             $scope.data = emp.data;
+            
             $scope.tableParams = new NgTableParams({
                 page: 1, // show first page
                 total: 1, // value less than count hide pagination
-                count: 5 // count per page
+                count: 12 // count per page
             }, { counts: [], dataset: $scope.data });
-
 
 
             $scope.checkboxes = { 'checked': false, items: {} };
             angular.forEach($scope.data, function (item) {
-                $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
+                if (item.MEETING_LINES.MTL_STS === 4)
+                    $scope.checkboxes.items[item.MEETING_LINES.ID] = false;
             });
 
             // watch for check all checkbox
             $scope.$watch('checkboxes.checked', function (value) {
                 angular.forEach($scope.data, function (item) {
-                    if (angular.isDefined(item.MEETING_LINES.ID)) {
+                    if (angular.isDefined(item.MEETING_LINES.ID) && item.MEETING_LINES.MTL_STS === 4) {
                         $scope.checkboxes.items[item.MEETING_LINES.ID] = value;
                     }
                 });
@@ -269,18 +296,31 @@
                 if (!$scope.data) {
                     return;
                 }
-                var checked = 0, unchecked = 0,
-                    total = $scope.data.length;
+                var checked = 0, unchecked = 0, total = 0;
+
                 angular.forEach($scope.data, function (item) {
-                    checked += ($scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
-                    unchecked += (!$scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                    if (item.MEETING_LINES.MTL_STS === 4) total += 1;
+                });
+
+                angular.forEach($scope.data, function (item) {
+                    if (item.MEETING_LINES.MTL_STS === 4) {
+                        checked += ($scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                        unchecked += (!$scope.checkboxes.items[item.MEETING_LINES.ID]) || 0;
+                    }
                 });
                 if ((unchecked == 0) || (checked == 0)) {
                     $scope.checkboxes.checked = (checked == total);
+                    if (total == 0) $scope.checkboxes.checked = false;
                 }
                 // grayed checkbox
                 angular.element($("#select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
             }, true);
+
+            if (!angular.isDefined(notClose))
+                $scope.CancelAddEdit();
+
+            if (emp.data.length === 0)
+                $scope.AddLineDiv();
 
         }, function (response) {
             alert('Error in getting records');
@@ -316,7 +356,7 @@
     }
 
     $scope.editLine = function (line, isEdit) {
-        if(clearDepWatch != null) clearDepWatch();
+        if (clearDepWatch != null) clearDepWatch();
         $scope.fileCreate = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
@@ -351,12 +391,14 @@
 
             if (isEdit) {
                 angular.element('#MeetingLinesDiv').find('input, textarea, select').removeAttr('disabled');
+                angular.element('#btnAddLine').show();
             } else {
                 $scope.fileEdit = false;
                 $scope.fileCreate = false;
-                angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled'); 
+                angular.element('#MeetingLinesDiv').find('input, textarea, select').attr('disabled', 'disabled');
+                angular.element('#btnAddLine').hide();
             }
-            
+
             clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue, oldValue) {
                 if (newValue !== oldValue) {
                     //alert(newValue + " " + oldValue);
@@ -364,6 +406,9 @@
                 }
             });
 
+            angular.element("#AddCopyLine").css("display", "none");
+            $scope.editClass = {};
+            $scope.editClass[line.MEETING_LINES.ID] = 'active';
             angular.element("#MeetingLinesDiv").slideDown();
 
         },
@@ -373,27 +418,44 @@
     }
 
     $scope.AddLineDiv = function () {
-        if (clearDepWatch != null) clearDepWatch();
-        $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+        if (clearDepWatch !== null) clearDepWatch();
+        angular.element('#MeetingLinesDiv').find('input, textarea, select').removeAttr('disabled');
+        angular.element('#btnAddLine').show();
         $scope.fileEdit = false;
         $scope.lineFiles = '';
         $scope.resultLine = '';
         $scope.line = "";
-        $scope.line = { "MEETING_LINES": { "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val(), "MTL_START_DATE": new Date() } };
+        $scope.line = {
+            "MEETING_LINES": {
+                "MTL_MT_REF": angular.element("#MEETING_LINES_MTL_MT_REF").val(), "MTL_START_DATE": new Date(),
+                "MTL_DECISION_TYPE": angular.element("#MEETING_MASTER_MT_TYPE").val(),
+                "MTL_TYPE": "4"
+            }
+        };
         $scope.Action = "Add";
         $scope.fileCreate = true;
         angular.element('textarea').removeAttr('style');
         angular.element('#MEETING_LINES_MTL_TAGS').tagsinput('removeAll');
-        
+        //$scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+
         clearDepWatch = $scope.$watch('line.MEETING_LINES.MTL_RESPONSIBLE', function (newValue) {
             //alert(newValue);
             findDepByAccount(newValue);
         });
 
+        angular.element("#AddCopyLine").css("display", "");
         angular.element("#MeetingLinesDiv").slideDown();
 
     }
 
+    $scope.CancelAddEdit = function () {
+        $scope.editClass = {};
+        $scope.Action = null;
+        angular.element("#AddCopyLine").css("display", "none");
+        angular.element("#MeetingLinesDiv").slideUp('fast', function () {
+            $scope.line = null;
+        });
+    }
 
     $scope.AddUpdateLine = function () {
         if ($scope.line.MEETING_LINES.MTL_START_DATE != null)
@@ -401,37 +463,63 @@
         if ($scope.line.MEETING_LINES.MTL_FINISH_DATE != null)
             $scope.line.MEETING_LINES.MTL_FINISH_DATE = convertDate($scope.line.MEETING_LINES.MTL_FINISH_DATE);
 
-        var getAction = $scope.Action;
-        if (getAction == "Update") {
+        if ($scope.Action === "Update") {
             var getData = linesService.updateLine($scope.line);
             getData.then(function (msg) {
                 GetLineAll();
-                angular.element("#MeetingLinesDiv").slideUp();
             }, function () {
                 alert('Error in updating record');
             });
         }
-        else {
+        else if ($scope.Action === "Add") {
             var getData = linesService.AddLine($scope.line);
             getData.then(function (msg) {
                 GetLineAll();
-                angular.element("#MeetingLinesDiv").slideUp();
+                getMasterById(angular.element("#MEETING_LINES_MTL_MT_REF").val());
             }, function () {
                 alert('Error in adding record');
             });
-            
         }
-        debugger;
-        $scope.refresh();
     }
 
     $scope.deleteLine = function (line) {
-        var getData = linesService.DeleteLine(line);
+        if (confirm('Silmek istediyinizden eminmisiniz?')) {
+            var getData = linesService.DeleteLine(line);
+            getData.then(function (msg) {
+                GetLineAll();
+            }, function () {
+                alert('Error in Deleting Record');
+            });
+        };
+    }
+
+    $scope.copyLine = function (line) {
+        var getData = linesService.CopyLine(line);
         getData.then(function (msg) {
-            GetLineAll();
+            GetLineAll(true);
+            $scope.editLine(msg.data, true);
         }, function () {
-            alert('Error in Deleting Record');
+            alert('Error in Coping Record');
         });
+    }
+
+    $scope.AddCopyLine = function () {
+        var copiedLine = null;
+        if ($scope.line.MEETING_LINES.MTL_START_DATE != null)
+            $scope.line.MEETING_LINES.MTL_START_DATE = convertDate($scope.line.MEETING_LINES.MTL_START_DATE);
+        if ($scope.line.MEETING_LINES.MTL_FINISH_DATE != null)
+            $scope.line.MEETING_LINES.MTL_FINISH_DATE = convertDate($scope.line.MEETING_LINES.MTL_FINISH_DATE);
+
+        if ($scope.Action === "Add") {
+            var getData = linesService.AddLine($scope.line);
+            getData.then(function (msg) {
+                GetLineAll(true);
+                $scope.editClass = {};
+
+            }, function () {
+                alert('Error in adding record');
+            });
+        }
     }
 
     $scope.publishLine = function (line) {
@@ -453,5 +541,24 @@
         });
 
     }
+
+    $document.bind("keydown", function (event) {
+        if (event.ctrlKey || event.metaKey) {
+            switch (String.fromCharCode(event.which).toLowerCase()) {
+                case 's':
+                    event.preventDefault();
+                    if ($scope.Action != null) {
+                        $scope.AddUpdateLine();
+                        $scope.$apply();
+                    }
+                    break;
+                case 'y':
+                    event.preventDefault();
+                    $scope.AddLineDiv();
+                    $scope.$apply();
+                    break;
+            }
+        }
+    });
 
 });

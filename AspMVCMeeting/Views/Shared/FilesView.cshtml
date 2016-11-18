@@ -1,0 +1,40 @@
+﻿ <!-- /.Files Modal -->
+<div class="modal fade bootstrap-switch-large" id="fileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Dosyalar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col"> #</th>
+                                <th scope="col">Dosya adı</th>
+                                <th scope="col"> Tarih </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-show="files.length === 0"><td colspan="3" align="center" style="font-weight:bold">Yüklü dosya yok</td></tr>
+                            <tr ng-repeat="file in files">
+                                <td>{{$index + 1}}</td>
+                                <td style="word-break:break-all">
+                                    <a ng-href="/Uploads/{{file.MTF_FILENAME}}" download>{{file.MTF_FILENAME}}</a>
+                                </td>
+                                <td>{{file.MTF_CREATEDATE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal"><i class="fa fa-close"></i> Kapat</button>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<!-- /.Files Modal -->
