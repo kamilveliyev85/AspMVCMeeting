@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -184,7 +187,22 @@
     <Compile Include="Models\TBL_MEETING_MASTER.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VW_MEETING_LINE.cs" />
+    <Compile Include="Models\VW_REPORT_MASTER.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\DS_MasterReport.cs">
+      <DependentUpon>DS_MasterReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\DS_MasterReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_MasterReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MasterReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MasterReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ViewModels\FilterModel.cs" />
     <Compile Include="ViewModels\User.cs" />
     <Compile Include="ViewModels\VM_MEETING.cs" />
@@ -366,6 +384,7 @@
     <Content Include="assets\layouts\layout\img\logo.png" />
     <Content Include="assets\layouts\layout\scripts\demo.min.js" />
     <Content Include="assets\layouts\layout\scripts\layout.min.js" />
+    <Content Include="assets\pages\css\img\logo_large_png.png" />
     <Content Include="assets\pages\css\login.min.css" />
     <Content Include="assets\pages\img\logo-big.png" />
     <Content Include="assets\pages\img\logo_large.png" />
@@ -546,6 +565,17 @@
     <Content Include="assets\global\plugins\angularjs\plugins\angular-file-upload\upload.php" />
     <Content Include="assets\global\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js.map" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Reports\DS_MasterReport.xsc">
+      <DependentUpon>DS_MasterReport.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\DS_MasterReport.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_MasterReport.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\DS_MasterReport.xss">
+      <DependentUpon>DS_MasterReport.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -599,6 +629,7 @@
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
+    <Folder Include="assets\profiles\" />
     <Folder Include="UploadsTemp\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\Base\" />
@@ -614,6 +645,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\Global.resx">
@@ -624,6 +656,10 @@
     <EmbeddedResource Include="App_GlobalResources\Global.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.ru.designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MasterReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MasterReport.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

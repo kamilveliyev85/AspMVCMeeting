@@ -33,7 +33,7 @@ namespace AspMVCMeeting.Models
         public virtual DbSet<VW_MEETING_LINE> VW_MEETING_LINE { get; set; }
         public virtual DbSet<MEETING_PLACE> MEETING_PLACE { get; set; }
         public virtual DbSet<MEETING_NOTIFICATIONS> MEETING_NOTIFICATIONS { get; set; }
-
+        public virtual DbSet<VW_REPORT_MASTER> VW_REPORT_MASTER { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

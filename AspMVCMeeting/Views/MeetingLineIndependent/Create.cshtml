@@ -40,6 +40,9 @@
 
     <script src="~/assets/global/scripts/ui-bootstrap-tpls-2.2.0.min.js"></script>
 
+    <script src="~/assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js" type="text/javascript"></script>
+
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -128,21 +131,22 @@
                                     </div>
                                 </td>
                                 <td title="'Kayıt türü'" sortable="'MLN_NAME'">{{line.MLN_NAME}}</td>
+                                <td title="'Numara'" sortable="'MTL_NO'">{{line.MEETING_LINES.MTL_NO}}</td>
                                 <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
                                 <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'@Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)'" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
                                 <td title="'Teyit edən'" sortable="'MTL_CONFIRMER_DESC'"> {{line.MTL_CONFIRMER_DESC}} </td>
+                                @*<td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'"> {{line.MEETING_LINES.MTL_TAGS}} </td>
+                                    <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>*@
                                 <td title="'Statü'" sortable="'MEETING_LINES.MTL_STS'">
                                     <span ng-class="{
-                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 9, 'label label-sm label-info': line.MEETING_LINES.MTL_STS == 4,
-                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 5, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 6,
-                                          'label label-sm label-primary':  line.MEETING_LINES.MTL_STS == 12, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 13,
-                                          'label label-sm label-info': line.MEETING_LINES.MTL_STS == 11, 'label label-sm label-danger': isAfter(line.MEETING_LINES.MTL_FINISH_DATE)
+                                          'label label-sm label-info': line.MEETING_LINES.MTL_STS === 4, 'label label-sm label-warning': line.MEETING_LINES.MTL_STS === 9,
+                                          'label label-sm label-warning': line.MEETING_LINES.MTL_STS === 5, 'label label-sm label-success': line.MEETING_LINES.MTL_STS === 6,
+                                          'label label-sm label-primary':  line.MEETING_LINES.MTL_STS === 12, 'label label-sm label-success': line.MEETING_LINES.MTL_STS === 13,
+                                          'label label-sm label-info refund': line.MEETING_LINES.MTL_STS === 11, 'label label-sm label-danger': isAfter(line.MEETING_LINES.MTL_FINISH_DATE)
                                           }">{{line.MTL_STS_TEXT}}</span>
                                 </td>
-                                <td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'"> {{line.MEETING_LINES.MTL_TAGS}} </td>
-                                <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
                             </tr>
                         </table>
                     </div>
@@ -156,7 +160,6 @@
             </div>
         </div>
     </div>
-
     <!-- END MEETING LINES -->
 
 </div>

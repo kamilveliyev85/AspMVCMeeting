@@ -33,7 +33,7 @@
 
             $("#tblMeetingMaster_wrapper").find(".row:first").find(".col-sm-6:first").after("<div class='col-sm-2'><label class='switch'><input type='checkbox' id='chkBxNotCompleted' checked><div class='sliders round tooltips' data-placement='bottom' data-original-title='Hepsi/Açıkda kalanlar'></div></div>");
             $("#tblMeetingMaster_wrapper").find(".row:first").find(".col-sm-6:last").attr('class', 'col-sm-4');;
-                     
+
 
             $.fn.dataTable.ext.search.push(
                 function (settings, data, dataIndex) {
@@ -148,13 +148,13 @@
                             <th scope="col"> # </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_NO) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TYPE) </th>
-                            <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
-                            <th scope="col" style="display: none"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_TITLE) </th>
+                            <th scope="col" style="display: none"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DATE) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_START_TIME) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_FINISH_TIME) </th>
                             <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_DESCIPTION) </th>
+                            <th scope="col"> @Html.DisplayNameFor(model => model.MEETING_MASTER.MT_STS) </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -177,9 +177,9 @@
                                             <li>
                                                 <a href="@Url.Action("Edit", "MeetingMaster", new { id = item.MEETING_MASTER.ID })"><i class='fa fa-pencil'></i>Deyiş</a>
                                             </li>
-                                            @*<li>
-                                                    <a href="@Url.Action("DownloadPDF", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-file-pdf-o'></i>PDF</a>
-                                                </li>*@
+                                            <li>
+                                                <a href="@Url.Action("ExportReport", "MeetingMaster", new { id = item.MEETING_MASTER.ID})"><i class='fa fa-file-pdf-o'></i>Pdf</a>
+                                            </li>
                                             <li>
                                                 <a href="@Url.Action("Delete", "MeetingMaster", new { id = item.MEETING_MASTER.ID })"><i class='fa fa-trash-o'></i>Sil</a>
                                             </li>
@@ -189,6 +189,12 @@
                                 <td> @rowNum </td>
                                 <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_NO) </td>
                                 <td> @Html.DisplayFor(modelItem => item.MT_TYPE_TEXT) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_TITLE) </td>
+                                <td style="display: none"> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_STS) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DATE) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_START_TIME) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_FINISH_TIME) </td>
+                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DESCIPTION) </td>
                                 <td>
                                     @{
                                         var spnClass = "";
@@ -214,12 +220,6 @@
                                     </div>
 
                                 </td>
-                                <td style="display: none"> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_STS) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_TITLE) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DATE) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_START_TIME) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_FINISH_TIME) </td>
-                                <td> @Html.DisplayFor(modelItem => item.MEETING_MASTER.MT_DESCIPTION) </td>
                             </tr>
                                         }
                     </tbody>

@@ -990,6 +990,12 @@ namespace AspMVCMeeting.Controllers
 
             vm_meetings.lst_MEETING_LINES_DETAIL =
            (from mtd in db.MEETING_LINES_DETAIL
+            let fileCount =
+            (
+              from files in db.MEETING_FILES.Where(m => m.MTF_TYPE == 2)
+              where mtd.ID == files.MTF_MT_REF
+              select files
+            ).Count()
             join sap in db.SAP on mtd.MLD_CREATE_USER equals sap.ACCOUNTNAME into p
             from sap in p.DefaultIfEmpty()
             where mtd.MLD_MTL_REF == id && mtd.MLD_DELETED == false
@@ -997,7 +1003,8 @@ namespace AspMVCMeeting.Controllers
             select new VM_MEETING_LINES_DETAIL
             {
                 MEETING_LINES_DETAIL = mtd,
-                MLD_CREATE_USER_DESC = sap.PNAME + " " + sap.PSURNAME
+                MLD_CREATE_USER_DESC = sap.PNAME + " " + sap.PSURNAME,
+                detailFileCount = fileCount
             }).ToList();
 
             return Json(vm_meetings.lst_MEETING_LINES_DETAIL, JsonRequestBehavior.AllowGet);

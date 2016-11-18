@@ -1,5 +1,6 @@
 ﻿using AspMVCMeeting.Models;
 using AspMVCMeeting.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using System.Xml;
 
 namespace AspMVCMeeting.Controllers
@@ -81,6 +83,31 @@ namespace AspMVCMeeting.Controllers
             ViewBag.TASKCOUNT = countTask;
             ViewBag.APPROVECOUNT = countApprove;
             ViewBag.NOTIFICATIONCOUNT = countNotification;
+
+            var imgSrc = "/assets/layouts/layout/img/avatar3_small.jpg";
+            if (Request.IsAuthenticated)
+            {
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                string userData = ticket.UserData;
+                var user = JsonConvert.DeserializeObject<User>(userData);
+
+                //var dbQuery = db.Database.SqlQuery<byte[]>(@"SELECT[PHOTO]
+                //              FROM[DBHR].[SAPHR].[dbo].[PERINFO_PHOTO] PHOTO
+                //              where PHOTO.CODE = '" + user.Code + "'");
+                //var base64 = Convert.ToBase64String(dbQuery.AsEnumerable().First());
+
+                imgSrc = "/assets/profiles/" + user.Code + ".png"; 
+
+                ViewBag.UserName = user.FullName;
+                ViewBag.imgSrc = imgSrc;
+            }
+            else
+            {
+                ViewBag.UserName = "";
+                ViewBag.imgSrc = imgSrc;
+            }
         }
     }
 }

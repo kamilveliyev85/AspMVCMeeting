@@ -1,5 +1,12 @@
 ﻿appIndep.controller("IndepCntrl", function ($scope, $document, $http, $filter, $q, NgTableParams, upload, IndepService) {
 
+    $scope.isAfter = function (jsonDate) {
+        if (jsonDate !== null)
+            return new Date(parseInt(jsonDate.substr(6))).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        else
+            return null;
+    }
+
     var clearDepWatch = null;
 
     var getData = IndepService.GetAllByColumnName("MTL_SCODE1", "MEETING_LINES");
@@ -21,6 +28,157 @@
     getData.then(function (emp) {
         $scope.lineScopes4 = emp.data;
     });
+
+    //BEGIN MASER HISTORY
+
+    function getMasterHistoryById(masterId) {
+        var getData = IndepService.getMasterHistoryById(masterId);
+        getData.then(function (response) {
+            $scope.masterHistory = response.data;
+        }, function () {
+            alert('Error in getting record');
+        });
+    }
+
+    $scope.showHistory = function () {
+        getMasterHistoryById(angular.element("#MEETING_LINES_MTL_MT_REF").val());
+
+        angular.element('#large').modal('show');
+
+    }
+
+    $scope.showHistoryDetail = function (history) {
+        $scope.history = history;
+
+        if ($scope.history.MEETING_MASTER_V.MT_START_TIME != null && typeof ($scope.history.MEETING_MASTER_V.MT_START_TIME) == 'object')
+            $scope.history.MEETING_MASTER_V.MT_START_TIME = $scope.history.MEETING_MASTER_V.MT_START_TIME.Hours.toString() + ":" + $scope.history.MEETING_MASTER_V.MT_START_TIME.Minutes.toString();
+        if ($scope.history.MEETING_MASTER_V.MT_FINISH_TIME != null && typeof ($scope.history.MEETING_MASTER_V.MT_FINISH_TIME) == 'object')
+            $scope.history.MEETING_MASTER_V.MT_FINISH_TIME = $scope.history.MEETING_MASTER_V.MT_FINISH_TIME.Hours.toString() + ":" + $scope.history.MEETING_MASTER_V.MT_FINISH_TIME.Minutes.toString();;
+
+        if ($scope.history.MEETING_MASTER_V.MT_TYPE != null && typeof ($scope.history.MEETING_MASTER_V.MT_TYPE) == 'number')
+            $scope.history.MEETING_MASTER_V.MT_TYPE = $scope.history.MEETING_MASTER_V.MT_TYPE.toString();
+
+        if ($scope.history.MEETING_MASTER_V.MT_PLACE != null && typeof ($scope.history.MEETING_MASTER_V.MT_PLACE) == 'number')
+            $scope.history.MEETING_MASTER_V.MT_PLACE = $scope.history.MEETING_MASTER_V.MT_PLACE.toString();
+
+        if ($scope.history.MEETING_MASTER_V.MT_DATE != null)
+            $scope.history.MEETING_MASTER_V.MT_DATE = formatDate(new Date(parseInt($scope.history.MEETING_MASTER_V.MT_DATE.substr(6))));
+
+        angular.element('textarea').removeAttr('style');
+
+        angular.element('#MEETING_MASTER_V_MT_TAGS').tagsinput('removeAll');
+        angular.element('#MEETING_MASTER_V_MT_TAGS').tagsinput('add', history.MEETING_MASTER_V.MT_TAGS);
+
+
+        angular.element('#divShowHistory').slideDown('fast', 'swing', function () {
+            var sectionOffset = angular.element('#divShowHistory').offset().top - 30;
+            angular.element('#large').animate({ scrollTop: sectionOffset }, 'slow');
+
+
+        });
+
+    }
+
+    //END MASER HISTORY
+
+
+    //BEGIN Update Master
+
+    getMasterById(angular.element("#MEETING_LINES_MTL_MT_REF").val());
+
+    function getMasterById(masterId) {
+        var getData = IndepService.getMasterById(masterId);
+        getData.then(function (response) {
+            $scope.master = response.data;
+
+            if ($scope.master.MEETING_MASTER.MT_START_TIME != null)
+                $scope.master.MEETING_MASTER.MT_START_TIME = $scope.master.MEETING_MASTER.MT_START_TIME.Hours.toString() + ":" + $scope.master.MEETING_MASTER.MT_START_TIME.Minutes.toString();
+            if ($scope.master.MEETING_MASTER.MT_FINISH_TIME != null)
+                $scope.master.MEETING_MASTER.MT_FINISH_TIME = $scope.master.MEETING_MASTER.MT_FINISH_TIME.Hours.toString() + ":" + $scope.master.MEETING_MASTER.MT_FINISH_TIME.Minutes.toString();;
+
+            if ($scope.master.MEETING_MASTER.MT_TYPE != null)
+                $scope.master.MEETING_MASTER.MT_TYPE = $scope.master.MEETING_MASTER.MT_TYPE.toString();
+
+            if ($scope.master.MEETING_MASTER.MT_PLACE != null)
+                $scope.master.MEETING_MASTER.MT_PLACE = $scope.master.MEETING_MASTER.MT_PLACE.toString();
+
+            if ($scope.master.MEETING_MASTER.MT_MANAGER != null)
+                $scope.master.MEETING_MASTER.MT_MANAGER = $scope.master.MEETING_MASTER.MT_MANAGER.toString();
+
+            if ($scope.master.MEETING_MASTER.MT_FOLLOWER_USERID != null)
+                $scope.master.MEETING_MASTER.MT_FOLLOWER_USERID = $scope.master.MEETING_MASTER.MT_FOLLOWER_USERID.toString();
+
+            if ($scope.master.MEETING_MASTER.MT_DATE != null)
+                $scope.master.MEETING_MASTER.MT_DATE = formatDate(new Date(parseInt($scope.master.MEETING_MASTER.MT_DATE.substr(6))));
+
+            angular.element('#MEETING_MASTER_MT_TAGS').tagsinput('removeAll');
+            angular.element('#MEETING_MASTER_MT_TAGS').tagsinput('add', $scope.master.MEETING_MASTER.MT_TAGS);
+
+
+        }, function () {
+            alert('Error in getting record');
+        });
+    }
+
+    $scope.updateMaster = function () {
+        if ($scope.master.MEETING_MASTER.MT_DATE != null)
+            $scope.master.MEETING_MASTER.MT_DATE = convertDate($scope.master.MEETING_MASTER.MT_DATE);
+        var getData = IndepService.updateMaster($scope.master);
+        getData.then(function (response) {
+            //GetMasterById();
+            angular.element("#MeetingMasterBody").slideUp();
+            angular.element('#divUpdateAlert').fadeIn(1500, function () { angular.element('#divUpdateAlert').fadeOut(1500) });
+        }, function () {
+            alert('Error in updating record');
+        });
+        $scope.refresh();
+    }
+
+    //END Update Master
+
+    //BEGIN Master meeting files edit
+    GetAllFiles();
+
+    function GetAllFiles() {
+        var getData = IndepService.GetAllFiles(angular.element("#MEETING_LINES_MTL_MT_REF").val(), 1);
+        getData.then(function (emp) {
+            $scope.files = emp.data;
+        }, function (response) {
+            alert('Error in getting records');
+        });
+    }
+
+    $scope.removeFileByID = function (fileId) {
+        var getData = IndepService.removeFileByID(fileId);
+        getData.then(function (emp) {
+            console.log(emp.data);
+            GetAllFiles();
+        }, function (response) {
+            alert('Error in getting records');
+        });
+    }
+
+    $scope.UploadMasterFileEdit = function () {
+        upload({
+            url: '/api/MeetingMaster/UploadFile',
+            method: 'POST',
+            data: {
+                aFile: $scope.myFile,
+                MT_REF: angular.element("#MEETING_LINES_MTL_MT_REF").val()
+            }
+        }).then(
+          function (response) {
+              GetAllFiles();
+              console.log(response.data);
+          },
+          function (response) {
+              console.error(response);
+          }
+        );
+    }
+
+    //END Master meeting files edit
+
 
     //BEGIN Master LINES files create
 

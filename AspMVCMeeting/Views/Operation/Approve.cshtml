@@ -78,7 +78,7 @@
                                     <div class="form-group" ng-class="{'has-error': updateForm['VM_MEETING_LINES.MTL_ACTION_DESC'].$invalid && line.MTL_ACTION_TYPE === '2'}">
                                         @Html.LabelFor(model => model.MEETING_LINES.MTL_DESCRIPTION, htmlAttributes: new { @class = "control-label col-md-4" })
                                         <div class="col-md-8">
-                                            @Html.TextAreaFor(model => model.VM_MEETING_LINES.MTL_ACTION_DESC, new { @class = "form-control", @ng_model = "line.MTL_ACTION_DESC", @ng_required= "line.MTL_ACTION_TYPE === '2'" })
+                                            @Html.TextAreaFor(model => model.VM_MEETING_LINES.MTL_ACTION_DESC, new { @class = "form-control", @ng_model = "line.MTL_ACTION_DESC", @ng_required = "line.MTL_ACTION_TYPE === '2'" })
 
                                         </div>
                                     </div>
@@ -160,25 +160,27 @@
                                 @*<td title="'Kayıt türü'" sortable="'MLN_NAME'" filter="{ 'MLN_NAME': 'select'}" filter-data="names">{{line.MLN_NAME}}</td>*@
                                 <td title="'Kayıt türü'" sortable="'MLN_NAME'" filter="{ 'MLN_NAME': 'text'}">{{line.MLN_NAME}}</td>
                                 <td title="'Açıklama'" sortable="'MEETING_LINES.MTL_DESCRIPTION'" filter="{ 'MEETING_LINES.MTL_DESCRIPTION': 'text'}">{{line.MEETING_LINES.MTL_DESCRIPTION}} </td>
-                                <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'" > {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
+                                <td title="'Baş. tarih'" sortable="'MEETING_LINES.MTL_START_DATE'"> {{line.MEETING_LINES.MTL_START_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'Bit. tarih'" sortable="'MEETING_LINES.MTL_FINISH_DATE'"> {{line.MEETING_LINES.MTL_FINISH_DATE | ctime | date : 'dd.MM.yyyy'}} </td>
                                 <td title="'@Html.DisplayNameFor(model => model.MEETING_LINES.MTL_RESPONSIBLE)'" filter="{ 'MTL_RESPONSIBLE_DESC': 'text'}" sortable="'MTL_RESPONSIBLE_DESC'"> {{line.MTL_RESPONSIBLE_DESC}} </td>
                                 <td title="'Teyit eden'" sortable="'MTL_CONFIRMER_DESC'" filter="{ 'MTL_CONFIRMER_DESC': 'text'}"> {{line.MTL_CONFIRMER_DESC}} </td>
                                 <td title="'Takip eden'" sortable="'MT_FOLLOWER_DESC'" filter="{ 'MT_FOLLOWER_DESC': 'text'}"> {{line.MT_FOLLOWER_DESC}} </td>
-                                <td title="'Statü'" sortable="'MTL_STS_TEXT'" filter="{ 'MTL_STS_TEXT': 'text'}">
+                                @*<td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'" filter="{ 'MEETING_LINES.MTL_TAGS': 'text'}"> {{line.MEETING_LINES.MTL_TAGS}} </td>*@
+                                @*<td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'" filter="{ 'MEETING_LINES.MTL_RELATED_FORM_REF': 'text'}"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>*@
+                                <td title="'İşlem'" sortable="'MTL_ACTION_TEXT'" filter="{ 'MTL_ACTION_TEXT': 'text'}">
+                                    <span ng-hide="line.MTL_ACTION_TYPE != 1" class="label label-sm label-success"> {{line.MTL_ACTION_TEXT}} </span>
+                                    <span ng-hide="line.MTL_ACTION_TYPE != 2" class="label label-sm label-danger"> {{line.MTL_ACTION_TEXT}} </span>
+                                </td>
+                                <td title="'Not'" sortable="'MTL_ACTION_DESC'" filter="{ 'MTL_ACTION_DESC': 'text'}"> {{line.MTL_ACTION_DESC}} </td>
+                                 <td title="'Statü'" sortable="'MTL_STS_TEXT'" filter="{ 'MTL_STS_TEXT': 'text'}">
                                     <span ng-class="{
                                           'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 9, 'label label-sm label-info': line.MEETING_LINES.MTL_STS == 4,
                                           'label label-sm label-warning': line.MEETING_LINES.MTL_STS == 5, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 6,
                                           'label label-sm label-primary':  line.MEETING_LINES.MTL_STS == 12, 'label label-sm label-success': line.MEETING_LINES.MTL_STS == 13,
                                           'label label-sm label-info': line.MEETING_LINES.MTL_STS == 11, 'label label-sm label-danger': isAfter(line.MEETING_LINES.MTL_FINISH_DATE)
-                                          }">{{line.MTL_STS_TEXT}}</span>                                </td>
-                                <td title="'İşlem'" sortable="'MTL_ACTION_TEXT'"  filter="{ 'MTL_ACTION_TEXT': 'text'}">
-                                    <span ng-hide="line.MTL_ACTION_TYPE != 1" class="label label-sm label-success"> {{line.MTL_ACTION_TEXT}} </span>
-                                    <span ng-hide="line.MTL_ACTION_TYPE != 2" class="label label-sm label-danger"> {{line.MTL_ACTION_TEXT}} </span>
+                                          }">{{line.MTL_STS_TEXT}}</span>
                                 </td>
-                                <td title="'Not'" sortable="'MTL_ACTION_DESC'" filter="{ 'MTL_ACTION_DESC': 'text'}"> {{line.MTL_ACTION_DESC}} </td>
-                                <td title="'Taglar'" sortable="'MEETING_LINES.MTL_TAGS'" filter="{ 'MEETING_LINES.MTL_TAGS': 'text'}"> {{line.MEETING_LINES.MTL_TAGS}} </td>
-                                <td title="'Bağ. toplantılar'" sortable="'MEETING_LINES.MTL_RELATED_FORM_REF'" filter="{ 'MEETING_LINES.MTL_RELATED_FORM_REF': 'text'}"> {{line.MEETING_LINES.MTL_RELATED_FORM_REF}} </td>
+
                             </tr>
                         </table>
                     </div>

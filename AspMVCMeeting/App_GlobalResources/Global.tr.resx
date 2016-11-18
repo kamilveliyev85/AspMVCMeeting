@@ -202,7 +202,7 @@
     <value>Başlama Saati</value>
   </data>
   <data name="LBL_MT_STS" xml:space="preserve">
-    <value>Durum</value>
+    <value>Statü</value>
   </data>
   <data name="LBL_MT_TAGS" xml:space="preserve">
     <value>Taglar</value>

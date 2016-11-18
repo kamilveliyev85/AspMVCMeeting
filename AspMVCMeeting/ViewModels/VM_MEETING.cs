@@ -76,8 +76,8 @@ namespace AspMVCMeeting.ViewModels
     public class VM_MEETING_LINES_DETAIL
     {
         public MEETING_LINES_DETAIL MEETING_LINES_DETAIL { get; set; }
-
         public string MLD_CREATE_USER_DESC { get; set; }
+        public int detailFileCount { get; set; }
     }
 
     public class VM_MEETING_NOTIFICATIONS

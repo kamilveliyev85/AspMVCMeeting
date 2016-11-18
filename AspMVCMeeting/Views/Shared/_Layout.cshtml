@@ -1,25 +1,4 @@
-﻿@using System.Web.Script.Serialization;
-@using AspMVCMeeting.ViewModels;
-
-@{
-
-    if (Request.IsAuthenticated)
-    {
-        // Get the custom user data encrypted in the ticket.
-        string userData = ((FormsIdentity)(Context.User.Identity)).Ticket.UserData;
-        // Deserialize the json data and set it on the custom principal.
-        var serializer = new JavaScriptSerializer();
-        ViewBag.UserName = ((User)serializer.Deserialize(userData, typeof(User))).FullName;
-
-        // ViewBag.UserName = System.Web.HttpContext.Current.User.Identity.Name;
-    }
-    else
-    {
-        ViewBag.UserName = "";
-    }
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -229,7 +208,7 @@
     <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <!-- END HEAD -->
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-closed">
     <div class="page-wrapper">
         <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
@@ -306,7 +285,7 @@
                         <li class="dropdown dropdown-user">
 
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                <img alt="" class="img-circle" src="~/assets/layouts/layout/img/avatar3_small.jpg" />
+                                <img alt="" class="img-circle" src="@ViewBag.imgSrc" />
                                 <span class="username username-hide-on-mobile"> @ViewBag.UserName </span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
@@ -350,7 +329,7 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
                         <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
                         <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                         <li class="sidebar-toggler-wrapper hide">

@@ -1,5 +1,6 @@
 ﻿using AspMVCMeeting.Models;
 using AspMVCMeeting.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,7 +44,7 @@ namespace AspMVCMeeting.Controllers
         // GET: Authentication
         public ActionResult Index(string returnUrl)
         {
-            Logoff(Session,Response);
+            Logoff(Session, Response);
 
             ViewBag.RETURN_URL = returnUrl;
             return View();
@@ -70,15 +71,26 @@ namespace AspMVCMeeting.Controllers
                 userName = userName.Replace('i', 'I').Replace('İ', 'I').ToUpper();
                 userName = userName.Split('@')[0] + "@SGOFC.COM";
                 //userName = "RESAD.YUSIFZADE@SGOFC.COM";
-
+                
                 SAP sap = db.SAP.Where(m => m.ACCOUNTNAME == userName).FirstOrDefault();
                 User user = new User();
                 user.FullName = sap.PNAME + " " + sap.PSURNAME;
                 user.UserName = userName;
+                user.Code = sap.PERCODE;
+
+                var dbQuery = db.Database.SqlQuery<byte[]>(@"SELECT[PHOTO]
+                              FROM[DBHR].[SAPHR].[dbo].[PERINFO_PHOTO] PHOTO
+                              where PHOTO.CODE = '" + user.Code + "'");
+                //var base64 = Convert.ToBase64String(dbQuery.AsEnumerable().First());
+                //imgSrc = String.Format("data:image/png;base64,{0}", base64);
+
+                //Save file to profiles
+                var fileName = user.Code + ".png";
+                string path = HttpContext.Server.MapPath("~/assets/profiles/") + fileName;
+                System.IO.File.WriteAllBytes(path, dbQuery.AsEnumerable().First());
 
                 // Create the authentication ticket with custom user data.
-                var serializer = new JavaScriptSerializer();
-                string userData = serializer.Serialize(user);
+                string userData = JsonConvert.SerializeObject(user);
 
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
                    userName,

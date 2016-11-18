@@ -1,5 +1,7 @@
 ﻿using AngularMVCFileUpload.Models;
 using AspMVCMeeting.Models;
+using AspMVCMeeting.Reports;
+using AspMVCMeeting.Reports.DS_MasterReportTableAdapters;
 using AspMVCMeeting.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -43,19 +45,7 @@ namespace AspMVCMeeting.Controllers
             //vm_meetings.lst_MEETING_MASTER = db.MEETING_MASTER.Where(model=>model.MT_DELETED == false).ToList();
             return View(vm_meetings);
         }
-
-
-        //[HttpPost]
-        //public ActionResult CreateMeetingLines(VM_MEETING vm_meetings)
-        //{
-        //    vm_meetings.MEETING_LINES.MTL_EXECUTANT = (vm_meetings.lst_MTL_EXECUTANT != null) ? String.Join(",", vm_meetings.lst_MTL_EXECUTANT.ToArray()) : string.Empty;
-
-        //    db.MEETING_LINES.Add(vm_meetings.MEETING_LINES);
-        //    db.SaveChanges();
-
-        //    return View("Create", vm_meetings);
-        //}
-
+        
         [HttpPost]
         public ActionResult Create(VM_MEETING vm_meetings, IEnumerable<HttpPostedFileBase> files)
         {
@@ -72,10 +62,10 @@ namespace AspMVCMeeting.Controllers
             db.MEETING_MASTER.Add(vm_meetings.MEETING_MASTER);
             db.SaveChanges();
 
-            var mtpType = db.MEETING_TYPE.Where(model => model.ID == vm_meetings.MEETING_MASTER.MT_TYPE).Select(model => model.MTP_NAME).FirstOrDefault();
-            vm_meetings.MEETING_MASTER.MT_NO = mtpType + DateTime.Now.ToString("yyyyMMdd") + vm_meetings.MEETING_MASTER.ID;
-            db.Entry(vm_meetings.MEETING_MASTER).State = EntityState.Modified;
-            db.SaveChanges();
+            //var mtpType = db.MEETING_TYPE.Where(model => model.ID == vm_meetings.MEETING_MASTER.MT_TYPE).Select(model => model.MTP_NAME).FirstOrDefault();
+            //vm_meetings.MEETING_MASTER.MT_NO = mtpType + DateTime.Now.ToString("yyyyMMdd") + vm_meetings.MEETING_MASTER.ID;
+            //db.Entry(vm_meetings.MEETING_MASTER).State = EntityState.Modified;
+            //db.SaveChanges();
 
 
             //Move all files
@@ -912,6 +902,38 @@ namespace AspMVCMeeting.Controllers
 
 
         #endregion Angular
+
+        public ActionResult ExportReport(int id)
+        {
+
+            MasterReport rd = new MasterReport(); // instance of my rpt file
+            var ds = new DS_MasterReport();  // DsBilling is mine XSD
+
+            var tableMaster = ds.VW_REPORT_MASTER;
+            var adapter = new VW_REPORT_MASTERTableAdapter();
+            adapter.Fill(tableMaster, id);
+
+            var tableLine = ds.VW_REPORT_LINE;
+            var adapterLine = new VW_REPORT_LINETableAdapter();
+            adapterLine.Fill(tableLine, id);
+
+            ds.AcceptChanges();
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "MasterReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
     }
 }

@@ -38,7 +38,41 @@
         });
         return response;
     }
-       
+
+    this.getMasterHistoryById = function (masterId) {
+        var response = $http({
+            method: "POST",
+            url: "/api/MeetingMaster/getMasterHistoryById",
+            params: {
+                id: masterId
+            }
+        });
+        return response;
+    }
+
+    // get Master By Id
+    this.getMasterById = function (masterId) {
+        var response = $http({
+            method: "POST",
+            url: "/api/MeetingMaster/getMasterById",
+            params: {
+                id: masterId
+            }
+        });
+        return response;
+    }
+
+    // Update Master 
+    this.updateMaster = function (master) {
+        var response = $http({
+            method: "post",
+            url: "/api/MeetingMaster/UpdateMaster",
+            data: JSON.stringify(master),
+            dataType: "json"
+        });
+        return response;
+    }
+
     //get All files
     this.GetAllFiles = function (id, type) {
         var response = $http({
